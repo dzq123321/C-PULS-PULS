@@ -25,8 +25,6 @@ using namespace std;
 //    return 0;
 //}
 
-
-
 //auto （1）  必须初始化  (2)  不能作为形参  （3）不能直接声明数组
 //int main()
 //{
