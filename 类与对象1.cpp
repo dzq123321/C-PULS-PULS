@@ -1,5 +1,7 @@
 #if 1
 #include<iostream>
+//#include<vld.h>
+#include<assert.h>
 //c++和c主要区别是结构体内不仅可以定义变量，还可以定义函数，为此引入class
 //struct 默认共有public， class默认private
 using namespace std;
@@ -75,17 +77,174 @@ using namespace std;
 c++中struct和class的区别
 (1) 因为c++是要和c兼容的，在c++中struct可以当作结构体，也可以当作类
 （2） 在当作类的时候，struct的成员时默认公共的，class是默认私有的。
+（3） class 类为空时，默认大小为1,空类和空结构体的大小都为1
+*/	
+//this指针的概念
+//构造函数，拷贝构造函数，析构函数
+
+/*
+1、构造函数：
+函数名与类名相同
+无返回值
+对象实例化时编译器自动调用对应的构造函数
+构造函数可以重载
+2、拷贝构造函数：
+拷贝构造函数是构造函数的一种重载形式
+拷贝构造函数的参数只有一个且必须使用引用传参，使用传值方式会引发无穷递归调用
+3、析构函数：
+函数名是类名前加字符~
+无参无返回值
+一个类有且只有一个析构函数
+对象生命周期结束时系统自动定义
 */
+//
+//class SeqList
+//{
+//public:
+//	SeqList(int capacity = 10)
+//	{
+//		_pData = (int*)malloc(sizeof(int)*capacity);
+//		assert(_pData);
+//		_size = 0;
+//		_capacity = capacity;
+//	}
+//	//~SeqList()
+//	//{
+//	//	if (_pData)
+//	//	{
+//	//		free(_pData);
+//	//		_pData = NULL;
+//	//		_capacity = 0;
+//	//		_size = 0;
+//	//	}
+//	//}
+//private:
+//	int * _pData;
+//	size_t _size;
+//	size_t _capacity;
+//
+//};
+//void main()
+//{
+//	SeqList L1;
+//}
+//class Data
+//{
+//public:
+//	Data(int month, int day) : _month(month), _day(day)//构造函数//赋初值(比函数里初始化定义效率高)
+//	{
+//		cout << "Creat this object" << endl;
+//	}
+//	Data ()
+//	{
+//		cout << "Creat this object" << endl;
+//	}
+//	Data(const Data &d)  //默认的拷贝构造函数是浅拷贝，只拷贝值，不会开辟空间，当需要开辟空间传递时只会传递指针
+//	{          //一般加const 希望不会改变被引用对象的参数
+//		cout << "copy this object" << endl;
+//		_month = d._month;
+//		_day = d._day;
+//	}
+//	~Data()  //析构函数无参无返回值
+//	{
+//		cout << "Free this object" << endl;
+//	}
+//private:
+//	int _month;
+//	int _day;
+//};
+//void main()
+//{
+//	Data d1;  //通过无参构造函数创建对象时，对象后不用跟括号，否则成为函数声明
+//	Data d2(10, 20);
+//	Data d3 = d2;
+//}
+//无参构造函数和全缺省的构造函数都认为是默认构造函数
+
+//拷贝构造函数的深拷贝
+//class String
+//{
+//public:
+//	String(const char* str = "")
+//	{
+//		_str = (char*)malloc(strlen(str) + 1);
+//			strcpy(_str, str);
+//			cout << this << endl;
+//	}
+//	String( const String& s)
+//	{
+//		cout << this << endl;
+//		cout << "深拷贝" << endl;
+//		_str = (char*)malloc(strlen(s._str) + 1);
+//		strcpy(_str, s._str);
+//	}
+//	~String()
+//	{
+//		cout << "~string" << endl;
+//		cout << this << endl;
+//		free(_str);
+//	}
+//private:
+//	char *_str;
+//};
+//int main()
+//{
+//	String s1("hello");
+//	String s2(s1);	
+//}
 
 
 
+//void main()
+//{
+//	char ar[10] = "Hello";  // \0
+//	cout << strlen(ar) << endl;  //  5
+//	cout << sizeof(ar) << endl;  //  10
+//}
 
+//void main()
+//{
+//	char ar[10] = { 'H','e','l','l','o' };  //之后/0补齐
+//	cout << strlen(ar) << endl;  // 5
+//	cout << sizeof(ar) << endl;  // 10
+//}
+//void main()
+//{
+//	char ar[10] = { 'H','e','l','l','o','w','o','r','l','d' };
+//	cout << strlen(ar) << endl;  // 随机值没有找到\0
+//	cout << sizeof(ar) << endl;  // 10
+//}
+//char ar[10];  //全局变量和静态变量默认初始化为0
+//void main()
+//{
+//	static char ar[10];
+//	cout << strlen(ar) << endl;  // 0
+//	cout << sizeof(ar) << endl;  // 10
+//}
+//void main()
+//{
+//	char *ar = "Hellongfalflafl";
+//	cout << strlen(ar) << endl;  // 15 字符串的实际大小
+//	cout << sizeof(ar) << endl;  // 4
+//}
 
+//void main()
+//{
+//	char ar[10];
+//	for (int i = 0; i < 5; ++i)
+//	{
+//		ar[i] = 'a' + i;   //若为一个一个输入时，未输入完全后边不会补0，就算输入完全，但只要没\0,就还是随机值
+//	}
+//	cout << strlen(ar) << endl;  //    随机值
+//	cout << sizeof(ar) << endl;  // 10  
+//}
 
-
-
-
-
-
+//void main()
+//{
+//	short* ar1[10][10];  //*的优先级小于[]的优先级，所以ar1先和[]结合，定义的ar1最终就是数组,里面的元素是short*的指针
+//	short(*ar2)[10][10];
+//    cout << sizeof(ar1) << endl;  //指针数组 400
+//	cout << sizeof(ar2) << endl;  //数组指针 4	
+//}
 
 #endif

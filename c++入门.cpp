@@ -1,6 +1,66 @@
 #if 0
 #include<iostream>
 using namespace std;
+struct test
+{
+
+};
+class test2
+{};
+class test3
+{
+public:
+	void f2() {}
+};
+class test4
+{
+public:
+	void f1() {}
+private:
+	int _data;
+	int _data2;
+};
+typedef struct test5
+{
+	int a;
+	struct temp
+	{
+		short b;
+		double c;
+		char d;
+	} tt;
+	long e;
+}test5;
+typedef struct test6
+{
+	int a;        //8字节对齐
+	short b;
+	double c;
+	char d;
+	long e;
+}test6;
+typedef struct test7
+{
+	int a;  //4
+	short b;	//2
+	double c; //8
+	char d;  //1
+}test7;
+int main()
+{
+	test7 t7;
+	cout << sizeof(t7) << endl;  //24
+	test6 t6;//当里面的结构体加名字为40 不加名字为8 可以理解为完整定义了一个结构体对象时
+	cout << sizeof(t6) << endl;  //或者只是struct()为40，其余情况为8
+	test t1;
+	cout << sizeof(t1) << endl;  //1
+	test2 t2;
+	cout << sizeof(t2) << endl;  //1
+	test3 t3;
+	cout << sizeof(t3) << endl;  //1
+	test4 t4;
+	cout << sizeof(t4) << endl; //8
+}
 //NULL 和nullptr (c++建议使用nullptr,可以防止调用重载函数的歧义)
 //void f(int)
 //{
@@ -24,6 +84,9 @@ using namespace std;
 //	f(nullptr);
 //    return 0;
 //}
+
+
+
 //auto （1）  必须初始化  (2)  不能作为形参  （3）不能直接声明数组
 //int main()
 //{
@@ -78,6 +141,56 @@ using namespace std;
 //	for (auto ele : q)
 //		cout << ele << " ";
 //}
+
+/*this 指针
+c++为每个成员函数增加一个隐含的this指针
+1、this指针类型是 类类型* const
+2、只会在成员函数中产生
+3、this指针本质上是一个成员函数的形参吗，是对象调用成员函数时，将对象的地址作为实参传递给this形参，所以对象中
+不存储this指针
+4、this 指针是成员函数第一个隐含的指针形参，一般情况由编译器通过ecx寄存器自动传递，不需要用户传递
+*/
+// 需要注意的是this指针是存放在ecx(vs vc)寄存器上     this指针可以为空(成员函数内部不需要this指针时，例如只是打印一个无关值)
+//class Test
+//{
+//public:
+//	Test():_mdata (0)
+//	{}
+//	void Print()
+//	{
+//		cout << "this=nullptr" << endl;
+//	}
+//	void Show()
+//	{
+//		cout << _mdata << endl;
+//	}
+//private:
+//	int _mdata;
+//};
+//void main()
+//{
+//	Test t1;
+//	t1.Print();
+//	t1.Show();
+//	Test *p = nullptr;
+//	p->Print();
+////	p->Show();  // 错误
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
