@@ -78,7 +78,7 @@ c++中struct和class的区别
 (1) 因为c++是要和c兼容的，在c++中struct可以当作结构体，也可以当作类
 （2） 在当作类的时候，struct的成员时默认公共的，class是默认私有的。
 （3） class 类为空时，默认大小为1,空类和空结构体的大小都为1
-*/	
+*/
 //this指针的概念
 //构造函数，拷贝构造函数，析构函数
 
@@ -246,5 +246,98 @@ c++中struct和class的区别
 //    cout << sizeof(ar1) << endl;  //指针数组 400
 //	cout << sizeof(ar2) << endl;  //数组指针 4	
 //}
+/*赋值运算符重载
 
+c++为了增强代码的可读性引入了运算符重载，运算符重载是具有特殊函数名的函数，也具有其返回值类型，函数名字以及
+参数列表，其返回值类型与参数列表与普通的函数类似
+1、作为类成员的重载函数，其形参看起来比操作数少一个成员（因为是成员函数，存在一个默认的this指针代表驱动这个函数的对象）
+*/
+//class Data
+//{
+//public:
+//	Data()
+//	{}  //构造函数重载
+//	Data(int year,int month,int day) :  _day(day), _month(month),_year(year)//赋初值时只与定义变量时(private)的顺序有关，
+//	{
+//		cout << "create the data" << endl;
+//	}
+//	Data(const Data& d)
+//	{
+//		this->_day=d._day ;//隐含this表示d2的地址
+//		_month=d._month ;
+//		_year=d._year ;
+//	}
+//	Data &operator=(const Data& d)
+//	{
+//		if (this != &d)  //1、自我赋值检测  2、释放当前对象空间 3、重新开辟空间并赋值 4、返回当前对象
+//		{
+//			this->_day = d._day;//隐含this表示d2的地址
+//			_month = d._month;
+//			_year = d._year;
+//		}
+//		return *this;
+//	}
+//	bool operator==(const Data& d)const
+//	{
+//		return _day == d._day&&_month == d._month&&_year == d._year;
+//	}
+//private:
+//	int _year;
+//	int _month;
+//	int _day;
+//};
+//void main()
+//{
+//	Data d1(1, 2, 3);
+//	Data d2(d1);
+//	Data d3;
+//	d3 = d1;
+//	if (d3 == d1)
+//		cout << "相等" << endl;
+//}
+class String
+{
+public:
+	String(const char *str = "")
+	{
+		_str = (char*)malloc(strlen(str)+1);
+		strcpy(_str, str);
+	}
+	String(const String& str)
+	{
+		_str = (char*)malloc(strlen(str._str)+1);
+		strcpy(_str, str._str);
+		cout << "copy" << endl;
+	}
+	String& operator= (const String& str)
+	{
+		if (this != &str)
+		{
+			_str = (char*)malloc(strlen(str._str)+1);
+			strcpy(_str, str._str);
+			cout << "赋值" << endl;
+			return *this;
+		}
+	}
+	~String()
+	{
+		free(_str);
+		_str = NULL;
+	}
+private:
+	char* _str;
+};
+
+void main()
+{
+	String s1("hello");
+	String s2(s1);
+	String s3;
+	s3 = s2;
+	const String s4("hello");
+	String *p = &s3;
+	const String *q = &s4;
+}
+//一个空类会默认生成6个成员函数 构造 析构 拷贝构造 赋值重载 
+//（普通对象取地址 const对象取地址(这两个一般不需要，当想让别人获取指定的内容)）
 #endif
