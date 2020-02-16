@@ -1,0 +1,66 @@
+//string  类OJ 
+//917. 仅仅反转字母  https://leetcode-cn.com/problems/reverse-only-letters/submissions/
+class Solution {
+public:
+ string reverseOnlyLetters(string S) {
+     //通过指针 原理一样
+     char *left=(char*)S.c_str();//c_str返回的是const char *，对其进行强转
+     char *right=left+S.size()-1;
+     while(left < right)
+     {
+         while(left<right)
+         {
+             if(isalpha(*left))
+             break;
+             else
+             left++;
+         }
+         while(left<right)
+         {
+             if(isalpha(*right))
+             break;
+             else
+             right--;
+         }
+         if(left<right)
+         {
+             char tmp=*left;
+             *left=*right;
+             *right=tmp;
+             left++;
+             right--;
+         }
+     }
+     return S;
+} 
+/*  通过数组下标
+    string reverseOnlyLetters(string S) {
+        int left=0;
+        int right=S.size()-1;
+        while(left < right)
+        {
+            while(left < right)
+            {
+                if(isalpha(S[left]))
+                break;
+                left++;
+            }
+             while(left < right)
+            {
+                if(isalpha(S[right]))
+                break;
+                right--;
+            }
+                if(left < right)
+                {
+                    int tmp = S[left];
+                    S[left] =S[right] ;
+                    S[right] =tmp;
+                    left++;
+                    right--;
+                }
+        } 
+        return S;      
+    }
+    */
+};
