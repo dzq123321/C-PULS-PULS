@@ -1,4 +1,4 @@
-#if 0
+#if 1
 #include<iostream>
 #include <list>
 #include<assert.h>
@@ -168,7 +168,15 @@ namespace Mylist
 				n--;
 			}
 		}
-		template<typename _It>//要用模板因为构造是可能是数组L1(ar,ar+10) 也有可能是迭代器L2(L1.begin(),L1.end())
+		list(T* first, T* last) :_head(_BuyNode()), _size(0)
+		{
+			while (first != last)
+			{
+				push_back(*first);
+				first++;
+			}
+		}
+		typedef iterator _It;
 		list(_It first,_It last) :_head(_BuyNode()), _size(0)
 		{
 			while (first != last)
@@ -177,10 +185,15 @@ namespace Mylist
 				first++;
 			}
 		}
+		list(const list<T> &lt) :_head(_Buynode()), _size(0)
+		{
+			list<T> tmp(lt.begin(), lt.end());
+			swap(tmp);
+		}
 	/*	list<T>& operator=( const list<T>& lt)
 		{
 			if (this != &lt)
-			{
+			{ 
 				list<T> tmp(lt.begin(), lt.end());
 				swap(tmp);
 			}
