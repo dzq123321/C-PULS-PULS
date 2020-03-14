@@ -6,14 +6,14 @@ using namespace std;
 class Base
 {
 public:
-	int m_n;
+	int m_base;
 };
-class A : virtual public Base
+class A :  public Base
 {
 public:
 	int m_a;
 };
-class B :virtual public Base
+class B : public Base
 {
 public:
 	int m_b;
@@ -29,8 +29,9 @@ void main()
 	d.m_d = 0;
 	d.m_a = 1;
 	d.m_b = 2;
-	d.A::m_n = 3;
-	d.B::m_n = 3;
+	//d.m_base = 3;
+	d.A::m_base = 3;
+	d.B::m_base = 4;
 }
 
 
