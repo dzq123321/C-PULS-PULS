@@ -1,4 +1,3 @@
-//string  类OJ 
 //917. 仅仅反转字母  https://leetcode-cn.com/problems/reverse-only-letters/submissions/
 class Solution {
 public:
@@ -84,10 +83,10 @@ public:
         //桶排的思想
        int b[256] ={0};
             for(int i=0; i<s.size(); i++)
-            b[s[i]]++;
+            b[s[i]-'\0']++;
         for(int i=0; i<s.size(); i++)
         {
-            if(b[s[i]] == 1)
+            if(b[s[i]-'\0'] == 1)
             return i;
         }
         return -1;
@@ -110,3 +109,784 @@ int main()
         printf("%d",str.size()-pos-1);
     return 0;
 }
+
+
+//215. 数组中的第K个最大元素https://leetcode-cn.com/problems/kth-largest-element-in-an-array/submissions/
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+       std::sort(nums.begin(),nums.end());
+       return nums[nums.size()-k];
+    }
+
+};
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+      make_heap(nums.begin(),nums.end());
+      for(int i=0; i<k-1; i++)
+      {
+          pop_heap(nums.begin(),nums.end());
+          nums.pop_back();
+      }
+     pop_heap(nums.begin(),nums.end()); 
+     return nums.back();
+    }
+
+};
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+      priority_queue<int> pq;
+      for(auto e:nums)
+      pq.push(e);
+      for(int i=0;i<k-1;i++)
+      {
+          pq.pop();
+      }
+      return pq.top();
+    }
+
+};
+3 https://www.nowcoder.com/practice/7a0da8fc483247ff8800059e12d7caf1?tpId=13&tqId=11200&tPage=3&rp=3&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking
+求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C。
+class Solution {
+public:
+    int Sum_Solution(int n) {
+        int sum=(int)pow(n, 2)+n;  //等差数列  n(n-1)/2=(n^2-n)/2
+        return sum>>1;   //右移一位表示/2
+    }
+};
+//使用递归
+//为"&&"和"||"操作符的操作数表达式，这些表达式在进行求值时，只要最终的结果已经可以确定是真或假，
+//求值过程便告终止，这称之为短路求值（short-circuit evaluation）
+class Solution {
+public:
+    int Sum_Solution(int n) {
+        int sum=n;
+       (sum>0)&& (sum+=Sum_Solution(n-1)); //利用短路求值
+        return sum;
+    }
+};
+4ttps://www.nowcoder.com/practice/769d45d455fe40b385ba32f97e7bcded?tpId=37&&tqId=21296&rp=1&ru=/activity/oj&qru=/ta/huawei/question-ranking
+输入某年某月某日，判断这一天是这一年的第几天？
+#include<iostream>
+using namespace std;
+int convert(int y, int m, int d)
+{
+	int ping[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+	int run[12] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
+	int flag = 0;
+	int res = 0;
+	if (((y % 4 == 0) && (y % 100) != 0) || (y % 400 == 0))
+		flag = 1;
+	for (int i = 0; i < m - 1; i++)
+	{
+		if (flag == 0)//平年
+		{ 
+			res += ping[i];
+		}
+		else
+			res += run[i];
+	}
+	return (res + d);
+}
+int main()
+{
+	int y, m, d;
+	int res = 0;
+	while (cin >> y >> m >> d)
+	{
+        if(y<0||(m<1||m>12)||(d<1||d>31))
+        {
+            break;
+            exit(1);
+        }
+		cout << convert(y, m, d)<< endl;
+	}
+}
+
+https://www.nowcoder.com/practice/1277c681251b4372bdef344468e4f26e?tpId=13&&tqId=11202&rp=6&ru=/activity/oj&qru=/ta/coding-interviews/question-ranking
+将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。 数值为0或者字符串不是一个合法的数值则返回0
+	//需要注意判断临界条件（分情况：2^31----2^31-1）最大最小都是9位，先当进行到第8位时，判断是否会超过-INT_MIN/10,再在第9位的位置
+	//判断是否小于0，这里我们都用的是正数，超过最大的数就变为负数就可以判断，这里唯一注意的是INT_MAX 和 INT_MIN个位是7和8，对于INT_MIN这个情况
+	//特殊说明即可。这里由于我们在第八位的时候已经判断过了，所以不会出现正数过大从正数->负数->正数的情况
+class Solution {
+public:
+    int StrToInt(string str) {
+        		int LIMIT = INT_MIN;
+				int LIMIT2 = LIMIT/10;
+				if (str.size() == 0)
+					return 0;
+				const char*tmp = str.c_str();
+				int i = 0;
+				int flag = 0;
+				int res = 0;
+				if (*tmp == '-')
+				{
+					flag = 1;
+ 				  tmp++;
+				}
+				else if ((*tmp == '+'))
+					tmp++;
+				while ((*tmp) != '\0')
+				{
+					if (*tmp >= '0'&&*tmp <= '9')//-2^31 - 2^31-1    
+					{
+						res = res * 10 + (*tmp - '0');
+			
+						if (i==9)
+						{
+							if ((res / 10) > -LIMIT2)
+								return 0;
+							if (flag == 1 && res == INT_MIN)
+								return INT_MIN;
+							else if(res<=0)
+							return 0;
+						}
+						i++;
+						tmp++;
+					}
+					else
+						return 0;
+				}
+				if (flag == 1)
+				{
+					return -res;
+				}
+				return res;
+    }
+};
+https://leetcode-cn.com/problems/add-strings/submissions/
+415. 字符串相加 难度
+给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。
+在加时注意进位问题
+class Solution {
+public:
+    string addStrings(string num1, string num2) {
+        string ret;
+        int carry=0;
+        int i,j;
+        for(i=num1.size()-1,j=num2.size()-1 ;i>=0||j>=0; i--,j--)
+        {
+            int sum=carry;
+            sum+=(i>=0)?num1[i]-'0':0;
+            sum+=(j>=0)?num2[j]-'0':0;
+            if(sum>=10)                //carry=sum/10;
+               carry=1;
+            else
+               carry=0;
+            ret.insert(ret.begin(),sum%10+'0');
+        }
+        if(carry==1)
+        ret.insert(ret.begin(),1+'0');
+        return ret;
+        
+    }
+};
+https://leetcode-cn.com/problems/reverse-string/submissions/
+344. 反转字符串编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 char[] 的形式给出。
+不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 O(1) 的额外空间解决这一问题。
+你可以假设数组中的所有字符都是 ASCII 码表中的可打印字符。
+
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        if(s.size()==0||s.size()==1)
+        return;
+              auto left=s.begin();
+            auto right=s.end()-1;
+            while(left<right)
+            {
+                std::swap(*left,*right);
+                left++;
+                right--;
+            }
+            return;
+    }
+
+};
+https://leetcode-cn.com/problems/valid-palindrome/submissions/
+125. 验证回文串 给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        if(s.size()==0||s.size()==1)//空串或只有一个字符 返回1
+        return true;
+        int left=0;
+        int flag = 0;
+	for (int i = 0; i < s.size(); i++)  //检查是否为"            "  返回1
+	{
+		if (s[i] == ' ')
+			flag++;
+	}
+	if (flag == s.size())
+		return true;
+          int right=(s.size()-1);
+           while(left < right)
+           {
+              	while (!(isalpha(s.c_str()[left]) || (s[left] >= '0'&&s[left] <= '9')))//判断不是字母或者不是数字，则跳过
+		   {
+			if (left != right)//跳过的时候注意若直接跳完，也就是说都不是数字或字母，则返回true
+				left++;
+			else
+				return true;
+		   }
+		while (!(isalpha(s.c_str()[right]) || (s[right] >= '0'&&s[right] <= '9')))
+		{
+			if (left != right)
+				right--;
+			else
+				return true;
+		}
+              if (tolower(s.c_str()[left]) == tolower(s.c_str()[right]))
+               {
+                    left++;
+                    right--;
+               }
+               else
+               {
+                   return false;
+               }
+           }
+           return true;  //是回文，返回true
+    }
+};
+
+https://leetcode-cn.com/problems/reverse-string-ii/submissions/
+541. 反转字符串 II 给定一个字符串和一个整数 k，你需要对从字符串开头算起的每个 2k 个字符的前k个字符进行反转。如果剩余少于 k 个字符，则将剩余的所有全部反转。如果有小于 2k 但大于或等于 k 个字符，则反转前 k 个字符，并将剩余的字符保持原样。
+基本思想是先把前2k个处理了，剩下的少于2k或少于k的特殊处理。注意是_reverse(first, last-1); 要减1
+class Solution {
+public:
+void _reverse(string::iterator pos1, string::iterator pos2)   //先写一个简单的反转
+{
+	while (pos1< pos2)
+	{
+		std::swap(*pos1, *pos2);
+			pos1++;
+		pos2--;
+	}
+}
+string reverseStr(string s, int k) {
+        if (s.size() == 0 || s.size() == 1)  //空串或只有一个字符返回
+		return s;
+	size_t size = s.size();
+	int n = size / (2*k);
+	for (int i = 0; i < n; i++)   //
+	{
+		string::iterator first = s.begin() + k * 2*i;
+		string::iterator last = first + k;
+		_reverse(first, last-1);
+	}
+	size_t y = size - 2*k*n;
+	if (y == 0)
+		return s;
+        else
+	{
+		if (y < k)
+		{
+			_reverse(s.begin() + 2*k*n, s.end()-1);
+		}
+		if (y >= k)
+		{
+			_reverse(s.begin() + 2 * k*n, s.begin() + 2 * k*n + k-1);
+		}
+	}
+   return s;
+}
+};
+https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/submissions/
+557. 反转字符串中的单词 III
+给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。
+class Solution {
+public:
+ void _reverse(string::iterator pos1,string::iterator pos2)
+ {
+     while(pos1<pos2)
+     {
+         std::swap(*pos1,*pos2);
+         pos1++;
+         pos2--;
+     }
+ }
+    string reverseWords(string s) {
+        if (s.size() == 0 || s.size() == 1)  //空串或只有一个字符返回
+			return s;
+		string::iterator it = s.begin();
+		auto first = it;
+		auto last = it;
+		while (it != s.end())  //在string类中，s.end()指的时/0的位置。当it = s.end()时，*it='\0'
+		{
+			first = it;
+			last = first;
+			while ((*it != ' '))
+			{
+				it++;              //记住在多层循环里++某个东西时，不仅要注意当前循环的条件，也要注意外层循环的条件
+				if (it == s.end())
+					break;
+			}
+			last = it ;
+			_reverse(first, last-1);
+			if (it == s.end())  //++某个东西时，不仅要注意当前循环的条件，也要注意外层循环的条件
+				break;
+			it++;
+		}
+		return s;
+    }
+};
+https://leetcode-cn.com/problems/multiply-strings/submissions/
+43. 字符串相乘 给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。
+//模拟两数相乘的过程，因为涉及到相加，可以先写一个加法函数，在乘法中，进行模拟 num2[i]*num1[j]
+class Solution {
+public:
+ string _add(string num1, string num2) {
+     int carry=0;
+     string ret;
+     int sum=0;
+    for(int i=num1.size()-1,j=num2.size()-1; i>=0||j>=0; i--,j--)
+    {
+        sum=carry;
+        sum+=i>=0?num1[i]-'0':0;
+        sum+=j>=0?num2[j]-'0':0;
+        carry=sum/10;
+        ret.insert(ret.begin(),sum%10+'0');
+    }
+    if(carry==1)
+    ret.insert(ret.begin(),1+'0');
+    return ret;
+ } 
+    string multiply(string num1, string num2) {
+        if((num1[0]=='0')||(num2[0]=='0'))
+        return "0";
+        string ret;
+          string tmp;
+          for(int j=num2.size()-1; j>=0; j--)
+          {
+               int carry=0;
+               int sum=0;
+              for(int i=num1.size()-1; i>=0; i--)
+              {
+                 sum=carry;   //进位
+                 sum=sum+(num2[j]-'0')*(num1[i]-'0');   //num2[j]*num1[i]
+                 carry=sum/10;
+                  tmp.insert(tmp.begin(),sum%10+'0');
+              }
+              if(carry>0)
+              tmp.insert(tmp.begin(),carry+'0');
+              int t=j;
+              while(t!=num2.size()-1)  //进行加法前因为每位乘法计算的接过要进位，所以在后面要在后面补零
+              {
+                  t++;
+                  tmp.insert(tmp.end(),'0');
+              }
+             ret= _add(ret,tmp);
+             tmp.clear();  //注意要清空tmp1,否则当计算完上一次num2[j]*num1[i]时，在计算num2[j+]*num1[i]时会继续在原有的tmp后进行插入
+          }
+          return ret;
+    }
+};
+
+https://www.nowcoder.com/practice/e896d0f82f1246a3aa7b232ce38029d4?tpId=37&&tqId=21282&rp=1&ru=/activity/oj&qru=/ta/huawei/question-ranking
+找出字符串中第一个只出现一次的字符
+输入描述:
+输入一个非空字符串
+输出描述:
+输出第一个只出现一次的字符，如果不存在输出-1
+#include<iostream>
+using namespace std;
+int main()
+{
+	string str;
+	while(cin >> str)//牛客的平台要循环输入字符串，所有的东西都得自己写
+    {
+        int i;
+		for (i = 0; i < str.size(); i++)
+		{
+			size_t left = str.find(str[i]);
+			size_t  right = str.rfind(str[i]);
+			if (left == right)
+			{
+				cout << str[left] << endl;
+				break;
+			}
+		}
+		if (i == str.size())
+			cout << -1 << endl;   
+    }
+	
+	return 0;
+}
+https://leetcode-cn.com/problems/single-number/
+给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+136. 只出现一次的数字
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int v=0;
+        for(int i=0; i<nums.size(); i++)
+        {
+            v=v^nums[i];
+        }
+        return v;
+    }
+};
+
+https://leetcode-cn.com/problems/pascals-triangle/submissions/
+118. 杨辉三角   给定一个非负整数 numRows，生成杨辉三角的前 numRows 行
+class Solution {//vector<vector<int>> 就相当于数组，第0位和第i位为1,剩下的vv
+public:
+    vector<vector<int>> generate(int numRows) {
+          vector<vector<int>> vv(numRows);
+          if(numRows<=0)
+              return vv;
+          else
+          {
+              for(int i=0;i<numRows;i++)
+              {
+                  for(int j=0; j<=i;j++)
+                  {
+                        if(j==0||j==i)
+                        vv[i].push_back(1);
+                        else{
+                            vv[i].push_back(vv[i-1][j-1]+vv[i-1][j]);
+                        }
+                  }
+              }
+              return vv;
+          }
+    }
+};
+//如果单纯的使用下标
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+          vector<vector<int>> vv;
+          vv.resize(numRows);//开辟numRows行
+          if(numRows<=0)
+              return vv;
+          else
+          {
+              for(int i=0;i<numRows;i++)
+              {
+                  for(int j=0; j<=i;j++)
+                  {
+                        if(j==0||j==i)
+                        {
+                            vv[i].resize(i+1);//开辟i+1列
+                            vv[i][0]=1;
+                            vv[i][j]=1;
+                        }
+                        else{
+                           vv[i][j]=vv[i-1][j-1]+vv[i-1][j];
+                        }
+                  }
+              }
+              return vv;
+          }
+    }
+};
+//https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/submissions/
+26. 删除排序数组中的重复项
+给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
+不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。class Solution {
+public:
+
+    int removeDuplicates(vector<int>& nums) 
+    {
+        /*if(nums.size()==0||nums.size()==1)
+        return nums.size();
+        auto pos1=nums.begin();
+        auto pos2=pos1+1;
+        while(pos2!=nums.end())
+        {
+            if(*pos2>*pos1)//利用两个指针，如果不相等，则将*(pos1+1)=*pos2,只需一次遍历即可
+            {
+                pos1+=1;
+                *pos1=*pos2;
+            }
+            pos2++;
+        }
+        return pos1-nums.begin()+1;
+        */
+		
+if(nums.size()==0||nums.size()==1)   //自己想的两次遍历，找到相同的将后面的值将相同的进行覆盖，判断的临界条件较多
+        return nums.size();
+        int pos1, pos2;
+			int tmp;
+			int count = 0;
+            pos1=0;
+            	if (nums.size() == 2)
+			{
+				if (nums[0] == nums[1])
+					return 1;
+				else
+				return 2; 
+			}
+			else
+			while(pos1 < nums.size()) {
+				 pos2 = pos1 + 1;
+			
+				if (nums[pos2] == nums[pos1])
+				{
+					while (pos2<nums.size()-1)
+					{
+						nums[pos2] = nums[pos2 + 1];
+						pos2++;
+					}		
+				}
+				if (nums[pos1] != tmp)
+					pos1++;
+				if (nums[pos1] == nums[nums.size() - 1])
+					break;
+			}
+			return pos1+1;
+    }
+};
+
+137. 只出现一次的数字 II
+给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现了三次。找出那个只出现了一次的元素。
+
+//我这个写的算法可以支持对于一个数组对除一个出现一次，其他出现无论多少次都可以找到那个只出现一次的元素
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        
+    for (int i = 0; i < nums.size(); i++)
+	{
+		auto first = find(nums.begin(), nums.end(), nums[i]);
+		auto second = find(first + 1, nums.end(), nums[i]);
+		if (second == nums.end())
+			return *first;
+	}
+	return nums[nums.size() - 1];
+    }
+};
+
+//HashSet  HashMap
+https://leetcode-cn.com/problems/single-number-ii/
+137. 只出现一次的数字 II
+给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现了三次。找出那个只出现了一次的元素。
+//还可以利用HashSet  HashMap，但需要额外空间，
+重点掌握第二种方法
+class Solution {
+public:
+/*
+    int singleNumber(vector<int>& nums) {
+        
+    for (int i = 0; i < nums.size(); i++)
+	{
+		auto first = find(nums.begin(), nums.end(), nums[i]);
+		auto second = find(first + 1, nums.end(), nums[i]);
+		if (second == nums.end())
+			return *first;
+	}
+	return nums[nums.size() - 1];
+    }
+    */
+    /*
+    int singleNumber(vector<int>& nums) {
+        int res=0;
+        for(int i=0; i<32; i++)
+        {
+            int sum=0;
+            for(int j=0;j<nums.size(); j++)
+            {
+                sum+=nums[j]>>i&1;
+            }
+            res=res|(sum%3)<<i;
+        }
+        return res;
+    }
+    */
+    int singleNumber(vector<int>& nums) {
+        int a=0,b=0,tmp=0;
+        for(int e:nums)
+        {
+            tmp=(a& ~e)|(b&e);
+            b=~a&(b^e);
+            a =tmp;
+        }
+        return b;
+    }
+};
+
+https://leetcode-cn.com/problems/single-number-iii/submissions/
+260. 只出现一次的数字 III
+给定一个整数数组 nums，其中恰好有两个元素只出现一次，其余所有元素均出现两次。 找出只出现一次的那两个元素。
+//思路
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        int sum=0;
+        for(auto e:nums)
+        {
+            sum=sum^e;
+        }
+        int k=sum&(-sum);//求sum最低位是1的位置(n并将其转换为十进制)
+        //例如 sum=4  二进制1 0 0  计算完k=4(1 0 0)
+        //sum=5  1 0 1 计算完k=1  0 0 1
+        vector<int> v={0,0};
+        for(auto e:nums)
+        {
+            if((e|k)==e)
+            v[0]=v[0]^e;
+            else
+            v[1]=v[1]^e;
+        }
+        return v;
+    }
+};
+
+https://www.nowcoder.com/practice/e8a1b01a2df14cb2b228b30ee6a92163?tpId=13&&tqId=11181&rp=1&ru=/activity/oj&qru=/ta/coding-interviews/question-ranking
+数组中出现次数超过一半的数字
+数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。
+由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。如果不存在则输出0。
+/*
+class Solution {   //桶排
+public:
+    int MoreThanHalfNum_Solution(vector<int> numbers) {
+         vector<int>b(10,0);
+        for(int i=0;i<numbers.size();i++)
+        {
+            b[numbers[i]]++;
+        }
+        for(int i=0;i<10;i++)
+        {
+            if(b[numbers[i]]>(numbers.size()/2))
+                return numbers[i];
+        }
+        return 0;
+    }
+};
+*/
+class Solution {//快排 如果那个数的数量大于size的一半，中间那个一定是那个数
+public:
+    int MoreThanHalfNum_Solution(vector<int> numbers) {
+        sort(numbers.begin(),numbers.end());
+        int mid=numbers[numbers.size()/2];
+            int count=0;
+        for(int i=0;i<numbers.size();i++)
+        {
+            if(numbers[i]==mid)
+                count++;
+        }
+        if(count>numbers.size()/2)
+            return mid;
+        else
+            return 0;
+    }
+};
+
+
+https://www.nowcoder.com/practice/459bd355da1549fa8a49e350bf3df484?tpId=13&tqId=11183&rp=1&ru=%2Factivity%2Foj&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking&tPage=2
+HZ偶尔会拿些专业问题来忽悠那些非计算机专业的同学。今天测试组开完会后,他又发话了:在古老的一维模式识别中,
+常常需要计算连续子向量的最大和,当向量全为正数的时候,问题很好解决。但是,如果向量中包含负数,是否应该包含某个负数,
+并期望旁边的正数会弥补它呢？例如:{6,-3,-2,7,-15,1,2,2},连续子向量的最大和为8(从第0个开始,到第3个为止)。
+给一个数组，返回它的最大连续子序列的和，你会不会被他忽悠住？(子向量的长度至少是1)
+动态规划的思想
+class Solution {
+public:
+    /*
+        int FindGreatestSumOfSubArray(vector<int> array) {
+            if(array.size()==0)
+                return 0;
+         int sum = array[0];//先假设array[0]是最大值
+         int tmpsum = array[0];
+	    for (int i = 1; i < array.size(); i++) {
+		if(tmpsum <= 0)//如果tmpsum<0，则丢弃之前的，值将等于array[i]
+            tmpsum=array[i];
+        else
+            tmpsum=tmpsum+array[i];
+         if(tmpsum>sum)//如果tmpsum>sum,则将sum=tmpsum
+             sum=tmpsum;
+	}
+	return sum;
+      }
+      */
+     int FindGreatestSumOfSubArray(vector<int> array) {
+          if(array.size()==0)
+                return 0;
+         int sum=array[0];
+         for (int i = 1; i < array.size(); i++) {
+             if(array[i-1]>0)
+                 array[i]+=array[i-1];   // array[i] += array[i - 1] > 0 ? array[i - 1] : 0;
+             else
+                  array[i]+=0;
+             sum=max(sum,array[i]);
+         }
+         return sum;
+     }
+};
+https://leetcode-cn.com/problems/min-stack/submissions/
+155. 最小栈
+设计一个支持 push，pop，top 操作，并能在常数时间内检索到最小元素的栈。
+push(x) -- 将元素 x 推入栈中。
+pop() -- 删除栈顶的元素。
+top() -- 获取栈顶元素。
+getMin() -- 检索栈中的最小元素。
+
+//思路：每次入栈入两次，如果是空栈则入两个x,否则入栈的时候一个入当前想入的元素，另一个是当前最小的元素
+和之前的top进行比较即可。出栈每次出两次。
+class MinStack {
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+    }
+    
+    void push(int x) {
+        if(s1.empty())
+        {
+            s1.push(x);
+            s1.push(x);
+        }
+        else
+        {
+            int top=s1.top();
+            s1.push(x);
+            if(top<x){
+                s1.push(top);
+            }
+            else{
+              s1.push(x);
+            }
+        }
+    }
+    
+    void pop() {
+        s1.pop();
+        s1.pop();
+    }
+    
+    int top() {
+           int top=s1.top();
+            s1.pop();
+            int tmp=s1.top();
+            s1.push(top);
+            return tmp;
+    }
+    
+    int getMin() {
+        return s1.top();    
+    }
+private:
+    stack<int> s1;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
