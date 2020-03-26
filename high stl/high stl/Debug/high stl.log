@@ -1,4 +1,24 @@
 ﻿  test.cpp
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\test.cpp(959): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\test.cpp(963): warning C4018: “<”: 有符号/无符号不匹配
+  test2.cpp
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\test2.cpp(15): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“const _Elem *”
+          with
+          [
+              _Elem=char
+          ]
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\test2.cpp(16): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“const _Elem *”
+          with
+          [
+              _Elem=char
+          ]
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\test2.cpp(20): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“const _Elem *”
+          with
+          [
+              _Elem=char
+          ]
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\test2.cpp(21): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“const _Elem *”
+          with
+          [
+              _Elem=char
+          ]
+  正在生成代码...
   high stl.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\high stl\Debug\high stl.exe
