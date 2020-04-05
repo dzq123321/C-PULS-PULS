@@ -1,10 +1,3 @@
 ﻿  dp.cpp
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(204): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(218): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(230): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(245): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(257): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(275): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(313): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(339): warning C4326: “main”的返回类型应为“int”而非“void”
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(448): warning C4101: “i”: 未引用的局部变量
   high stl.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\high stl\Debug\high stl.exe
