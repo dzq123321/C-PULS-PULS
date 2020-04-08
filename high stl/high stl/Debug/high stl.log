@@ -1,3 +1,3 @@
 ﻿  dp.cpp
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(485): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(546): warning C4018: “<”: 有符号/无符号不匹配
   high stl.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\high stl\Debug\high stl.exe
