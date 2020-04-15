@@ -4,15 +4,16 @@
 #include<limits.h>
 #include<string>
 using namespace std;
-int main()
-{
-	string s1= "qwer";
-	for (int i = 0; i < s1.size(); i++)
-	{
-		cout<<s1[i]<<" ";
-	}
-	cout << endl;
-}
+
+//int main()
+//{
+//	string s1= "qwer";
+//	for (int i = 0; i < s1.size(); i++)
+//	{
+//		cout<<s1[i]<<" ";
+//	}
+//	cout << endl;
+//}
 //using namespace std;
 //
 //int add(int x=8, int y)
