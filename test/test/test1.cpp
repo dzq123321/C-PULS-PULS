@@ -3,8 +3,27 @@
 #include<algorithm>
 #include<limits.h>
 #include<string>
+#include<string.h>
+#include <windows.h>
 using namespace std;
-
+#define MAX_TITLE_SIZE  128
+#define _CRT_SECURE_NO_WARNINGS
+//void main()
+//{
+//	char *title = "文档快速搜索工具";
+//	char buffer[MAX_TITLE_SIZE + 6 + 1] = "title "; //6:title%20  1:\0    
+//	strcat(buffer, title);
+//	system("title,文档快速搜索工具");
+//	//string title = "文档快速搜索工具";
+//	cout << title << endl;
+//
+//}
+int main()
+{
+	SetConsoleTitle("title 你的标题");
+	system("title 你的标题");
+	return 0;
+}
 //int main()
 //{
 //	string s1= "qwer";
@@ -81,8 +100,8 @@ using namespace std;
 //	cout <<"sizeof(A)  ="<<sizeof(A) << endl;
 //	cout << "sizeof(S)  =" << sizeof(S) << endl;
 //}
-union Un2 { char c[5];  int i; };
-void main()
-{
-	printf("%d\n", sizeof(union Un2));
-}
+//union Un2 { char c[5];  int i; };
+//void main()
+//{
+//	printf("%d\n", sizeof(union Un2));//联合体的大小为最大成员的字节对齐数
+//}
