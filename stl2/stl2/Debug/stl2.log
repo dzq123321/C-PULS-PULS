@@ -1,0 +1,4 @@
+﻿  BST.cpp
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\stl2\stl2\bst.cpp(183): warning C4326: “main”的返回类型应为“int”而非“void”
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\stl2\stl2\bst.cpp(176): warning C4715: “BSTtree<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >::Insert”: 不是所有的控件路径都返回值
+  stl2.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\stl2\Debug\stl2.exe
