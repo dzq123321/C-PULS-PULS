@@ -1,4 +1,2 @@
-﻿  test1.cpp
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp(10): warning C4005: “_CRT_SECURE_NO_WARNINGS”: 宏重定义
-  e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp: note: 参见“_CRT_SECURE_NO_WARNINGS”的前一个定义
+﻿  newcolder test.cpp
   test.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\test\Debug\test.exe

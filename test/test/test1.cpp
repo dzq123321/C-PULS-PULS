@@ -1,3 +1,4 @@
+#if 0
 #include<iostream>
 #include<vector>
 #include<algorithm>
@@ -105,3 +106,5 @@ int main()
 //{
 //	printf("%d\n", sizeof(union Un2));//联合体的大小为最大成员的字节对齐数
 //}
+
+#endif
