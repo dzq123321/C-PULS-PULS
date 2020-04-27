@@ -1017,10 +1017,78 @@ public:
     queue<int> q;
 };
 
-
-
-
-
+606. 根据二叉树创建字符串 你需要采用前序遍历的方式，将一个二叉树转换成一个由括号和整数组成的字符串。
+空节点则用一对空括号 "()" 表示。而且你需要省略所有不影响字符串与原始二叉树之间的一对一映射关系的空括号对。
+https://leetcode-cn.com/problems/construct-string-from-binary-tree/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+void preOrder(TreeNode* t, string& s)
+{
+    if(t){
+        s+= to_string(t->val);
+        if(t->left==NULL &&t->right==NULL)
+        return;
+        s+='(';
+        preOrder(t->left,s);
+        s+=')';
+        if(t->right){
+            s+='(';
+            preOrder(t->right,s);
+            s+=')';
+        }
+    }
+}
+    string tree2str(TreeNode* t) {
+          string s="";
+          if(t==NULL)
+          return s;
+          preOrder(t,s);
+          return s;
+    }
+};
+元素查找  https://www.nowcoder.com/practice/72ff6503455c4a008675e79247ef2a3a
+题目描述
+有一个排过序的数组，包含n个整数，但是这个数组向左进行了一定长度的移位，例如，原数组为[1,2,3,4,5,6]，向左移位5个位置即变成了[6,1,2,3,4,5],现在对于移位后的数组，需要查找某个元素的位置。请设计一个复杂度为log级别的算法完成这个任务。
+给定一个int数组A，为移位后的数组，同时给定数组大小n和需要查找的元素的值x，请返回x的位置(位置从零开始)。保证数组中元素互异。
+测试样例：
+class Finder {
+public:
+    //二分查找加强版
+    int findElement(vector<int> A, int n, int x) {
+        // write code here
+        int i=0,j=n-1;
+        int mid;
+        while(i<=j)
+        {
+            mid=(i+j)/2;
+            if(A[mid]==x)
+                return mid;
+            if(x>A[mid])
+            {
+                if(x>A[j]&&A[i]>A[mid])//A[i]>A[mid]保证是从前面的序列开始寻找
+                    j=mid-1;
+                else
+                    i=mid+1;
+            }
+            else{
+                if(x<A[i]&&A[i]<A[mid])
+                    i=mid+1;
+                else
+                    j=mid-1;
+            }
+        }
+        return mid;
+    }
+};
 
 
 
