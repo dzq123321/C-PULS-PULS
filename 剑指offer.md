@@ -362,3 +362,183 @@ public:
 };
 ```
 
+#### 二叉树的镜像 
+
+<https://www.nowcoder.com/practice/564f4c26aa584921bc75623e48ca3011?tpId=13&tqId=11171&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking> 
+
+操作给定的二叉树，将其变换为源二叉树的镜像。 
+
+```c++
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    void Mirror(TreeNode *pRoot) {
+         //递归，前序遍历
+        if(pRoot==NULL)
+            return ;
+        swap(pRoot->left,pRoot->right);
+        Mirror(pRoot->left);
+        Mirror(pRoot->right);
+    }
+};
+class Solution {
+public:
+    void Mirror(TreeNode *pRoot) {
+         //利用队列进行二叉树层序遍历,出栈后直接交换tmp的左右子树
+        if(pRoot==NULL)
+            return ;
+        queue<TreeNode*> que;
+        que.push(pRoot);
+        while(!que.empty())
+        {
+            TreeNode *tmp=que.front();
+            que.pop();
+            swap(tmp->left,tmp->right);
+            if(tmp->left!=NULL)
+                que.push(tmp->left);
+            if(tmp->right!=NULL)
+                que.push(tmp->right);
+        }
+        
+    }
+};
+```
+
+#### 顺时针打印矩阵 https://www.nowcoder.com/practice/9b4c81a02cd34f76be2659fa0d54342a
+
+输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10. 
+
+自定义方向    right-》down->left=>up
+
+```
+class Solution {
+public:
+    vector<int> printMatrix(vector<vector<int> > matrix) {
+        vector<int> v;
+        if(matrix.size()==0)
+            return v;
+        int top=0,bottom=matrix.size()-1;
+        int left=0,right=matrix[0].size()-1;
+        string direction="right";
+        while(left<=right&&top<=bottom)
+        {
+            if(direction=="right")
+            {
+               for(int i=left; i<=right; i++)
+               {
+                   v.push_back(matrix[top][i]);
+               }
+                   top++;
+                   direction="down";
+            }
+            else if(direction=="down")
+            {
+               for(int i=top; i<=bottom; i++)
+               {
+                   v.push_back(matrix[i][right]);
+               }
+                  right--;
+                   direction="left";
+            }
+            else if(direction=="left")
+            {
+               for(int i=right; i>=left; i--)
+               {
+                   v.push_back(matrix[bottom][i]);
+               }
+                   bottom--;
+                   direction="up";
+             }
+            else if(direction=="up")
+            {
+               for(int i=bottom; i>=top; i--)
+               {
+                   v.push_back(matrix[i][left]);
+               }
+                left++;
+                direction="right";
+            }
+        }
+       return v;
+    }
+};
+
+class Solution {
+public:
+    vector<int> printMatrix(vector<vector<int> > matrix) {
+          vector <int> ans;
+        if(matrix.empty()) return ans; //若数组为空，直接返回答案
+        int u = 0; //赋值上下左右边界
+        int d = matrix.size() - 1;
+        int l = 0;
+        int r = matrix[0].size() - 1;
+        while(true)
+        {
+            for(int i = l; i <= r; ++i) ans.push_back(matrix[u][i]); //向右移动直到最右
+            if(++ u > d) break; //重新设定上边界，若上边界大于下边界，则遍历遍历完成，下同
+            for(int i = u; i <= d; ++i) ans.push_back(matrix[i][r]); //向下
+            if(-- r < l) break; //重新设定有边界
+            for(int i = r; i >= l; --i) ans.push_back(matrix[d][i]); //向左
+            if(-- d < u) break; //重新设定下边界
+            for(int i = d; i >= u; --i) ans.push_back(matrix[i][l]); //向上
+            if(++ l > r) break; //重新设定左边界
+        }
+        return ans;
+    }
+};
+
+
+```
+
+#### 包含min函数的栈 
+
+定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
+
+注意：保证测试中不会当栈为空的时候，对栈调用pop()或者min()或者top()方法
+
+//思路：每次压栈的时候压入两个元素，保证栈顶是最小值
+
+```
+class Solution {
+public:
+    void push(int value) {
+        if(st.empty()){
+            st.push(value);
+            st.push(value);
+        }
+        else{
+           int top=st.top();
+            st.push(value);
+            if(top>=value)
+               st.push(value);
+            else
+                st.push(top);
+        }
+    }
+    void pop() {
+        st.pop();
+        st.pop();
+    }
+    int top() {
+        int x=st.top();
+        st.pop();
+        int tmp=st.top();
+        st.push(x);
+        return tmp;
+    }
+    int min() {
+        return st.top();
+    }
+    private:
+    stack<int> st;
+};
+```
+
