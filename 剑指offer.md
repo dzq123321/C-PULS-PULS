@@ -542,3 +542,43 @@ public:
 };
 ```
 
+#### 二叉搜索树的后序遍历序列
+
+输入一个非空整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+
+```c++
+class Solution {
+public:
+    /*
+    思路： 二叉搜索树：左孩子的值小于根的值，右孩子的值大于根的值
+    对于一个二叉搜索树的后序遍历： 左右根
+    所以先循环判断左右根的分界点k 根据二叉搜索树的特点，循环判断找出第一个大于根的值就可以
+    然后再从这个位置k到根之前的节点，理论上都是根的右孩子，要大于根，一旦发现小于，return false
+    最后递归判断就好了
+    */
+    vector<int> seq;
+    bool VerifySquenceOfBST(vector<int> sequence) {
+        if(sequence.empty())
+            return false;
+        seq=sequence;
+        return dfs(0,seq.size()-1);
+    }
+    bool dfs(int l, int r)
+    {
+        if(l>=r)
+            return true;
+        int k=l;
+        //找到左右孩子分界点k
+        while(k<r&&seq[k]<seq[r])
+                k++;
+        //右孩子的值应都大于根的值
+        for(int i=k; i<r; i++)
+        {
+            if(seq[i]<seq[r])
+                return false;
+        }
+        return dfs(l,k-1)&&dfs(k,r-1);
+    }
+};
+```
+
