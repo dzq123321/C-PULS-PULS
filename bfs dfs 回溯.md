@@ -144,6 +144,8 @@ public:
 
 给定一个可包含重复数字的序列，返回所有不重复的全排列。 
 
+![asd2](E:\duzhiqiang\比特51c语言\github\picture\asd2.jpg)
+
 ```c++
 class Solution {
 public:
@@ -179,6 +181,263 @@ void dfs(int cur){
          vis.assign(n,0);
         dfs(0);
         return ans;
+    }
+};
+```
+
+#### [112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
+
+给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
+
+**说明:** 叶子节点是指没有子节点的节点。
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+ bool hasPathSum(TreeNode* root, int sum) {
+        return DFS(root, sum);
+    }
+    bool DFS(TreeNode* root, int sum) {
+        if(root==NULL)
+        return false;
+        if(root->left==NULL&&root->right==NULL)
+        return sum==root->val;
+        return  DFS(root->left,sum-root->val)||DFS(root->right,sum-root->val);
+    }
+};
+```
+
+#### 二叉树中和为某一值的路径 
+
+输入一颗二叉树的根节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。 <https://www.nowcoder.com/practice/b736e784e3e34731af99065031301bca?tpId=13&tqId=11177&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking> 
+
+思路：dfs+回溯
+
+```c++
+/*
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+			val(x), left(NULL), right(NULL) {
+	}
+};*/
+class Solution {
+public:
+    vector<vector<int> > ans;
+    vector<int> path;
+    vector<vector<int> > FindPath(TreeNode* root,int expectNumber) {
+         dfs(root,expectNumber);
+        return ans;
+    }
+    void dfs(TreeNode* root,int sum)
+    {
+        if(root==NULL)
+            return ;
+        if(root->left==NULL&&root->right==NULL){
+            sum-=root->val;
+            if(sum==0)
+            {
+                path.push_back(root->val);
+                ans.push_back(path);
+                path.pop_back();
+            }
+            return;
+        }
+        path.push_back(root->val);
+        dfs( root->left, sum-root->val);
+        path.pop_back();
+         path.push_back(root->val);
+        dfs( root->right, sum-root->val);
+        path.pop_back();
+    }
+};
+
+```
+
+#### [46. 全排列](https://leetcode-cn.com/problems/permutations/)
+
+给定一个 **没有重复** 数字的序列，返回其所有可能的全排列。 
+
+```c++
+class Solution {
+public:
+/*
+void dfs()
+{
+    if(nans.size()==n)
+    {
+        ans.push_back(nans);
+        return;
+    }
+   for(int i=0; i<n; i++)
+        {
+           if(vis[i]==0)
+           {
+               vis[i]=1;
+               nans.push_back(nu[i]);
+               dfs();
+               nans.pop_back();
+               vis[i]=0;
+           }
+        }
+}
+*/
+vector<vector<int>> ans;
+vector<int> nans;
+vector<int> nu;
+void dfs(int pos)
+{
+    if(nans.size()==nu.size())
+    {
+        ans.push_back(nans);
+        return;
+    }
+   for(int i=pos; i<nu.size(); i++)
+        {
+            nans.push_back(nu[i]);
+           std:: swap(nu[i], nu[pos]);
+            dfs(pos+1);
+             std:: swap(nu[i], nu[pos]);
+             nans.pop_back();
+           }
+       
+}
+    vector<vector<int>> permute(vector<int>& nums) {
+        nu=nums;
+        dfs(0);
+        return ans;
+    }
+};
+```
+
+#### [77. 组合](https://leetcode-cn.com/problems/combinations/)
+
+给定两个整数 *n* 和 *k*，返回 1 ... *n* 中所有可能的 *k* 个数的组合。 
+
+回溯法解决组合问题。和排序问题不同的是，在组合问题中元素的顺序不考虑，只需要从当前位置向后寻找。排序问题每次都需要从头寻找，需要用visited数组记录访问过的元素。
+
+常规bfs模板，第一种方法对于元素只是选和不选的问题 时间复杂度高（2^n）
+
+```c++
+class Solution {
+public:
+  vector<vector<int>>  ans;
+    vector<int> nans;
+    vector<vector<int>> combine(int n, int k) {
+         dfs(1,n,k);
+         return ans;
+    }
+    void dfs(int pos, int n,int k)
+    {
+        if(nans.size()==k)
+         {
+             ans.push_back(nans);
+             return;
+         }
+         if(pos>n)
+           return;
+           nans.push_back(pos);
+           dfs(pos+1,n,k);
+           nans.pop_back();
+             dfs(pos+1,n,k);
+    }
+};
+第二种方法，利用一个for循环，可以避免重复 （即如果出现1 ，则后面再也不会出现1）
+class Solution {
+public:
+  vector<vector<int>>  ans;
+    vector<int> nans;
+    vector<vector<int>> combine(int n, int k) {
+         dfs(1,n,k);
+         return ans;
+    }
+    void dfs(int pos, int n,int k)
+    {
+        if(nans.size()==k)
+         {
+             ans.push_back(nans);
+             return;
+         }
+        for(int i=pos; i<=n; i++)
+             {
+                 nans.push_back(i);
+                 dfs(i+1,n,k);
+                  nans.pop_back();
+             }
+    }
+};
+```
+
+ [79. 单词搜索](https://leetcode-cn.com/problems/word-search/)
+
+给定一个二维网格和一个单词，找出该单词是否存在于网格中。
+
+单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+
+//dfs  标准模板   
+
+在矩阵中先找到这个单词的起始位置，再进行dfS(要用vis数组记录), 从上下左右四个方向去比较（需要回溯）
+
+```c++
+class Solution {
+public:
+    vector<vector<int>> vis;
+    int m,n;
+    vector<int> dx={1,-1,0,0};
+    vector<int> dy={0,0,1,-1};
+    bool dfs(int pos,int i, int j,vector<vector<char>>&  board,string word)
+    {
+        if(pos==word.size()-1)
+        return true;
+        for(int d=0;d<4;d++)
+        {
+            //从上下左右四个方向去比较
+            int ii=i+dx[d];
+            int jj=j+dy[d];
+            if(ii<0||ii>=m||jj<0||jj>=n)
+            continue;
+            if(vis[ii][jj]==1||board[ii][jj]!=word[pos])
+            continue;
+            vis[ii][jj]=1;
+            if(dfs(pos+1,ii,jj,board,word))
+            return true;
+            vis[ii][jj]=0;
+        }
+        return false;
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+         if(board.size()==0||board[0].size()==0)
+         return false;
+         m=board.size();
+          n=board[0].size();
+         vis.assign(m,vector<int>(n,0));
+         for(int i=0;i<m;i++)
+         {
+             for(int j=0;j<n;j++)
+             {              
+                 if(board[i][j]!=word[0])
+                 continue;
+                 else if(board[i][j]==word[0])
+                 {
+                    vis[i][j]=1;
+                     if(dfs(1,i,j,board,word)){
+                     return true;}
+                    vis[i][j]=0;
+                 }
+             }
+         }
+         return false;
     }
 };
 ```
