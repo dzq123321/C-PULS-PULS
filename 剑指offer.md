@@ -582,3 +582,146 @@ public:
 };
 ```
 
+#### 复杂链表的复制 
+
+## 题目描述
+
+输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针random指向一个随机节点），请对此链表进行深拷贝，并返回拷贝后的头结点。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空
+
+常规方法，在我们先new出节点连成单链表后，需要在进行遍历链接random,节点，所以又需要一次遍历，找到原始链表中节点random的指向。
+
+为了避免这个麻烦的问题，通过 map<RandomListNode* ,RandomListNode* > mp; 记录原始链表，将原始链表作为key键值，则之后链接的时候只需mp[it]->random=mp[it->random];, 可以想象为桶排。
+
+```c++
+/*
+struct RandomListNode {
+    int label;
+    struct RandomListNode *next, *random;
+    RandomListNode(int x) :
+            label(x), next(NULL), random(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    RandomListNode* Clone(RandomListNode* pHead)
+    {
+        if(pHead==NULL)
+            return NULL;
+        map<RandomListNode* ,RandomListNode* > mp;
+        RandomListNode* p=pHead;
+        while(p!=NULL){
+            mp[p]=new RandomListNode (p->label);
+            p=p->next;
+        }
+        p=pHead;
+        while(p!=NULL)
+        {
+            mp[p]->next=mp[p->next];
+            if(mp[p->random]!=NULL)
+                mp[p]->random=mp[p->random];
+            p=p->next;
+        }
+        return mp[pHead];
+    }
+};
+```
+
+#### [面试题36. 二叉搜索树与双向链表  LCOF](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
+
+输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的循环双向链表。要求不能创建任何新的节点，只能调整树中节点指针的指向。
+
+```c++
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+        left = NULL;
+        right = NULL;
+    }
+
+    Node(int _val, Node* _left, Node* _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
+*/
+class Solution {
+public:
+    Node* pre;
+	Node* head;
+    Node* treeToDoublyList(Node* root) {
+		if (root == NULL)
+			return NULL;
+		inOrder(root);
+		pre->right = head;
+		head->left = pre;
+		return head;
+	}
+
+	void inOrder(Node* cur)
+	{
+		if (cur == NULL)
+			return;
+		inOrder(cur->left);
+		if (pre == NULL)
+			head = cur;
+		else
+			pre->right = cur;
+		cur->left = pre;
+		pre = cur;
+		inOrder(cur->right);
+	}
+};
+```
+## 题目描述 字符串的排列 
+
+输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。
+
+## 输入描述:
+
+```
+输入一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。
+//请认真读题，可能有重复数字，所以要进行判断，并且时按字典序打印
+class Solution {
+public:
+    vector<string> ans;
+    vector<int> vis;
+    string nans;
+    void dfs(string str)
+    {
+        if(nans.size()==str.size())
+        {
+            ans.push_back(nans);
+            return;
+        }
+        for(int i=0;i<str.size();i++)
+        {
+            if(vis[i]==1) continue;
+            //如果当前元素和前一个元素相同，并且前一个元素没有被使用，continue
+            if(vis[i-1]==0&&str[i]==str[i-1]) continue;
+            vis[i]=1;
+            nans.push_back(str[i]);
+            dfs(str);
+            nans.pop_back();
+            vis[i]=0;
+        }
+    }
+    vector<string> Permutation(string str) {
+        if(str.size()==0)
+            return ans;
+        vis.assign(str.size(),0);
+        dfs(str);
+        return ans;
+    }
+};
+```

@@ -442,3 +442,133 @@ public:
 };
 ```
 
+#### [52. N皇后 II](https://leetcode-cn.com/problems/n-queens-ii/)
+
+*n* 皇后问题研究的是如何将 *n* 个皇后放置在 *n*×*n* 的棋盘上，并且使皇后彼此之间不能相互攻击。 
+
+思路：标准的dfs模板套路，只是要判断位置是否合法，自己编写一个函数判断
+
+```
+class Solution {
+public:
+vector<vector<string>>  ans;
+vector<string> list;
+bool isvalid(int row,int col, int n)
+{
+    //逐行判断
+    for(int j=0;j<n;j++)
+    {
+       if(list[row][j]=='Q')
+       return false;
+    }
+    //逐列判断
+    for(int i=0;i<n;i++)
+    {
+       if(list[i][col]=='Q')
+       return false;
+    }
+    for(int k=1;k<=min(row,col);k++)
+    {
+       if(list[row-k][col-k]=='Q')
+       return false;
+    }
+  for(int k=1;k<=min(row,n-1-col);k++)
+    {
+       if(list[row-k][col+k]=='Q')
+       return false;
+    }
+    return true;
+}
+void dfs(int pos,int n)
+{
+    if(pos==n)
+    {
+        ans.push_back(list);
+        return ;
+    }
+    for(int j=0;j<n;j++){
+        if(isvalid(pos,j,n))
+        {
+             list[pos][j]='Q';
+            dfs(pos+1,n);
+            list[pos][j]='.';
+        }
+    }
+}
+    vector<vector<string>> solveNQueens(int n) {
+      list.assign(n,string(n,'.'));
+      dfs(0,n);
+      return ans;
+    }
+```
+
+#### [51. N皇后](https://leetcode-cn.com/problems/n-queens/)
+
+给定一个整数 n，返回所有不同的 n 皇后问题的解决方案。
+
+每一种解法包含一个明确的 n 皇后问题的棋子放置方案，该方案中 'Q' 和 '.' 分别代表了皇后和空位。
+
+```
+class Solution {
+public:
+//逐行进行dfs，再dfs中，在逐列进行判断
+int ans;
+ vector<string> list;
+ bool ifvalid(int row,int col,int n)
+ { 
+     //先对这一行进行判断
+     for(int j=0; j<n; j++)
+        {
+            //判断如果这一行有皇后
+            if(list[row][j]=='Q')
+            return false;
+        }
+    //对这一列进行判断
+     for(int i=0; i<n; i++)
+        {
+            //判断如果这一行有皇后
+            if(list[i][col]=='Q')
+            return false;
+        }
+        /*对角线  \   */
+       for(int i=1; i<=min(row,col); i++)
+        {
+            //判断如果这一行有皇后
+            if(list[row-i][col-i]=='Q')
+            return false;
+        }  
+         //反对角线  /
+       for(int i=1; i<=min(row,n-1-col); i++)
+        {
+            //判断如果这一行有皇后
+            if(list[row-i][col+i]=='Q')
+            return false;
+        }  
+        return true;
+
+ }
+void dfs(int n,int pos)
+{
+    if(pos==n)
+    {
+        ans++;
+        return;
+    }
+    for(int j=0;j<n;j++)
+    {
+        if(ifvalid(pos,j,n))//判断这个位置是否合法
+        {
+            list[pos][j]='Q';//对称的回溯
+            dfs(n,pos+1);
+             list[pos][j]='.';
+        }
+    }
+}
+    int totalNQueens(int n) {
+       list.assign (n, string(n, '.'));
+        dfs(n,0);
+        return ans;
+    }
+};
+```
+

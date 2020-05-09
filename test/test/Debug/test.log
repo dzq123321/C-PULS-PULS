@@ -1,2 +1,3 @@
 ﻿  newcolder test.cpp
-  test.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\test\Debug\test.exe
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\newcolder test.cpp(470): warning C4010: 单行注释包含行继续符
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\newcolder test.cpp(473): error C2065: “i”: 未声明的标识符
