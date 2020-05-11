@@ -725,3 +725,80 @@ public:
     }
 };
 ```
+## 题目描述 把数组排成最小的数 
+
+输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
+
+思路：按照字典序将a+b和b+a中较小的排在前面，最后直接拼接。注意自己编写的comp函数时静态的。
+
+```c++
+class Solution {
+public:
+    string PrintMinNumber(vector<int> numbers) {
+        sort(numbers.begin(),numbers.end(),comp);
+        string s;
+        for(auto e:numbers)
+        {
+            s+=to_string(e);
+        }
+        return s;
+    }
+  private:
+    static bool comp(const int &a,const int &b)
+    {
+        string ab=to_string(a)+to_string(b);
+        string ba=to_string(b)+to_string(a);
+        return ab<ba;
+    }
+};
+```
+
+#### [263. 丑数](https://leetcode-cn.com/problems/ugly-number/)
+
+编写一个程序判断给定的数是否为丑数。
+
+丑数就是只包含质因数 `2, 3, 5` 的**正整数**。
+
+```c++
+class Solution {
+public:
+    bool isUgly(int num) {
+        //不停的整除2 3 5，如果最后结果1,则是丑数，否则返回false
+        if(num<=0)
+        return false;
+        if(num==1)
+        return true;
+        while(num%2==0) num/=2;
+        while(num%3==0) num/=3;
+        while(num%5==0) num/=5;
+        if(num!=1)
+        return false;
+        else
+        return true;
+    }
+};
+```
+
+## 题目描述 第一个只出现一次的字符 
+
+在一个字符串(0<=字符串长度<=10000，全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置, 如果没有则返回 -1（需要区分大小写）.（从0开始计数）
+
+思路：利用find和rfind左右开始找，找到并且相等则说明只出现一次
+
+```c++
+class Solution {
+public:
+    int FirstNotRepeatingChar(string str) {
+        int left=0,right=0;
+        for(int i=0;i<str.size()-1;i++)
+        {
+            left=str.find(str[i]);
+            right=str.rfind(str[i]);
+            if(left==right)
+                return left;
+        }
+        return -1;
+    }
+};
+```
+
