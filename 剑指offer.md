@@ -802,3 +802,96 @@ public:
 };
 ```
 
+#### [数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
+
+在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。
+
+暴力：超时
+
+```
+class Solution {
+public:
+    int reversePairs(vector<int> data) {
+        int cnt = 0;
+    int len = data.size();
+    for (int i = 0; i < len-1; i++) {
+        for (int j = i + 1; j < len; j++) {
+              if (data[i] > data[j]) {
+                cnt++;
+             }
+         }
+     }
+        return cnt;
+    }
+};
+```
+
+ 归并排序，在归并的时候进行查找，分为两部分数组，只要插入后面那部分的数组数组，说明该元素都大于前面那部分数组的所以元素，则这一阶段的逆序对为前面数组的大小 mid-i+1
+
+#### [面试题51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
+
+在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。 
+
+思路：归并排序[A，B]，假设A,B都是排好序的，在归并的时候如果数组B的元素小于数组A的元素，则一定存在（mid-i+1）个逆序对
+
+A=[3 5 7 9]  ,  B=[ 2 4 6 8]   B[0]<A[0] ，则再将B[0]归并到tmp数组时，存在3-0+1个逆序对
+
+[A，B]中的逆序对=[A]的逆序对+[B]中的逆序对+将A，B混排在一起的逆序对 
+
+```c++
+class Solution {
+public:
+   vector<int> tmp;
+   vector<int> num;
+    int reversePairs(vector<int> data) {
+    if(data.size()<2)
+    return 0;
+     num=data;
+     tmp.assign(data.size(),0);
+      return mergesort(num,0,data.size()-1);
+    }
+private:
+    int mergesort(vector<int> &num,int left, int right){
+        if(left>=right)
+            return 0;
+        int mid=left+(right-left)/2;
+        int x1=mergesort(num,left,mid);
+        int x2=mergesort(num,mid+1,right);
+        if(num[mid]<=num[mid+1])
+            return x1+x2;
+        int x3=merge(num,left, mid,right);
+        return x1+x2+x3;
+    }
+int merge(vector<int> &num, int left, int mid, int right) {
+	int i = left, j = mid + 1;
+	int ans = 0;
+	int k = 0;
+	tmp.assign(right - left + 1,0);
+	while (i <= mid && j <= right)
+	{
+		if (num[i] <= num[j])
+		{
+			tmp[k++] = num[i++];
+		}
+		else
+		{
+			tmp[k++] = num[j++];
+			ans += (mid - i + 1);
+		}
+	}
+	while (i <= mid)
+	{
+		tmp[k++] = num[i++];
+	}
+	while (j <= right)
+	{
+		tmp[k++] = num[j++];
+	}
+	for (int i = 0; i < tmp.size(); i++)
+		num[i+left] = tmp[i];
+    return ans;
+}
+
+};
+```
+
