@@ -892,6 +892,76 @@ int merge(vector<int> &num, int left, int mid, int right) {
     return ans;
 }
 
+}; 
+```
+
+## 数字在排序数组中出现的次数
+
+统计一个数字在排序数组中出现的次数。
+
+找到左右边界，leftbinaryfind找到该元素第一次出现的位置，rightbinaryfind找到该元素最后一次出现的位置
+
+leftbinaryfind找不到，返回比该元素大的第一个元素的位置
+
+rightbinaryfind找不到，返回比该元素小的最后一个元素的位置
+
+比如vector<int> v = { 1,2,4,4,4,5,6,7}; ，找3  leftbinaryfind返回2   rightbinaryfind返回1
+
+```c++
+class Solution {
+public:
+    int GetNumberOfK(vector<int> data ,int k) {
+        //二分
+        return rightbinaryfind(data,k)-leftbinaryfind(data,k)+1;
 };
+  int leftbinaryfind(vector<int>& data ,int k)
+  {
+      int right=data.size()-1;
+      int left=0;
+      while(left<=right)
+      {
+          int mid=(left+right)>>1;
+          if(data[mid]>=k)
+              right=mid-1;
+          else
+              left=mid+1;
+      }
+      return left;
+    }
+  int rightbinaryfind(vector<int>& data ,int k)
+  {
+      int right=data.size()-1;
+      int left=0;
+      while(left<=right)
+      {
+          int mid=(left+right)>>1;
+          if(data[mid]<=k)
+              left=mid+1;
+          else
+              right=mid-1;
+      }
+      return right;
+    }
+  };
+```
+
+普通的二分查找
+
+```c++
+int binarySearch(int[] nums, int target) {
+    int left = 0; 
+    int right = nums.length - 1; // 注意
+
+    while(left <= right) { // 注意
+        int mid = (right + left) / 2;
+        if(nums[mid] == target)
+            return mid; 
+        else if (nums[mid] < target)
+            left = mid + 1; // 注意
+        else if (nums[mid] > target)
+            right = mid - 1; // 注意
+        }
+    return -1;
+}
 ```
 

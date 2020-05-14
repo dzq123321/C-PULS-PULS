@@ -1,4 +1,3 @@
 ﻿  dp.cpp
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(891): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(915): warning C4326: “main”的返回类型应为“int”而非“void”
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\high stl\high stl\dp.cpp(1006): warning C4326: “main”的返回类型应为“int”而非“void”
   high stl.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\high stl\Debug\high stl.exe
