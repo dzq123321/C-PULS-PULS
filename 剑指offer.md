@@ -683,6 +683,33 @@ public:
 	}
 };
 ```
+## 平衡二叉树 
+
+输入一棵二叉树，判断该二叉树是否是平衡二叉树。
+
+在这里，我们只需要考虑其平衡性，不需要考虑其是不是排序二叉树
+
+```c++
+class Solution {
+public:
+    bool IsBalanced_Solution(TreeNode* pRoot) {
+       if(pRoot==NULL)
+           return true;
+        if(abs(getheight(pRoot->left)-getheight(pRoot->right))>1)
+            return false;
+            return IsBalanced_Solution(pRoot->left)&& IsBalanced_Solution(pRoot->right);
+    }
+    int getheight(TreeNode* pRoot)
+    {
+        if(pRoot==NULL)
+            return 0;
+        return max(getheight(pRoot->left),getheight(pRoot->right))+1;
+    }
+};
+```
+
+
+
 ## 题目描述 字符串的排列 
 
 输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。
@@ -963,5 +990,148 @@ int binarySearch(int[] nums, int target) {
         }
     return -1;
 }
+```
+
+## 数组中只出现一次的数字 
+
+一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。
+
+思路：将这两个数相办法分为两组，对每一组进行异或就是最终结果。
+
+那怎么区分这两个数字呢，用比特位，先对整个数字进行异或，得到的结果sum就是这两个数字的异或
+
+然后找出这两个只出现一次的数字比特位第几位是不同的，即sum从右向左的第一个比特位为0的位置
+
+比如  有数组num=[2 1 3 2 5 1]  3 5出现一次 3(011) 5(101)  sum=6(110) ，sum第一个为1的比特位就是
+
+3 5有区别的比特位。然后找出这个比特位在进行分组。
+
+```c++
+class Solution {
+public:
+    /*
+    void FindNumsAppearOnce(vector<int> data,int* num1,int *num2) {
+        map<int,int> mp;
+        for(int i=0;i<data.size();i++)
+            mp[data[i]]++;
+        for(int i=0;i<data.size();i++)
+        {
+            if (*num1 == 0 && mp[data[i]] == 1)
+			   *num1 = data [i];
+		     else if ( mp[data[i]] == 1)
+			 *num2 = data[i];
+        }
+    }
+    */    
+     void FindNumsAppearOnce(vector<int> data,int* num1,int *num2) {
+            int sum=0;
+      for(auto e:data)
+      {
+          sum=sum^e;
+      }
+      //找出这两个只出现一次的数字比特位第几位是不同的，即sum从右向左的第一个比特位为0的位置
+      int k=1;//从右朝左开始
+      while((sum&k)==0)
+          k=k<<1;
+      for(auto e:data)
+      {
+         if(e&k)
+             *num1^=e;
+         else
+           *num2^=e;
+      }
+    }
+};
+```
+
+#### [面试题57 - II. 和为s的连续正数序列](https://leetcode-cn.com/problems/he-wei-sde-lian-xu-zheng-shu-xu-lie-lcof/)
+
+输入一个正整数 `target` ，输出所有和为 `target` 的连续正整数序列（至少含有两个数）。
+
+序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+
+思路：滑动窗口 双指针法，定义左闭右开区间[ )，i为左区间，j为右区间，当ij区间的和小于target，j++;
+
+反之，i++,注意边界条件。
+
+```c++
+class Solution {
+public:
+    vector<vector<int>> findContinuousSequence(int target) {
+  int i = 1; // 滑动窗口的左边界
+    int j = 1; // 滑动窗口的右边界
+    int sum = 0; // 滑动窗口中数字的和
+    vector<vector<int>> res;
+
+    while (i <= target / 2) {
+        if (sum < target) {
+            // 右边界向右移动
+            sum += j;
+            j++;
+        } else if (sum > target) {
+            // 左边界向右移动
+            sum -= i;
+            i++;
+        } else {
+            // 记录结果
+            vector<int> arr;
+            for (int k = i; k < j; k++) {
+                arr.push_back(k);
+            }
+            res.push_back(arr);
+            // 左边界向右移动
+            sum -= i;
+            i++;
+        }
+    }
+      return res;
+    }
+};
+```
+
+## 和为S的两个数字 
+
+输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。
+
+思路：左右两个指i，j, array[i]+array[j]<sum 则  i++，否则j--。
+
+注意边界条件
+
+```c++
+class Solution {
+public:
+    vector<int> FindNumbersWithSum(vector<int> array,int sum) {
+        if(array.size()<2)
+            return {};
+        int i=0,j=array.size()-1;
+        int preres=INT_MAX;
+        int res;
+        vector<int> v;
+        while(i<j)
+        {
+            if(array[i]+array[j]<sum)
+            {
+                i++;
+            }
+            else if (array[i]+array[j]>sum)
+            {
+                j--;
+            }
+            else
+            {
+                res=array[i]*array[j];
+                if(res<preres)
+                {
+                   v.assign(2,0);
+                  v[0]=array[i];
+                  v[1]=array[j];
+                    preres=res;
+                }
+                i++;
+            }
+      }
+          return v;
+    }
+};
 ```
 
