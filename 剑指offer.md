@@ -1135,3 +1135,108 @@ public:
 };
 ```
 
+## 左旋转字符串 
+
+汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！
+
+思路：主要还是临界条件的判断。解法简单  substr很高效
+
+```
+   string LeftRotateString(string str, int n) {
+        if(n==0)
+            return str;
+        if(str=="")
+            return "";
+        int l=n%str.size();
+        if(l==0)
+            return str;
+        return str.substr(n)+str.substr(0,n);
+    }
+    
+  string LeftRotateString(string str, int n) {
+        int len=str.size();
+        if(len==0)
+            return "";
+        if(n==0)
+            return str;
+        int l=n%len;
+        if(l==0)
+            return str;
+        string ret(str.c_str()+l);
+        for(int i=0;i<l;i++)
+        {
+            ret+=str[i];
+        }
+        return ret;
+    }
+```
+
+## 翻转单词顺序列 
+
+牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
+
+```
+class Solution {
+public:
+    string ReverseSentence(string str) {
+        if(str=="")
+          return "";
+        string ret;
+        int j=0;
+        for(int i=0;i<str.size();i++)
+        {
+            if(str[i]==' ')
+            {
+                ret.insert(ret.begin(),str.begin()+j,str.begin()+i);
+                ret.insert(ret.begin(),' ');
+                j=i+1;
+            }
+            if(str[i+1]=='\0')
+            {
+                ret.insert(ret.begin(),str.begin()+j,str.begin()+i+1);
+            }
+        }
+        return ret;
+    }
+};
+```
+
+#### [面试题61. 扑克牌中的顺子](https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/)
+
+有2个大王,2个小王(一副牌原本是54张^_^). 从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为 0 ，可以看成任意数字。A 不能视为 14。如果牌能组成顺子就输出true，否则就输出false 
+
+思路：1、除大小王，不能有重复的排，所以需要一个vis数组进行记录
+
+​       2、在这五张牌中，除大小王，最大值-最小值+1<=5，这样才能组成顺子（例如2 3 4 5 6 ） 6-2+1=5
+
+```
+class Solution {
+public:
+    bool IsContinuous( vector<int> numbers ) {
+        //最大值-最小值+1<=5  也不能有重复值
+        if(numbers.size()<4)
+            return false;
+        int count=0;
+        bool vis[14];
+        memset(vis,false,sizeof(vis));
+        int maxval=0,minval=14;
+        for(auto e:numbers)
+        {
+            if(e==0)
+                count++;
+            else
+            {
+                if(vis[e]==1)//防止有重复值
+                return false;
+               maxval=max(maxval,e);
+               minval=min(minval,e);
+               vis[e]=1;
+            }
+        }
+        if(count==4)
+            return true;
+        return (maxval-minval+1)<=5;
+    }
+};
+```
+
