@@ -1055,7 +1055,7 @@ public:
 反之，i++,注意边界条件。
 
 ```c++
-class Solution {
+ class Solution {
 public:
     vector<vector<int>> findContinuousSequence(int target) {
   int i = 1; // 滑动窗口的左边界
