@@ -1240,3 +1240,207 @@ public:
 };
 ```
 
+## 约瑟夫问题
+
+#### [面试题62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
+
+难度简单139收藏分享切换为英文关注反馈
+
+0,1,,n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈里删除第m个数字。求出这个圆圈里剩下的最后一个数字。
+
+例如，0、1、2、3、4这5个数字组成一个圆圈，从数字0开始每次删除第3个数字，则删除的前4个数字依次是2、0、4、1，因此最后剩下的数字是3。
+
+思路1：使用list模拟循环链表来模拟这个游戏，每过m-1个人，找到那个人然后it = li.erase(it);，直到最后只剩下一个人 然后return li.front() 即可。这个思路时间复杂度高，newcode可以过，但leetcode过不了。
+
+```
+class Solution {
+public:
+    int lastRemaining(int n, int m) {
+        
+	if (n == 0)
+		return -1;
+	list<int> li;
+	for (int i = 0; i < n; i++)
+		li.push_back(i);
+	auto it = li.begin();
+	while (li.size() > 1)
+	{
+		int i = 0;
+		for (; i < m-1; i++)
+		{
+ 			if (it == li.end())
+				it = li.begin();
+			it++;
+		}
+		if (it == li.end())
+			it = li.begin();
+		it = li.erase(it);
+	}
+	return li.front();
+    }
+};
+```
+
+思路2：（动态规划）公式法 f(n,m)= (f(n-1,m)+m)%n   f(n,m)表示，N个人报数，每报到M时杀掉那个人，最终胜利者的编号 
+
+当删除报到M时杀掉那个人后，我们以他下一个的人为起始坐标0从新计数，所以可以理解为后面的坐标向前移动了m位，m前面的补到m后面的位置，直到最后。
+
+而我们的思路2刚好相反，这上述的逆过程，每报到M时杀掉那个人时，后面的向后移动m位，比如，设m=3,n=11, 我们已知当f(n-1,m)即f(10，3)的胜利者编号，那么n=11的胜利者编号就是n=10的胜利者编号后移m位，即+m，但有可能越界，所以%n
+
+```
+//直接套公式，递归
+class Solution {
+public:
+    int f(int n, int m) {
+        if(n==1)
+        return 0;
+        return (f(n-1,m)+m)%n;
+};
+    int lastRemaining(int n, int m) {
+        return f(n,m);
+    }
+};
+//非递归
+class Solution {
+public:
+    int LastRemaining_Solution(int n, int m)
+    {     
+        if(n==0)
+            return -1;
+	int ret=0;
+        for(int i=2; i<=n;i++)
+        {
+            ret=(ret+m)%i;
+        }
+        return ret;
+    }
+};
+```
+
+## 求1+2+3+...+n 
+
+求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。
+
+```c++
+class Solution {
+public:
+    int Sum_Solution(int n) {
+        return (int)pow(n,2)+n>>1;
+    }
+};
+
+===================================位运算
+逻辑运算符的短路效应：
+常见的逻辑运算符有三种，即 与 &&，或 || 非 !! ；而其有重要的短路效应，如下所示：
+
+if(A && B)  // 若 A 为 false ，则 B 的判断不会执行（即短路），直接判定 A && B 为 false
+
+if(A || B) // 若 A 为 true ，则 B 的判断不会执行（即短路），直接判定 A || B 为 true
+本题需要实现 “当 n = 1n=1 时终止递归” 的需求，可通过短路效应实现。
+
+n > 1 && sumNums(n - 1) // 当 n = 1 时 n > 1 不成立 ，此时 “短路” ，终止后续递归
+先写出递归
+class Solution {
+public:
+    int Sum_Solution(int n) {
+       if(n==1)
+           return 1;
+        n+=Sum_Solution(n-1);
+        return ans;
+    }
+};
+//改造递归
+class Solution {
+public:
+    int Sum_Solution(int n) {
+        n&&	(n+=Sum_Solution(n-1));
+        return ans;
+    }
+};
+```
+
+## 不用加减乘除做加法 
+
+写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号。
+
+```
+
+思路：
+& 按位与运算：相同位的两个数字都为1，则为1；若有一个不为1，则为0。两个数相与，并左移一位：相当于求得进位
+1&1=1 将1左移一位变成了10，相当于拿到了进位。
+^ 按位异或运算：相同位置不同则为1，相同则为0。相当于每一位相加，而不考虑进位。
+第一步 异或——无进位相加得result1 (a^b)
+第二步 与+左移一位——求得进位result2 （a&b）<<1
+第三步 result = result1 + result2即是结果
+但问题在于，result1 + result2可能还有进位，因此result还要重复一二步这个过程。直到没有进位，异或的结果就是最终的结果为止
+如 101 + 011 -> 110 + 1010 -> 1100 + 0100 -> 1000 + 1000 -> 0 （异或出现了0，返回上一次异或的结果）
+最终得到的是1000 也就是5+3=8
+
+class Solution {
+public:
+    int Add(int num1, int num2)
+    {
+         //两数异或相当于无进位相加，两个数相与相当于求两数的进位
+         //最后将进位（相与的结果）和异或的结果相加即是最终结果，在因为这个过程又有可能存在进位
+        //所以需要循环判断(判断carry是否等于0,本题直接使用num2也可以 num2=carry)
+        /*
+               10+7
+               1010    10
+               0111    7
+               10^7=  1101   ->13
+               10&7<<1=  0100   ->4
+               13+4=17
+        */
+        if(num1==0)
+            return num2;
+        if(num2==0)
+            return num1;
+        while(num2!=0)
+        {
+            int a=num1^num2;
+            int carry=(num1&num2)<<1;
+            num1=a;
+            num2=carry;
+        }
+        return num1;
+    }
+};
+
+
+
+
+
+```
+
+#### [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+
+给定一个整数数组 `nums` 和一个目标值 `target`，请你在该数组中找出和为目标值的那 **两个** 整数，并返回他们的数组下标。
+
+你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。
+
+```c++
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        /*
+        基本上和暴力解法类似：回忆暴力解法，双重循环判断nums[i]+nums[j]==target
+        我们先把元素插入到哈希表（hash表value存放元素的下标）中，在第2个for循环中，对于第i个元素，直接查找target-nums[i]是否存在
+        ，存在了就说明找到了，返回元素的下标{i，mp[target-nums[i]]}
+        这里必须加判断条件mp[target-nums[i]]!=i
+        以为有可能 nums = [2, 3，4], target = 6
+        这样就导致返回的是{1，1}而不是{0，2}
+        */
+       unordered_map <int,int> mp;
+       for(int i=0;i<nums.size();i++)
+          mp[nums[i]]=i;
+        for(int i=0;i<nums.size();i++)
+        {  
+            if(mp.find(target-nums[i])!=mp.end()&&mp[target-nums[i]]!=i)
+               return {i,mp[target-nums[i]]};
+        }
+        return {};
+    }
+};
+
+```
+

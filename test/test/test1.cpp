@@ -1,14 +1,53 @@
-#if 0
+#if 1
 #include<iostream>
 #include<vector>
-#include<algorithm>
-#include<limits.h>
+#include<iostream>
+#include<stdio.h>
 #include<string>
-#include<string.h>
-#include <windows.h>
+#include<stdlib.h>
+#include<list>
 using namespace std;
-#define MAX_TITLE_SIZE  128
-#define _CRT_SECURE_NO_WARNINGS
+
+
+int LastRemaining_Solution(int n, int m)
+{
+	if (n == 0)
+		return -1;
+	list<int> li;
+	for (int i = 0; i < n; i++)
+		li.push_back(i);
+	auto it = li.begin();
+	while (li.size() > 1)
+	{
+		int i = 0;
+		for (; i < m-1; i++)
+		{
+ 			if (it == li.end())
+				it = li.begin();
+			it++;
+		}
+		if (it == li.end())
+			it = li.begin();
+		it = li.erase(it);
+	}
+	return li.front();
+}
+void main()
+{
+
+	cout << LastRemaining_Solution(5, 2) << endl;
+}
+
+
+
+
+
+
+
+
+
+
+
 //void main()
 //{
 //	char *title = "文档快速搜索工具";
@@ -19,12 +58,12 @@ using namespace std;
 //	cout << title << endl;
 //
 //}
-int main()
-{
-	SetConsoleTitle("title 你的标题");
-	system("title 你的标题");
-	return 0;
-}
+//int main()
+//{
+//	SetConsoleTitle("title 你的标题");
+//	system("title 你的标题");
+//	return 0;
+//}
 //int main()
 //{
 //	string s1= "qwer";
