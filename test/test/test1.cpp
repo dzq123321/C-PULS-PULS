@@ -6,37 +6,121 @@
 #include<string>
 #include<stdlib.h>
 #include<list>
+#include<algorithm>
 using namespace std;
-
-
-int LastRemaining_Solution(int n, int m)
-{
-	if (n == 0)
-		return -1;
-	list<int> li;
-	for (int i = 0; i < n; i++)
-		li.push_back(i);
-	auto it = li.begin();
-	while (li.size() > 1)
+//
+//int integerBreak2(int n) {
+//	//解法2 带备忘录的递归
+//	if (n == 2)
+//		return 1;
+//	vector<int> memo(n + 1, 0);
+//	int res = -1;
+//	if (memo[n] != 0)
+//		return memo[n];
+//	for (int i = 1; i < n; i++)
+//	{
+//		res = max(res, max(i * (n - i), i * integerBreak(n - i)));
+//	}
+//	memo[n] = res;
+//	return res;
+//}
+int integerBreak(int n) {
+	/*
+	贪心  a*3+b=n
+	https://leetcode-cn.com/problems/integer-break/solution/343-zheng-shu-chai-fen-tan-xin-by-jyd/
+	*/
+	int b = n % 3;
+	if (b == 0)
 	{
-		int i = 0;
-		for (; i < m-1; i++)
-		{
- 			if (it == li.end())
-				it = li.begin();
-			it++;
-		}
-		if (it == li.end())
-			it = li.begin();
-		it = li.erase(it);
+		int a = n / 3;
+		return pow(3, a);
 	}
-	return li.front();
+	if (b == 1)
+	{
+		int a = n / 3;
+		return pow(3, a - 1) * 4;
+	}
+	if (b == 2)
+	{
+		int a = n / 3;
+		return pow(3, a) * 2;
+	}
 }
 void main()
 {
-
-	cout << LastRemaining_Solution(5, 2) << endl;
+	cout << integerBreak(10) << endl;
+	vector<vector<bool>> vis;
+	int m = 4, n = 5;
+	vis.assign(m, vector<bool>(n, true));
+	cout << vis[3][4] << endl;
 }
+
+
+
+////-2147483648到2147483647.
+//int StrToInt(string str) {
+//	if (str == "")
+//		return 0;
+//	long ret = 0;
+//	int  bndry = INT_MAX / 10;
+//	int flag = 0;
+//	if (str[0] == '-')
+//		flag = 1;
+//	for (int i = 0; i < str.size(); i++)
+//	{
+//		if (str[0] == '-' || str[0] == '+')
+//		{
+//			str[0] = '*';
+//			continue;
+//		}
+//		if ('0' <= str[i] && str[i] <= '9')
+//		{
+//			ret = 10 * ret + (str[i] - '0');
+//			if (ret > bndry || ret == bndry && str[i] > '7') return flag ==0 ? INT_MAX : INT_MIN;
+//		}
+//		else
+//			return 0;
+//	}
+//	if (flag == 1)
+//		return -ret;
+//	return ret;
+//}
+//void main()
+//{
+//	string s("-2147483647");
+//	cout << StrToInt(s) << endl;
+//	cout << s.substr(2) << endl;
+//}
+
+
+//int LastRemaining_Solution(int n, int m)
+//{
+//	if (n == 0)
+//		return -1;
+//	list<int> li;
+//	for (int i = 0; i < n; i++)
+//		li.push_back(i);
+//	auto it = li.begin();
+//	while (li.size() > 1)
+//	{
+//		int i = 0;
+//		for (; i < m-1; i++)
+//		{
+// 			if (it == li.end())
+//				it = li.begin();
+//			it++;
+//		}
+//		if (it == li.end())
+//			it = li.begin();
+//		it = li.erase(it);
+//	}
+//	return li.front();
+//}
+//void main()
+//{
+//
+//	cout << LastRemaining_Solution(5, 2) << endl;
+//}
 
 
 

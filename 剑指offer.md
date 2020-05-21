@@ -1281,7 +1281,7 @@ public:
 };
 ```
 
-思路2：（动态规划）公式法 f(n,m)= (f(n-1,m)+m)%n   f(n,m)表示，N个人报数，每报到M时杀掉那个人，最终胜利者的编号 
+思路2：（动态规划）公式法 f(n,m)= (f(n-1,m)+m)%n   f(n,m)表示，N个人报数，每报到M时杀掉那个人，最终胜利者的编号 ,状态转移方程    dp[i]=(dp[i-1]+m)%i;
 
 当删除报到M时杀掉那个人后，我们以他下一个的人为起始坐标0从新计数，所以可以理解为后面的坐标向前移动了m位，m前面的补到m后面的位置，直到最后。
 
@@ -1310,7 +1310,7 @@ public:
 	int ret=0;
         for(int i=2; i<=n;i++)
         {
-            ret=(ret+m)%i;
+            ret=(ret+m)%i;//dp[i]=(dp[i-1]+m)%i;
         }
         return ret;
     }
@@ -1442,5 +1442,165 @@ public:
     }
 };
 
+```
+
+## 题目描述 构建乘积数组 
+
+<https://www.nowcoder.com/practice/94a4d381a68b47b7a8bed86f2975db46?tpId=13&tqId=11204&rp=3&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking> 
+
+给定一个数组A[0,1,...,n-1],请构建一个数组B[0,1,...,n-1],其中B中的元素B[i]=A[0]*A[1]*...*A[i-1]*A[i+1]*...*A[n-1]。不能使用除法。（注意：规定B[0] = A[1] * A[2] * ... * A[n-1]，B[n-1] = A[0] * A[1] * ... * A[n-2];）
+
+![对称](E:\duzhiqiang\比特51c语言\github\picture\对称.jpg)
+
+```c++
+	class Solution {
+public:
+    vector<int> multiply(const vector<int>& A) {
+       if(A.size()==0)
+           return {};
+        vector<int> left(A.size(),1);
+        //left=A[0]*A[1]*....*A[i-1]
+        for(int i=1;i<A.size();i++)
+        {
+            left[i]=A[i-1]*left[i-1];
+        }
+        int tmp=1;
+        //right=A[n-1]*A[n-2]*....*A[i+1]
+        for(int i=A.size()-2;i>=0;i--)
+        {
+            tmp=tmp*A[i+1];
+            left[i]=tmp*left[i];
+        }
+        return left;
+    }
+};
+```
+
+##[面试题13. 机器人的运动范围](https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/)
+
+ 地上有一个m行n列的方格，从坐标 `[0,0]` 到坐标 `[m-1,n-1]` 。一个机器人从坐标 `[0, 0] `的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？ 
+
+思路：很明显，搜索问题，dfs或bfs,多种方法，dfs其实就是一直向下递归， （i，j）这个位置可以从 
+
+`dfs(i-1,j)+dfs(i,j-1)+dfs(i+1,j)+dfs(i,j+1)`转移过来，最后 return的是
+
+​          `return 1+dfs(i-1,j,m,n,k)+dfs(i,j-1,m,n,k)+dfs(i+1,j,m,n,k)+dfs(i,j+1,m,n,k); `结果是要+1，因为要加上当前i,j的位置
+
+算法还可以进行优化，只需要向有或者向下搜索即可。
+
+```c++
+class Solution {
+public:
+  //1+dfs(i-1,j)+dfs(i,j-1)+dfs(i+1,j)+dfs(i,j+1)
+  vector<vector<bool>> vis;
+  static int countnum(int n)
+  {
+      int ret=0;
+      while(n>0)
+      {
+          ret+=n%10;
+          n/=10;
+      }
+      return ret;
+  }
+   int dfs(int i,int j,int m,int n,int k)
+   {
+         if(i<0||i>=m||j<0||j>=n||(countnum(i)+countnum(j)>k)||vis[i][j]==true)
+          return 0;
+          vis[i][j]=true;
+          //return 1+dfs(i-1,j,m,n,k)+dfs(i,j-1,m,n,k)+dfs(i+1,j,m,n,k)+dfs(i,j+1,m,n,k);
+       //也可以
+          return 1+dfs(i+1,j,m,n,k)+dfs(i,j+1,m,n,k);
+   }
+    int movingCount(int m, int n, int k) {
+        vis.assign(m,vector<bool>(n,false));
+        return dfs(0,0,m,n,k);
+    }
+};
+```
+
+
+
+
+
+#### [343. 整数拆分](https://leetcode-cn.com/problems/integer-break/)   (拆线头 动态规划)
+
+给定一个正整数 *n*，将其拆分为**至少**两个正整数的和，并使这些整数的乘积最大化。 返回你可以获得的最大乘积。 
+
+```
+class Solution {
+public:
+/*   f(n)=max(1*f(n-1),2*f(n-2),...)
+   res=max(res,i*integerBreak(n-i))
+   dp[i]=max(dp[i],1*dp[i-1],2*dp[i-2],...j*dp[i-j]...)
+   需要注意：integerBreak(n - i)不一定比(n-i)大，所以需要去其中最大值 
+   比如3  不用拆  如果拆了话，1*2  1*1*1 都没有3大
+*/
+/*
+    int integerBreak(int n) {
+     //解法1 递归
+         if(n==2)
+         return 1;
+      int res=-1;
+      for(int i=1;i<n;i++)
+      {
+      	res = max(res, max(i * (n - i), i * integerBreak(n - i)));
+      }
+      return res;
+    }
+    */
+    /*
+     int integerBreak(int n) {
+     //解法2 带备忘录的递归
+         if(n==2)
+         return 1;
+         vector<int> memo(n+1,0);
+       int res=-1;
+       if(memo[n]!=0)
+       return memo[n];
+       for(int i=1;i<n;i++)
+       {
+       	res = max(res, max(i * (n - i), i * integerBreak(n - i)));
+       }
+       memo[n]=res;
+       return res;
+    }
+    */
+/*
+     int integerBreak(int n) {
+     //解法3 动态规划 dp[i]=max(dp[i],max(j*(i-j),j*dp[i-j]))
+         if(n==2)
+         return 1;
+         vector<int> dp(n+1,0);
+         dp[2]=1;
+         for(int i=3;i<=n;i++)
+         {
+             for(int j=1;j<i;j++)
+             {
+                 dp[i]=max(dp[i],max(j*(i-j),j*dp[i-j]));
+             }
+         }
+         return dp[n];
+    }
+    */
+     int integerBreak(int n) {
+          if (n == 2) return 1;
+          if (n == 3) return 2;//这里3必须进行划分，不然b=0,返回的是3^1=3，这个结果时没有进行划分
+         int b=n%3;
+         if(b==0)
+            {
+                int a=n/3;
+                return pow(3,a);
+            }
+         if(b==1)
+            {
+                int a=n/3;
+                return pow(3,a-1)*4;
+            }
+         int a=n/3;
+                return pow(3,a)*2;
+     
+     }
+};
 ```
 
