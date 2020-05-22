@@ -1493,7 +1493,7 @@ class Solution {
 public:
   //1+dfs(i-1,j)+dfs(i,j-1)+dfs(i+1,j)+dfs(i,j+1)
   vector<vector<bool>> vis;
-  static int countnum(int n)
+  int countnum(int n)
   {
       int ret=0;
       while(n>0)
@@ -1520,6 +1520,50 @@ public:
 ```
 
 第二种方法，bfs
+
+```
+class Solution {
+public:
+  int getnum(int x)
+  {
+      int sum=0;
+      while(x)
+      {
+          sum+=x%10;
+          x/=10;
+      }
+      return sum;
+  }
+  vector<vector<bool>> vis;
+    int movingCount(int m, int n, int k) {
+       // vis.assign(m,vector<bool>(n,false));
+       vector<vector<bool>> vis(m,vector<bool>(n,false));
+        int ans=0;
+        int dx[]={0,1,0,-1};
+        int dy[]={1,0,-1,0};
+        queue<pair<int,int>> que;
+        que.push(make_pair(0,0));
+        ans++;
+        vis[0][0]=true;
+        while(!que.empty())
+        {
+            auto [x,y]=que.front();
+            que.pop();
+            for(int i=0;i<4;i++)
+            {
+                x=x+dx[i];
+                y=y+dy[i];
+                if(x>=m||x<0||y>=n||y<0||vis[x][y]==true||(getnum(x)+getnum(y))>k)
+                continue;
+                que.push(make_pair(x,y));
+                vis[x][y]=true;
+                ans++;
+            }
+        }
+        return ans;
+    }
+};
+```
 
 
 

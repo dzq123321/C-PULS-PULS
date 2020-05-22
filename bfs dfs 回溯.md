@@ -6,7 +6,7 @@
 
 bfs大法，需要队列，因为二叉树只有根节点和子节点，不牵扯重复访问的问题，所以不需要vis数组记录
 
-```
+```c
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -162,7 +162,7 @@ void dfs(int cur){
     else{
         for(int i=0;i<n;i++){
             if(vis[i]==1) continue;
-            //如果当前节点和前一节点一样并且前一节点已经被遍历过，则跳过
+                //如果当前节点和前一节点一样并且前一节点已经被遍历过，则跳过
             if(i>0&&nu[i-1]==nu[i]&&!vis[i-1]) continue;
             vis[i]=1;
             nans[cur]=nu[i];
@@ -568,6 +568,118 @@ void dfs(int n,int pos)
        list.assign (n, string(n, '.'));
         dfs(n,0);
         return ans;
+    }
+};
+```
+
+#### [面试题32 - II. 从上到下打印二叉树 II](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/)
+
+思路：标准的bfs，使用队列，每层的长度其实就是队列的大小，注意。
+
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public://bfs
+    vector<vector<int>> levelOrder(TreeNode* root) {
+         vector<vector<int>>  ans;
+         if(root==NULL)
+         return ans;
+         queue<TreeNode* > q;
+         q.push(root);
+         while(!q.empty())
+         {
+             int size=q.size();
+             vector<int> nans(size,0);
+             for(int i=0;i<size;i++)
+             {
+                TreeNode* tmp=q.front();
+                 q.pop();     
+                 nans[i]=tmp->val;     
+                if(tmp->left!=NULL)
+                q.push(tmp->left);
+                if(tmp->right!=NULL)
+                q.push(tmp->right);
+
+             }
+             ans.push_back(nans);
+         }
+          return ans;
+    }
+};
+/*
+   vector<vector<int>> ans;
+   void dfs(TreeNode* t,int dep)
+   {
+       if(t==NULL)
+       return ;
+       if(ans.size()==dep)
+              ans.emplace_back();
+      ans[dep].push_back(t->val);
+    dfs(t->left,dep+1);
+    dfs(t->right,dep+1);
+   }
+    vector<vector<int>> levelOrder(TreeNode* root) {
+          //dfs大法
+          dfs(root,0);
+          return ans;
+    }
+*/
+```
+
+#### [207. 课程表](https://leetcode-cn.com/problems/course-schedule/)
+
+你这个学期必须选修 numCourse 门课程，记为 0 到 numCourse-1 。
+
+在选修某些课程之前需要一些先修课程。 例如，想要学习课程 0 ，你需要先完成课程 1 ，我们用一个匹配来表示他们：[0,1]
+
+给定课程总量以及它们的先决条件，请你判断是否可能完成所有课程的学习。
+
+```c++
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+       /*
+       在每一个[1,0]中，prerequisite[0]是目的节点,prerequisite[1]是出发节点,
+       记录每个节点的出边
+       记录每个节点的入度
+       然后进行bfs
+       */
+       map<int,vector<int>> outedges;
+       map<int,int> degree;
+       for(auto prerequisite:prerequisites)
+       {
+           outedges[prerequisite[1]].push_back(prerequisite[0]);//记录是出发节点的边
+           degree[prerequisite[0]]++;
+       }
+       int count=0;
+       queue<int> q;
+       //将所有节点中，度为0的节点入队
+       for(int i=0;i<numCourses;i++)
+       {
+           if(degree[i]==0)
+               q.push(i);
+       }
+       while(!q.empty())
+       {
+           int tmp=q.front();
+           q.pop();
+           count++;
+           for(auto next:outedges[tmp])
+           {
+               degree[next]--;
+               if(degree[next]==0)
+                    q.push(next);
+           }
+       }
+       return count==numCourses;
     }
 };
 ```

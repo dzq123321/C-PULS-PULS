@@ -1,5 +1,6 @@
 #if 1
 #include<iostream>
+#include<stdlib.h>
 #include<vector>
 #include<iostream>
 #include<stdio.h>
@@ -7,7 +8,214 @@
 #include<stdlib.h>
 #include<list>
 #include<algorithm>
+#include<queue>
+#include<unordered_map>
 using namespace std;
+
+
+bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+	/*
+	先记录以某个节点i为直接前驱的出度表，用map记录
+	*/
+	unordered_map<int, vector<int>> map;
+	vector<int> degree(numCourses, 0);//每个课程的入度是多少
+	for (vector<int> prerequisite : prerequisites)
+	{
+		map[prerequisite[1]].push_back(prerequisite[0]);
+		degree[prerequisite[0]]++;
+	}
+	return true;
+}
+void main()
+{
+	vector<vector<int>> v = { {0,1,2},{3,5,4},{3,1,0} };
+	bool b=canFinish(6, v);
+}
+
+
+
+
+
+
+
+//
+//
+//vector<vector<bool>> vis;
+//char* m;
+//int n;
+//bool dfs(int pos, int x, int y, int rows, int cols, char* str)
+//{
+//	int dx[] = { 0,1,0,-1 };
+//	int dy[] = { 1,0,-1,0 };
+//	if (pos == n)
+//		return true;
+//	for (int i = 0; i < 4; i++)
+//	{
+//		int xx = dx[i] + x;
+//		int yy = dy[i] + y;
+//		if (xx < 0 || xx >= rows || yy < 0 || yy >= cols)
+//			continue;
+//		if (m[xx*cols + yy] != str[pos])
+//			continue;
+//		if (vis[xx][yy] == true)
+//			continue;
+//		vis[xx][yy] = true;
+//		if (dfs(pos + 1, xx, yy, rows, cols, str))
+//			return true;
+//		vis[xx][yy] = false;
+//	}
+//	return false;
+//}
+//bool hasPath(char* matrix, int rows, int cols, char* str)
+//{
+//	if (rows < 0 || cols < 0 || str == NULL)
+//		return false;
+//	vis.assign(rows, vector<bool>(cols, false));
+//	m = matrix;
+//	n = strlen(str);
+//	for (int i = 0; i < rows; i++)
+//	{
+//		for (int j = 0; j < cols; j++)
+//		{
+//			if (matrix[i*cols + j] != str[0])
+//				continue;
+//			if(matrix[i*cols + j] == str[0])
+//			{
+//				vis[i][j] = true;
+//				if (dfs(1, i, j, rows, cols, str))
+//					return true;
+//				vis[i][j] = false;
+//			}
+//		}
+//	}
+//	return false;
+//}
+//void main()
+//{
+//	char* matrix = "ABCESFCSADEE";
+//	char* str = "ABCCED";
+//	cout << hasPath(matrix, 3, 4, str)<<endl;
+//}
+//vector<vector<int>> vis;
+//int m, n;
+//vector<int> dx = { 0,1,0,-1 };
+//vector<int> dy = { 1,0,-1,0 };
+//bool dfs(int pos, int i, int j, vector<vector<char>>&  board, string word)
+//{
+//	if (pos == word.size())
+//		return true;
+//	for (int d = 0; d < 4; d++)
+//	{
+//		int ii = i + dx[d];
+//		int jj = j + dy[d];
+//		if (ii < 0 || ii >= m || jj < 0 || jj >= n)
+//			continue;
+//		if (vis[ii][jj] == 1 || board[ii][jj] != word[pos])
+//			continue;
+//		//if(board[ii][jj]==word[pos])
+//	   // {
+//		vis[ii][jj] = 1;
+//		if (dfs(pos + 1, ii, jj, board, word))
+//			return true;
+//		vis[ii][jj] = 0;
+//		// }
+//	}
+//	return false;
+//}
+//bool exist(vector<vector<char>>& board, string word) {
+//	if (board.size() == 0 || board[0].size() == 0)
+//		return false;
+//	m = board.size();
+//	n = board[0].size();
+//	vis.assign(m, vector<int>(n, 0));
+//	for (int i = 0; i < m; i++)
+//	{
+//		for (int j = 0; j < n; j++)
+//		{
+//
+//			if (board[i][j] != word[0])
+//				continue;
+//			if (board[i][j] == word[0])
+//			{
+//				vis[i][j] = 1;
+//				if (dfs(1, i, j, board, word)) {
+//					return true;
+//				}
+//				vis[i][j] = 0;
+//			}
+//		}
+//	}
+//	return false;
+//}
+//
+//void main()
+//{
+//	char* matrix = "ABCESFCSADEE";
+//	vector<vector<char>> board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'} };
+//	string str = "ABCCED";
+//	cout << exist(board, str)<<endl;
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+//void main()
+//{
+//	char* s = "123345";
+//	cout << s[3] << endl;
+//}
+
+
+
+
+//vector<vector<bool>> vis;
+//int movingCount(int m, int n, int k) {
+//	// vis.assign(m,vector<bool>(n,false));
+//	vector<vector<bool>> vis(m, vector<bool>(n, false));
+//	int ans = 0;
+//	int dx[] = { 0,1,0,-1 };
+//	int dy[] = { 1,0,-1,0 };
+//	queue<pair<int, int>> que;
+//	que.push(make_pair(0, 0));
+//	ans++;
+//	vis[0][0] = true;
+//	while (!que.empty())
+//	{
+//		auto x = que.front().first;
+//		auto y = que.front().second;
+//		que.pop();
+//		for (int i = 0; i < 4; i++)
+//		{
+//			x = x + dx[i];
+//			y = y + dy[i];
+//			if (x >= m || x < 0 || y >= n || y<0 || vis[x][y] == true || x + y>k)
+//				continue;
+//			que.push(make_pair(x, y));
+//			vis[x][y] = true;
+//			ans++;
+//		}
+//	}
+//	return ans;
+//}
+//
+//void main()
+//{
+//	cout << movingCount(11, 8, 16) << endl;
+//}
+
+
+
+
+
+
 //
 //int integerBreak2(int n) {
 //	//解法2 带备忘录的递归
@@ -24,45 +232,45 @@ using namespace std;
 //	memo[n] = res;
 //	return res;
 //}
-int integerBreak(int n) {
-	/*
-	贪心  a*3+b=n
-	https://leetcode-cn.com/problems/integer-break/solution/343-zheng-shu-chai-fen-tan-xin-by-jyd/
-	*/
-	int b = n % 3;
-	if (b == 0)
-	{
-		int a = n / 3;
-		return pow(3, a);
-	}
-	if (b == 1)
-	{
-		int a = n / 3;
-		return pow(3, a - 1) * 4;
-	}
-	if (b == 2)
-	{
-		int a = n / 3;
-		return pow(3, a) * 2;
-	}
-}
-void main()
-{
-	cout << integerBreak(10) << endl;
-	vector<vector<bool>> vis;
-	int m = 4, n = 5;
-	vis.assign(m, vector<bool>(n, true));
-	cout << vis[3][4] << endl;
-}
-
-
-
-////-2147483648到2147483647.
-//int StrToInt(string str) {
-//	if (str == "")
-//		return 0;
-//	long ret = 0;
-//	int  bndry = INT_MAX / 10;
+//int integerBreak(int n) {
+//	/*
+//	贪心  a*3+b=n
+//	https://leetcode-cn.com/problems/integer-break/solution/343-zheng-shu-chai-fen-tan-xin-by-jyd/
+//	*/
+//	int b = n % 3;
+//	if (b == 0)
+//	{
+//		int a = n / 3;
+//		return pow(3, a);
+//	}
+//	if (b == 1)
+//	{
+//		int a = n / 3;
+//		return pow(3, a - 1) * 4;
+//	}
+//	if (b == 2)
+//	{
+//		int a = n / 3;
+//		return pow(3, a) * 2;
+//	}
+//}
+//void main()
+//{
+//	cout << integerBreak(10) << endl;
+//	vector<vector<bool>> vis;
+//	int m = 4, n = 5;
+//	vis.assign(m, vector<bool>(n, true));
+//	cout << vis[3][4] << endl;
+//}
+//
+//
+//
+//////-2147483648到2147483647.
+////int StrToInt(string str) {
+////	if (str == "")
+////		return 0;
+////	long ret = 0;
+////	int  bndry = INT_MAX / 10;
 //	int flag = 0;
 //	if (str[0] == '-')
 //		flag = 1;
