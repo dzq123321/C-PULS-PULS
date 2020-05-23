@@ -10,29 +10,68 @@
 #include<algorithm>
 #include<queue>
 #include<unordered_map>
+#include<functional>
 using namespace std;
-
-
-bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-	/*
-	先记录以某个节点i为直接前驱的出度表，用map记录
-	*/
-	unordered_map<int, vector<int>> map;
-	vector<int> degree(numCourses, 0);//每个课程的入度是多少
-	for (vector<int> prerequisite : prerequisites)
-	{
-		map[prerequisite[1]].push_back(prerequisite[0]);
-		degree[prerequisite[0]]++;
-	}
-	return true;
-}
 void main()
 {
-	vector<vector<int>> v = { {0,1,2},{3,5,4},{3,1,0} };
-	bool b=canFinish(6, v);
+	vector<int> num = { 2,3,4,2,6,2,5,1 };
+	priority_queue<int, vector<int>, greater<int>> pq(num.begin(), num.end());
+	pq.push(10);
+	cout << pq.top()<<endl;
+	cout << pq.size() << endl;
+	pq.pop();
+	cout << pq.top() << endl;
+	cout << pq.size() << endl;
+
 }
 
+//vector<int> maxInWindows(const vector<int>& num, unsigned int size)
+//{
+//	if (num.size() == 0)
+//		return {};
+//	vector<int> ret;
+//	for (int i = 0; i + size-1 < num.size(); i++)
+//	{
+//		int Max = -1;
+//		for (int j = i; j < size+i; j++)
+//		{
+//			Max = max(num[j], Max);
+//		}
+//		ret.push_back(Max);
+//	}
+//	return ret;
+//}
+//
+//void  main()
+//{
+//	vector<int> num = { 2,3,4,2,6,2,5,1 };
+//	vector<int> res = maxInWindows(num, 3);
+//	for (auto e : res)
+//		cout << e << " ";
+//	cout << endl;
+//}
 
+
+//bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+//	/*
+//	先记录以某个节点i为直接前驱的出度表，用map记录
+//	*/
+//	unordered_map<int, vector<int>> map;
+//	vector<int> degree(numCourses, 0);//每个课程的入度是多少
+//	for (vector<int> prerequisite : prerequisites)
+//	{
+//		map[prerequisite[1]].push_back(prerequisite[0]);
+//		degree[prerequisite[0]]++;
+//	}
+//	return true;
+//}
+//void main()
+//{
+//	vector<vector<int>> v = { {0,1,2},{3,5,4},{3,1,0} };
+//	bool b=canFinish(6, v);
+//}
+//
+//
 
 
 

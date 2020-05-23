@@ -642,6 +642,10 @@ public://bfs
 
 给定课程总量以及它们的先决条件，请你判断是否可能完成所有课程的学习。
 
+给的数据是这样的
+
+![图课程表](E:\duzhiqiang\比特51c语言\github\picture\图课程表.jpg)
+
 ```c++
 class Solution {
 public:

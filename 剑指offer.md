@@ -1521,7 +1521,7 @@ public:
 
 第二种方法，bfs
 
-```
+```c++
 class Solution {
 public:
   int getnum(int x)
