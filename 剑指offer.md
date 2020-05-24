@@ -1,4 +1,6 @@
-1、二维数组中的查找 
+[TOC]
+
+#1、二维数组中的查找 
 
 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。 
 
@@ -29,7 +31,9 @@ public:
 };
 ```
 
-#### 2、 请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。 
+# 2、 字符串替换 
+
+请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
 
 <https://www.nowcoder.com/practice/4060ac7e3e404ad1a894ef3e17650423?tpId=13&tqId=11155&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking> 
 
@@ -61,7 +65,7 @@ public:
 };
 ```
 
-#### 3、从尾到头打印链表 
+# 3、从尾到头打印链表 
 
 输入一个链表，按链表从尾到头的顺序返回一个ArrayList。 
 
@@ -111,7 +115,7 @@ public:
 };
 ```
 
-#### 重建二叉树 
+# 重建二叉树 
 
 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。 
 
@@ -147,7 +151,7 @@ public:
 };
 ```
 
-#### 变态跳台阶 
+# 变态跳台阶 
 
 <https://www.nowcoder.com/practice/22243d016f6b47f2a6928b4313c85387?tpId=13&tqId=11162&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking> 
 
@@ -193,7 +197,7 @@ public:
 
 ```
 
-## 数值的整数次方 
+# 数值的整数次方 
 
 给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。
 
@@ -236,7 +240,7 @@ public:
 };
 ```
 
-## 调整数组顺序使奇数位于偶数前面 
+# 调整数组顺序使奇数位于偶数前面 
 
 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
 
@@ -261,7 +265,7 @@ public:
 };
 ```
 
-## 合并两个排序的链表 
+# 合并两个排序的链表 
 
 输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则
 
@@ -311,7 +315,7 @@ public:
 };
 ```
 
-## 树的子结构 
+# 树的子结构 
 
 输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
 
@@ -362,7 +366,7 @@ public:
 };
 ```
 
-#### 二叉树的镜像 
+# 二叉树的镜像 
 
 <https://www.nowcoder.com/practice/564f4c26aa584921bc75623e48ca3011?tpId=13&tqId=11171&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking> 
 
@@ -412,7 +416,9 @@ public:
 };
 ```
 
-#### 顺时针打印矩阵 https://www.nowcoder.com/practice/9b4c81a02cd34f76be2659fa0d54342a
+# 顺时针打印矩阵
+
+ https://www.nowcoder.com/practice/9b4c81a02cd34f76be2659fa0d54342a
 
 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10. 
 
@@ -498,7 +504,7 @@ public:
 
 ```
 
-#### 包含min函数的栈 
+# 包含min函数的栈 
 
 定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
 
@@ -542,7 +548,7 @@ public:
 };
 ```
 
-#### 二叉搜索树的后序遍历序列
+# 二叉搜索树的后序遍历序列
 
 输入一个非空整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
 
@@ -582,9 +588,7 @@ public:
 };
 ```
 
-#### 复杂链表的复制 
-
-## 题目描述
+# 复杂链表的复制 
 
 输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针random指向一个随机节点），请对此链表进行深拷贝，并返回拷贝后的头结点。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空
 
@@ -627,7 +631,7 @@ public:
 };
 ```
 
-#### [面试题36. 二叉搜索树与双向链表  LCOF](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
+# [面试题36. 二叉搜索树与双向链表  LCOF](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
 
 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的循环双向链表。要求不能创建任何新的节点，只能调整树中节点指针的指向。
 
@@ -683,7 +687,7 @@ public:
 	}
 };
 ```
-## 平衡二叉树 
+# 平衡二叉树 
 
 输入一棵二叉树，判断该二叉树是否是平衡二叉树。
 
@@ -710,11 +714,9 @@ public:
 
 
 
-## 题目描述 字符串的排列 
+# 题目描述 字符串的排列 
 
 输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。
-
-## 输入描述:
 
 ```c++
 输入一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。
@@ -752,7 +754,7 @@ public:
     }
 };
 ```
-## 题目描述 把数组排成最小的数 
+#  把数组排成最小的数 
 
 输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
 
@@ -780,7 +782,7 @@ public:
 };
 ```
 
-#### [263. 丑数](https://leetcode-cn.com/problems/ugly-number/)
+# [263. 丑数](https://leetcode-cn.com/problems/ugly-number/)
 
 编写一个程序判断给定的数是否为丑数。
 
@@ -806,7 +808,7 @@ public:
 };
 ```
 
-## 题目描述 第一个只出现一次的字符 
+# 第一个只出现一次的字符 
 
 在一个字符串(0<=字符串长度<=10000，全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置, 如果没有则返回 -1（需要区分大小写）.（从0开始计数）
 
@@ -829,7 +831,7 @@ public:
 };
 ```
 
-#### [数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
+# [数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
 
 在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。
 
@@ -855,7 +857,7 @@ public:
 
  归并排序，在归并的时候进行查找，分为两部分数组，只要插入后面那部分的数组数组，说明该元素都大于前面那部分数组的所以元素，则这一阶段的逆序对为前面数组的大小 mid-i+1
 
-#### [面试题51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
+# [面试题51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
 
 在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。 
 
@@ -922,7 +924,7 @@ int merge(vector<int> &num, int left, int mid, int right) {
 }; 
 ```
 
-## 数字在排序数组中出现的次数
+# 数字在排序数组中出现的次数
 
 统计一个数字在排序数组中出现的次数。
 
@@ -992,7 +994,7 @@ int binarySearch(int[] nums, int target) {
 }
 ```
 
-## 数组中只出现一次的数字 
+# 数组中只出现一次的数字 
 
 一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。
 
@@ -1044,7 +1046,7 @@ public:
 };
 ```
 
-#### [面试题57 - II. 和为s的连续正数序列](https://leetcode-cn.com/problems/he-wei-sde-lian-xu-zheng-shu-xu-lie-lcof/)
+# [面试题57 - II. 和为s的连续正数序列](https://leetcode-cn.com/problems/he-wei-sde-lian-xu-zheng-shu-xu-lie-lcof/)
 
 输入一个正整数 `target` ，输出所有和为 `target` 的连续正整数序列（至少含有两个数）。
 
@@ -1089,7 +1091,7 @@ public:
 };
 ```
 
-## 和为S的两个数字 
+# 和为S的两个数字 
 
 输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。
 
@@ -1135,7 +1137,7 @@ public:
 };
 ```
 
-## 左旋转字符串 
+# 左旋转字符串 
 
 汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！
 
@@ -1171,7 +1173,7 @@ public:
     }
 ```
 
-## 翻转单词顺序列 
+# 翻转单词顺序列 
 
 牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
 
@@ -1201,7 +1203,7 @@ public:
 };
 ```
 
-#### [面试题61. 扑克牌中的顺子](https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/)
+# [面试题61. 扑克牌中的顺子](https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/)
 
 有2个大王,2个小王(一副牌原本是54张^_^). 从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为 0 ，可以看成任意数字。A 不能视为 14。如果牌能组成顺子就输出true，否则就输出false 
 
@@ -1240,7 +1242,7 @@ public:
 };
 ```
 
-## 约瑟夫问题
+# 约瑟夫问题
 
 #### [面试题62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
 
@@ -1317,7 +1319,7 @@ public:
 };
 ```
 
-## 求1+2+3+...+n 
+# 求1+2+3+...+n 
 
 求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。
 
@@ -1359,7 +1361,7 @@ public:
 };
 ```
 
-## 不用加减乘除做加法 
+# 不用加减乘除做加法 
 
 写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号。
 
@@ -1412,7 +1414,7 @@ public:
 
 ```
 
-#### [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+# [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
 
 给定一个整数数组 `nums` 和一个目标值 `target`，请你在该数组中找出和为目标值的那 **两个** 整数，并返回他们的数组下标。
 
@@ -1444,7 +1446,7 @@ public:
 
 ```
 
-## 题目描述 构建乘积数组 
+# 题目描述 构建乘积数组 
 
 <https://www.nowcoder.com/practice/94a4d381a68b47b7a8bed86f2975db46?tpId=13&tqId=11204&rp=3&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking> 
 
@@ -1476,175 +1478,99 @@ public:
 };
 ```
 
-##[面试题13. 机器人的运动范围](https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/)
+# 题目描述 数据流中的中位数 
 
- 地上有一个m行n列的方格，从坐标 `[0,0]` 到坐标 `[m-1,n-1]` 。一个机器人从坐标 `[0, 0] `的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？ 
+如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。
 
-思路：很明显，搜索问题，dfs或bfs,多种方法，dfs其实就是一直向下递归， （i，j）这个位置可以从 
-
-`dfs(i-1,j)+dfs(i,j-1)+dfs(i+1,j)+dfs(i,j+1)`转移过来，最后 return的是
-
-​          `return 1+dfs(i-1,j,m,n,k)+dfs(i,j-1,m,n,k)+dfs(i+1,j,m,n,k)+dfs(i,j+1,m,n,k); `结果是要+1，因为要加上当前i,j的位置
-
-算法还可以进行优化，只需要向有或者向下搜索即可。
+暴力方法：尾插之后，在从新排序
 
 ```c++
 class Solution {
 public:
-  //1+dfs(i-1,j)+dfs(i,j-1)+dfs(i+1,j)+dfs(i,j+1)
-  vector<vector<bool>> vis;
-  int countnum(int n)
-  {
-      int ret=0;
-      while(n>0)
-      {
-          ret+=n%10;
-          n/=10;
-      }
-      return ret;
-  }
-   int dfs(int i,int j,int m,int n,int k)
-   {
-         if(i<0||i>=m||j<0||j>=n||(countnum(i)+countnum(j)>k)||vis[i][j]==true)
-          return 0;
-          vis[i][j]=true;
-          //return 1+dfs(i-1,j,m,n,k)+dfs(i,j-1,m,n,k)+dfs(i+1,j,m,n,k)+dfs(i,j+1,m,n,k);
-       //也可以
-          return 1+dfs(i+1,j,m,n,k)+dfs(i,j+1,m,n,k);
-   }
-    int movingCount(int m, int n, int k) {
-        vis.assign(m,vector<bool>(n,false));
-        return dfs(0,0,m,n,k);
+    void Insert(int num)
+    {
+        v.push_back(num);
     }
+
+    double GetMedian()
+    { 
+       double res;
+        sort(v.begin(),v.end());
+        if((size&1)==0)//判断是否为偶数
+            return (v[(size/2)-1]+v[size/2])/2;
+        else
+            return v[size/2];
+    }
+private:
+    vector<double> v;
 };
 ```
 
-第二种方法，bfs
+快排：时间复杂度：O(n) + O(log n) ≈O(n). 
 
 ```c++
 class Solution {
 public:
-  int getnum(int x)
-  {
-      int sum=0;
-      while(x)
-      {
-          sum+=x%10;
-          x/=10;
-      }
-      return sum;
-  }
-  vector<vector<bool>> vis;
-    int movingCount(int m, int n, int k) {
-       // vis.assign(m,vector<bool>(n,false));
-       vector<vector<bool>> vis(m,vector<bool>(n,false));
-        int ans=0;
-        int dx[]={0,1,0,-1};
-        int dy[]={1,0,-1,0};
-        queue<pair<int,int>> que;
-        que.push(make_pair(0,0));
-        ans++;
-        vis[0][0]=true;
-        while(!que.empty())
-        {
-            auto [x,y]=que.front();
-            que.pop();
-            for(int i=0;i<4;i++)
-            {
-                x=x+dx[i];
-                y=y+dy[i];
-                if(x>=m||x<0||y>=n||y<0||vis[x][y]==true||(getnum(x)+getnum(y))>k)
-                continue;
-                que.push(make_pair(x,y));
-                vis[x][y]=true;
-                ans++;
-            }
+    void Insert(int num)
+    {
+        if(v.empty())
+        v.push_back(num);
+        else
+        {//快排   lower_bound函数，在数组v中找到第一个大于num的位置(相反是upper_bound)
+            auto i=lower_bound(v.begin(),v.end(),num);
+             v.insert(i,num);
         }
-        return ans;
     }
+
+    double GetMedian()
+    { 
+        int size=v.size();
+        if((size&1)==0)//判断是否为偶数
+            return (v[(size/2)-1]+v[size/2])/2;
+        else
+            return v[size/2];
+    }
+private:
+    vector<double> v;
 };
 ```
 
+利用两个堆来维护，一个大根堆，一个小根堆，容易想到是保持两个堆的元素的个数为  大根堆=n/2 或者n/2+1（偶数或奇数）并且大根堆的所有元素都小于小根堆的所有元素。这样我们在求中位数时候，只需取大根堆的堆顶元素（当数组元素个数为奇数）或 大根堆的堆顶元素和 大根堆的堆顶元素的平均值。
 
+所以重点是维护好这两个堆，利用priority_queue,在插入元素的时候，先插入到大根堆，如果大根堆的元素个数大于小根堆，则将大根堆的堆顶元素push到小根堆（这样只匹配了数目，还没有匹配大小），当然还需要循环判断（大根堆的根是否小于小根堆的根）
 
-#### [343. 整数拆分](https://leetcode-cn.com/problems/integer-break/)   (拆线头 动态规划)
-
-给定一个正整数 *n*，将其拆分为**至少**两个正整数的和，并使这些整数的乘积最大化。 返回你可以获得的最大乘积。 
-
-```
-class Solution {
+```c++
+class MedianFinder {
 public:
-/*   f(n)=max(1*f(n-1),2*f(n-2),...)
-   res=max(res,i*integerBreak(n-i))
-   dp[i]=max(dp[i],1*dp[i-1],2*dp[i-2],...j*dp[i-j]...)
-   需要注意：integerBreak(n - i)不一定比(n-i)大，所以需要去其中最大值 
-   比如3  不用拆  如果拆了话，1*2  1*1*1 都没有3大
-*/
-/*
-    int integerBreak(int n) {
-     //解法1 递归
-         if(n==2)
-         return 1;
-      int res=-1;
-      for(int i=1;i<n;i++)
-      {
-      	res = max(res, max(i * (n - i), i * integerBreak(n - i)));
-      }
-      return res;
-    }
-    */
-    /*
-     int integerBreak(int n) {
-     //解法2 带备忘录的递归
-         if(n==2)
-         return 1;
-         vector<int> memo(n+1,0);
-       int res=-1;
-       if(memo[n]!=0)
-       return memo[n];
-       for(int i=1;i<n;i++)
-       {
-       	res = max(res, max(i * (n - i), i * integerBreak(n - i)));
-       }
-       memo[n]=res;
-       return res;
-    }
-    */
-/*
-     int integerBreak(int n) {
-     //解法3 动态规划 dp[i]=max(dp[i],max(j*(i-j),j*dp[i-j]))
-         if(n==2)
-         return 1;
-         vector<int> dp(n+1,0);
-         dp[2]=1;
-         for(int i=3;i<=n;i++)
+    void addNum(int num) {
+         maxheap.push(num);
+         if(maxheap.size()-minheap.size()>1)
          {
-             for(int j=1;j<i;j++)
-             {
-                 dp[i]=max(dp[i],max(j*(i-j),j*dp[i-j]));
-             }
+             minheap.push(maxheap.top());
+             maxheap.pop();
          }
-         return dp[n];
+         //如果大根堆的最大值比小根堆的最小值大，则交换 
+        /*
+        如果没有下面判断  输入元素为1，2，3   大根堆为 3 1  小根堆为2  这样就不能返回正确的元素
+        这是因为是大根堆先插入两个元素才在较较大值插入到minheap中，如果偶数的话就不存在问题，但如果是奇数，则maxheap比minheap多插入一次，不能确定这最后的元素是否大于minheap的top（），所以还需要一次比较
+        */
+         if((minheap.size()>0)&&maxheap.top()>minheap.top())
+         {
+             int min=minheap.top();minheap.pop();
+              int max=maxheap.top(); maxheap.pop();
+              minheap.push(max);
+              maxheap.push(min);
+         }
     }
-    */
-     int integerBreak(int n) {
-          if (n == 2) return 1;
-          if (n == 3) return 2;//这里3必须进行划分，不然b=0,返回的是3^1=3，这个结果时没有进行划分
-         int b=n%3;
-         if(b==0)
-            {
-                int a=n/3;
-                return pow(3,a);
-            }
-         if(b==1)
-            {
-                int a=n/3;
-                return pow(3,a-1)*4;
-            }
-         int a=n/3;
-                return pow(3,a)*2;
-     
-     }
-};
-```
+    double findMedian() {
+           if((maxheap.size()+minheap.size())%2==1)
+              return (double)maxheap.top();
+            return (maxheap.top()+minheap.top())*0.5;
+    }
+private:
+      priority_queue<int>  maxheap;
+      priority_queue<int,vector<int>,greater<int>>  minheap;
 
+};
+
+```

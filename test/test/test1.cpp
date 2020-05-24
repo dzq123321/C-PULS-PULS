@@ -12,18 +12,81 @@
 #include<unordered_map>
 #include<functional>
 using namespace std;
-void main()
-{
-	vector<int> num = { 2,3,4,2,6,2,5,1 };
-	priority_queue<int, vector<int>, greater<int>> pq(num.begin(), num.end());
-	pq.push(10);
-	cout << pq.top()<<endl;
-	cout << pq.size() << endl;
-	pq.pop();
-	cout << pq.top() << endl;
-	cout << pq.size() << endl;
 
-}
+
+
+
+class MonotonicQueue
+{
+public:
+	void push(int x)
+	{
+		//保持单调性，删除比新元素x小的所有元素
+		while (!dq.empty() && x > dq.back())
+			dq.pop_back();
+		dq.push_back(x);
+	}
+	int getmax()
+	{
+		return dq.front();
+	}
+	void pop()
+	{
+		dq.pop_front();
+	}
+private:
+	deque<int> dq;
+};
+class Solution {
+public:
+	//单调队列优化
+	static vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+		if (nums.size() == 0)
+			return {};
+		MonotonicQueue mq;
+		vector<int> ans;
+		for (int i = 0; i < nums.size() - k + 1; i++)
+		{
+			mq.push(nums[i]);
+			if (i - k + 1 >= 0)
+			{
+				ans.push_back(mq.getmax());
+				if (mq.getmax() == nums[i - k + 1])
+					mq.pop();
+			}
+		}
+		return ans;
+	}
+};
+	void main()
+	{
+		vector<int> v = { 1,3,-1,-3,5,3,6,7 };
+		vector<int> v2= Solution::maxSlidingWindow(v, 3);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+//void main()
+//{
+//	vector<int> num = { 2,3,4,2,6,2,5,1 };
+//	priority_queue<int, vector<int>, greater<int>> pq(num.begin(), num.end());
+//	pq.push(10);
+//	cout << pq.top()<<endl;
+//	cout << pq.size() << endl;
+//	pq.pop();
+//	cout << pq.top() << endl;
+//	cout << pq.size() << endl;
+//
+//}
 
 //vector<int> maxInWindows(const vector<int>& num, unsigned int size)
 //{
