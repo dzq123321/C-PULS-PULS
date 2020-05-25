@@ -754,6 +754,185 @@ public:
     }
 };
 ```
+# 二叉搜索树的第k个结点 
+
+给定一棵二叉搜索树，请找出其中的第k小的结点。例如， （5，3，7，2，4，6，8）    中，按结点数值大小顺序第三小结点的值为4。 <https://www.nowcoder.com/practice/ef068f602dde4d28aab2b210e859150a?tpId=13&tqId=11215&tPage=4&rp=4&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking> 
+
+思路：二叉树的中序遍历，注意判断临界条件
+
+```
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    vector<TreeNode*> ans;
+    void Inorder(TreeNode* pRoot)
+    {
+        if(pRoot!=NULL){
+            Inorder(pRoot->left);
+           ans.push_back(pRoot);
+            Inorder(pRoot->right);
+        }
+        
+    }
+    TreeNode* KthNode(TreeNode* pRoot, int k)
+    {
+        //中序遍历
+        if(pRoot==NULL)
+            return NULL;
+        Inorder( pRoot);
+        if(ans.size()>=k&&k>=1)
+            return ans[k-1];
+        else
+            return NULL;
+    }
+    
+};
+```
+
+# 对称的二叉树 
+
+请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
+
+```c++
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+/*方法1，我开始想的是产生一个镜像的树，然后递归的判断这两个数是否相等，
+麻烦，我们只需传进去两个一样的树，判断左子树是否等于右子树
+如果一个二叉树是对称的，则假设有两个这样的树，1树的左节点等于2树的右节点
+   1树的右节点等于2树的左节点*/
+class Solution {
+public:
+    bool  equal(TreeNode*pRoot,TreeNode*MpRoot){
+       if(pRoot==NULL&&MpRoot==NULL)
+          return true;
+        if(pRoot==NULL||MpRoot==NULL)
+          return false;
+        return (pRoot->val==MpRoot->val)&&(equal(pRoot->left,MpRoot->right))
+            &&(equal(pRoot->right,MpRoot->left));
+    }
+    bool isSymmetrical(TreeNode* pRoot)
+    {
+        return equal(pRoot,pRoot);
+    }
+
+};
+```
+
+bfs
+
+```c++
+/*方法2:bfs，在队列中插入类似于两个树的元素，注意插入顺序，
+和平常的bfs相比，插入四次，删除两次
+q.push(tmp1->left);
+            q.push(tmp2->right);
+		    q.push(tmp1->right);
+            q.push(tmp2->left);
+            可以想像为由两个队列，一个插入的原来的树的元素，一个刚好相反。
+      */
+class Solution {
+public:
+        bool isSymmetrical(TreeNode* pRoot)
+	{
+		if (!pRoot)
+			return true;
+		queue<TreeNode* > q;
+		q.push(pRoot->left);
+        q.push(pRoot->right);
+		while (!q.empty())
+		{
+		    TreeNode* tmp1 = q.front();
+			q.pop();
+            TreeNode* tmp2 = q.front();
+			q.pop();
+			if (tmp1==NULL&&tmp2==NULL) continue;
+            if (tmp1==NULL||tmp2==NULL) return false;
+            if(tmp1->val!=tmp2->val)
+                return false;
+			q.push(tmp1->left);
+            q.push(tmp2->right);
+		    q.push(tmp1->right);
+            q.push(tmp2->left);
+		}
+      return true;
+    }
+
+};
+```
+
+# 二叉树的下一个结点 
+
+给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+
+```c++
+/*
+struct TreeLinkNode {
+    int val;
+    struct TreeLinkNode *left;
+    struct TreeLinkNode *right;
+    struct TreeLinkNode *next;
+    TreeLinkNode(int x) :val(x), left(NULL), right(NULL), next(NULL) {
+        
+    }
+};
+*/
+class Solution {
+public:
+    /*
+    1、有右子树，下一结点是右子树中的最左结点，例如 B，下一结点是 H
+    2、无右子树，且结点是该结点父结点的左子树，则下一结点是该结点的父结点，例如 H，下一结点是 E
+    3、无右子树，且结点是该结点父结点的右子树，则我们一直沿着父结点追朔，直到找到某个结点是其父
+    结点的左子树，如果存在这样的结点，那么这个结点的父结点就是我们要找的下一结点。例如 I，下
+    一结点是 A；例如 G，并没有符合情况的结点，所以 G 没有下一结点
+    */
+    TreeLinkNode* GetNext(TreeLinkNode* pNode)
+    {
+        //存在右数，找到右子树中最左的节点
+        if(pNode->right!=NULL)
+        {
+            TreeLinkNode* tmp=pNode->right;
+            while(tmp->left!=NULL)
+            {
+                tmp=tmp->left;
+            }
+            return tmp;
+        }
+        //不存在右树，是其父节点的左子树，则返回父节点
+        if(pNode->next!=NULL&&pNode->next->left==pNode)
+            return pNode->next;
+        //不存在右树，是其父节点的右子树，则向上回溯，直到某个父节点是其父节点的父节点的左树
+        if(pNode->next!=NULL&&pNode->next->right==pNode)
+        {
+            TreeLinkNode* tmp=pNode->next;
+            while(tmp->next!=NULL&&tmp->next->right==tmp)
+            {
+                tmp=tmp->next;
+            }
+            return tmp->next;
+        }
+        return NULL;
+    }
+};
+```
+
+
+
 #  把数组排成最小的数 
 
 输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
@@ -856,6 +1035,67 @@ public:
 ```
 
  归并排序，在归并的时候进行查找，分为两部分数组，只要插入后面那部分的数组数组，说明该元素都大于前面那部分数组的所以元素，则这一阶段的逆序对为前面数组的大小 mid-i+1
+
+# [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
+
+​	在未排序的数组中找到第 **k** 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。 
+
+```c++
+class Solution {
+public:
+void quick_sort(vector<int>& nums, int left, int right,int k)
+{
+    //从大到小排列
+    if(left>=right)
+    return;
+    int i=left,j=right;
+    while(i<j)
+    {
+        //从right向左找出大于nums[left]
+        while(i<j&&nums[j]<nums[left])
+        {
+            j--;
+        }
+         //从left向右找出小于nums[left]
+        while(i<j&&nums[i]>=nums[left])
+        {
+            i++;
+        }
+        if(i<j)
+        swap(nums[i],nums[j]);
+    }
+        swap(nums[left], nums[i]);
+	if (i - left + 1 == k)
+		return;
+	if (i - left + 1 > k)
+		quick_sort(nums, left, i - 1, k);
+	else
+		quick_sort(nums, i + 1, right, k - (i-left)-1);
+}
+    int findKthLargest(vector<int>& nums, int k) {
+       //使用快排
+       quick_sort(nums,0,nums.size()-1,k);
+       return nums[k-1];
+        /*
+      priority_queue<int> pq;
+      for(auto e:nums)
+      pq.push(e);
+      for(int i=0;i<k-1;i++)
+      {
+          pq.pop();
+      }
+      return pq.top();
+    }
+    */
+    /*
+     sort(nums.begin(), nums.end(), greater<int>());
+     return nums[k-1];
+     */
+    }
+};
+```
+
+
 
 # [面试题51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
 

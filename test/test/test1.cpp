@@ -11,58 +11,197 @@
 #include<queue>
 #include<unordered_map>
 #include<functional>
+#include<set>
 using namespace std;
 
 
 
 
-class MonotonicQueue
+void main()
 {
-public:
-	void push(int x)
-	{
-		//保持单调性，删除比新元素x小的所有元素
-		while (!dq.empty() && x > dq.back())
-			dq.pop_back();
-		dq.push_back(x);
-	}
-	int getmax()
-	{
-		return dq.front();
-	}
-	void pop()
-	{
-		dq.pop_front();
-	}
-private:
-	deque<int> dq;
-};
-class Solution {
-public:
-	//单调队列优化
-	static vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-		if (nums.size() == 0)
-			return {};
-		MonotonicQueue mq;
-		vector<int> ans;
-		for (int i = 0; i < nums.size() - k + 1; i++)
-		{
-			mq.push(nums[i]);
-			if (i - k + 1 >= 0)
-			{
-				ans.push_back(mq.getmax());
-				if (mq.getmax() == nums[i - k + 1])
-					mq.pop();
-			}
-		}
-		return ans;
-	}
-};
-	void main()
-	{
-		vector<int> v = { 1,3,-1,-3,5,3,6,7 };
-		vector<int> v2= Solution::maxSlidingWindow(v, 3);
-	}
+	char *s = "123";
+	cout << s << endl;
+	s += '4';
+	cout << s << endl;
+}
+
+
+
+
+
+//struct TreeNode {
+//	int val;
+//	struct TreeNode *left;
+//	struct TreeNode *right;
+//	TreeNode(int x) :
+//		val(x), left(NULL), right(NULL) {
+//	}
+//};	
+//vector<TreeNode*> ans;
+//void Inorder(TreeNode* pRoot)
+//{
+//	if (pRoot == NULL)
+//		return;
+//	Inorder(pRoot->left);
+//	ans.push_back(pRoot);
+//	Inorder(pRoot->right);
+//}
+//TreeNode* KthNode(TreeNode* pRoot, int k)
+//{
+//	//中序遍历
+//	Inorder(pRoot);
+//	if (ans.size() >= k)
+//		return ans[k - 1];
+//	else
+//		return NULL;
+//}
+//void main()
+//{
+//
+//}
+
+
+//
+//class MedianFinder {
+//public:
+//	/** initialize your data structure here. */
+//	MedianFinder() :left(mset.end()), right(mset.end())
+//	{
+//	}
+//
+//	void addNum(int num) {
+//		int oldsize = mset.size();
+//		mset.insert(num);
+//		if (mset.size() == 1)
+//		{
+//			left = right = mset.begin();
+//		}
+//
+//		//之前是奇数(odd)个元素，left=right 现在是偶数even个 left+1=right
+//		if (oldsize & 1)
+//		{
+//			if (num < *left)
+//				left--;
+//			else
+//				right++;
+//		}
+//		//之前是偶数(even)个元素，left+1=right 现在是奇数odd个 left=right
+//		else {
+//			if (num < *left)
+//				left = --right;
+//			else if (*left < num&&num < *right)
+//			{
+//				left++;
+//				right--;
+//			}
+//			else
+//				left++;
+//		}
+//	}
+//
+//	double findMedian() {
+//		return (*left + *right)*0.5;
+//	}
+//private:
+//	multiset<int> mset;
+//	multiset<int>::iterator left;
+//	multiset<int>::iterator right;
+//};
+//void main()
+//{
+//	MedianFinder::findMedian
+//}
+
+
+
+
+
+
+
+//class MedianFinder {
+//public:
+//	/** initialize your data structure here. */
+//	MedianFinder() {
+//
+//	}
+//
+//	void addNum(int num) {
+//		maxheap.push(num);
+//		if (maxheap.size() - minheap.size() > 1)
+//		{
+//			minheap.push(maxheap.top());
+//			maxheap.pop();
+//		}
+//		//如果大根堆的最大值比小根堆的最小值大，则交换
+//		while ((maxheap.size() > 0) && maxheap.top() > minheap.top())
+//		{
+//			int min = minheap.top() minheap.pop();
+//			int max = maxheap.top(); maxheap.pop();
+//			minheap.push(max);
+//			maxheap.push(min);
+//		}
+//	}
+//
+//	double findMedian() {
+//		if ((maxheap.size() + minheap.size()) % 2 == 1)
+//			return (double)maxheap.top();
+//		return (maxheap.top() + minheap.top())*0.5;
+//	}
+//private:
+//	priority_queue<int>  maxheap;
+//	priority_queue<int, vector<int>, greater<int>>  minheap;
+//
+//};
+
+
+
+//class MonotonicQueue
+//{
+//public:
+//	void push(int x)
+//	{
+//		//保持单调性，删除比新元素x小的所有元素
+//		while (!dq.empty() && x > dq.back())
+//			dq.pop_back();
+//		dq.push_back(x);
+//	}
+//	int getmax()
+//	{
+//		return dq.front();
+//	}
+//	void pop()
+//	{
+//		dq.pop_front();
+//	}
+//private:
+//	deque<int> dq;
+//};
+//class Solution {
+//public:
+//	//单调队列优化
+//	static vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+//		if (nums.size() == 0)
+//			return {};
+//		MonotonicQueue mq;
+//		vector<int> ans;
+//		for (int i = 0; i < nums.size() - k + 1; i++)
+//		{
+//			mq.push(nums[i]);
+//			if (i - k + 1 >= 0)
+//			{
+//				ans.push_back(mq.getmax());
+//				if (mq.getmax() == nums[i - k + 1])
+//					mq.pop();
+//			}
+//		}
+//		return ans;
+//	}
+//};
+//	void main()
+//	{
+//		vector<int> v = { 1,3,-1,-3,5,3,6,7 };
+//		vector<int> v2= Solution::maxSlidingWindow(v, 3);
+//	}
 
 
 
