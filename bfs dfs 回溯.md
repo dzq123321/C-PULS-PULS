@@ -42,6 +42,41 @@ public:
 
 从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。 
 
+这个方法比较好理解
+
+```c++
+class Solution {
+public://bfs
+    vector<vector<int>> levelOrder(TreeNode* root) {
+         vector<vector<int>>  ans;
+         if(root==NULL)
+         return ans;
+         queue<TreeNode* > q;
+         q.push(root);
+         while(!q.empty())
+         {
+             int size=q.size();
+             vector<int> nans(size,0);
+             for(int i=0;i<size;i++)
+             {
+                TreeNode* tmp=q.front();
+                 q.pop();     
+                 nans[i]=tmp->val;     
+                if(tmp->left!=NULL)
+                q.push(tmp->left);
+                if(tmp->right!=NULL)
+                q.push(tmp->right);
+
+             }
+             ans.push_back(nans);
+         }
+          return ans;
+    }
+};
+```
+
+
+
 ```c++
 /**
  * Definition for a binary tree node.
