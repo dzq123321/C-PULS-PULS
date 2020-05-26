@@ -16,6 +16,13 @@ using namespace std;
 
 
 
+void main()
+{
+	string s("12345");
+	cout << s.substr(1, 4) << endl;
+}
+
+
 /*
 struct TreeNode {
 	int val;
@@ -27,52 +34,52 @@ struct TreeNode {
 };
 */
 /*实现一个镜像的二叉树，然后进行判断俩个二叉树是否相等*/
-class Solution {
-public:/*
-	 TreeNode* mirror(TreeNode* pRoot)
-	 {
-		 if(pRoot==NULL)
-			 return NULL;
-		 TreeNode* MpRoot=new TreeNode(pRoot->val);
-		 MpRoot->left=mirror(pRoot->right);
-		 MpRoot->right=mirror(pRoot->left);
-		 return MpRoot;
-	 }
-	bool  equal(TreeNode*pRoot,TreeNode*MpRoot){
-	   if(pRoot==NULL&&MpRoot==NULL)
-		  return true;
-		return (pRoot->val==MpRoot->val)&&(equal(pRoot->left,MpRoot->left))
-			&&(equal(pRoot->right,MpRoot->right));
-	}
-	*/
-	bool isSymmetrical(TreeNode* pRoot)
-	{
-		if (!pRoot)
-			return false;
-		queue<TreeNode* > q;
-		q.push(pRoot);
-		while (!q.empty())
-		{
-			int size = q.size();
-			vector<int> v;
-			for (int i = 0; i < size; i++)
-			{
-				int tmp = q.front();
-				q.pop();
-				v[i] = tmp->val;
-				if (tmp->left != NULL)
-					q.push(tmp->left);
-				if (tmp->right != NULL)
-					q.push(tmp->right);
-			}
-			for (int i = 0; i < size; i++)
-			{
-				if ()
-			}
-		}
-	}
-
-};
+//class Solution {
+////public:/*
+//	 TreeNode* mirror(TreeNode* pRoot)
+//	 {
+//		 if(pRoot==NULL)
+//			 return NULL;
+//		 TreeNode* MpRoot=new TreeNode(pRoot->val);
+//		 MpRoot->left=mirror(pRoot->right);
+//		 MpRoot->right=mirror(pRoot->left);
+//		 return MpRoot;
+//	 }
+//	bool  equal(TreeNode*pRoot,TreeNode*MpRoot){
+//	   if(pRoot==NULL&&MpRoot==NULL)
+//		  return true;
+//		return (pRoot->val==MpRoot->val)&&(equal(pRoot->left,MpRoot->left))
+//			&&(equal(pRoot->right,MpRoot->right));
+//	}
+//	*/
+//	bool isSymmetrical(TreeNode* pRoot)
+//	{
+//		if (!pRoot)
+//			return false;
+//		queue<TreeNode* > q;
+//		q.push(pRoot);
+//		while (!q.empty())
+//		{
+//			int size = q.size();
+//			vector<int> v;
+//			for (int i = 0; i < size; i++)
+//			{
+//				int tmp = q.front();
+//				q.pop();
+//				v[i] = tmp->val;
+//				if (tmp->left != NULL)
+//					q.push(tmp->left);
+//				if (tmp->right != NULL)
+//					q.push(tmp->right);
+//			}
+//			for (int i = 0; i < size; i++)
+//			{
+//				if ()
+//			}
+//		}
+//	}
+//
+//};
 
 
 
