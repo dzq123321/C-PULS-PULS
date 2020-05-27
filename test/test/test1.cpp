@@ -20,6 +20,7 @@ void main()
 {
 	string s("12345");
 	cout << s.substr(1, 4) << endl;
+	cout << 3% 3 << endl;
 }
 
 

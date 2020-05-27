@@ -2078,3 +2078,147 @@ public:
 };
 ```
 
+# 43 [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+
+给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+
+为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。
+
+说明：不允许修改给定的链表。
+
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+/*  设链表 无环长度为a  有环长度为b
+两种方法：第一种，使用hash表，multiset，当count==2是就找到了相交节点
+第二种：快慢指针：fast和slow同时指向头节点，fast走两步，slow走一步，如果有环，则两个指针相遇，
+第一次相遇时，fast走了f步， slow走了s步，f=2s=s+nb,则f=2nb,s=nb
+随后，将fast指针指向头节点，接下来和slow指针一步一步的移动，如果再次相遇则就是环的入口
+这是因为当 slow走了 a+nb步(nb是n个环的长度，slow走了n个环意味着
+当他从起点出发，走了n圈后，必定他还会在起点)，fast走了a步，相遇，
+*/
+    ListNode *detectCycle(ListNode *head) {
+        /* 
+          multiset<ListNode*> ms;
+        ListNode* p=head;
+        while(p)
+        {
+            ms.insert(p);
+            if(ms.count(p)==2)
+            return p;
+            p=p->next;
+        }
+        return nullptr;
+        */
+        if(head==NULL||head->next==NULL)
+        return NULL;
+         ListNode* p=head;
+         ListNode* q=head;
+         //先找到两个指针相交的位置
+         while(q!=NULL)
+         {
+             if(q->next==NULL) return NULL;
+             q=q->next->next;
+             p=p->next;
+             if(p==q)
+             break;
+         }
+         if(q==NULL)//说明没有环
+            return NULL;
+         //说明是有环 q重新指向头节点，然后和p一步一步的走
+         q=head;
+         while(p!=q)
+         {
+              p=p->next;
+              q=q->next;
+         }
+         return p;
+    }
+};
+```
+
+# 44 滑动窗口的最大值 
+
+给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
+
+返回滑动窗口中的最大值。
+
+```
+class Solution {
+public:
+    vector<int> maxInWindows(const vector<int>& num, unsigned int size)
+    {
+       if(num.size()==0)
+           return {};
+        vector<int> ret;
+        //一共num.size()-size+1个滑动窗口
+        for(int i=0;i<num.size()-size+1;i++)
+        {
+            int Max=-1;
+            for(int j=i;j<size+i;j++)
+            {
+                 Max=max(num[j],Max);
+            }
+            ret.push_back(Max);
+        }
+        return ret;
+    }
+};
+```
+
+单调队列优化	
+
+```
+class MonotonicQueue 
+{
+public:
+  void push(int x)
+  {
+      //保持单调性，删除比新元素x小的所有元素
+      while(!dq.empty()&&x>dq.back())
+        dq.pop_back();
+    dq.push_back(x);
+  }
+  int getmax()
+  {
+    return dq.front();
+  }
+  void pop()
+  {
+      dq.pop_front();
+  }
+ private:
+  deque<int> dq;
+};
+class Solution {
+public:
+//单调队列优化
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+         if(nums.size()==0)
+              return {};
+       MonotonicQueue mq;
+        vector<int> ans;
+          for(int i=0;i<nums.size();i++)
+          {
+              mq.push(nums[i]);
+              if(i-k+1>=0)
+              {
+                  ans.push_back(mq.getmax());
+                  if(mq.getmax()==nums[i-k+1])
+                  mq.pop();
+              }
+          }
+          return ans;
+    }
+
+};
+```
+
