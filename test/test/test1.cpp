@@ -14,14 +14,49 @@
 #include<set>
 using namespace std;
 
-
-
-void main()
+int add(int x, int y)
 {
-	string s("12345");
-	cout << s.substr(1, 4) << endl;
-	cout << 3% 3 << endl;
+	if (x == INT_MAX)
+		return y;
+	else if (y == INT_MAX)
+		return x;
+	return x + y;
 }
+int networkDelayTime(vector<vector<int>>& times, int N, int K) {
+	//创建一个distance数组，存放起始节点到其他节点的最大路径，初始化为INT_MAX
+	int INT_MAXV = INT_MAX;
+	vector<int> d(N + 1, INT_MAX);//节点是(1->N)
+	d[K] = 0;//起始节点到自身为0
+	//进行N-1论松弛，因为任意两点间的最短路径最多包含N-1条边,使d[i]为起始节点到i节点的最短距离
+	for (int i = 1; i < N; i++) {
+		for (vector<int> time : times) {
+			int u = time[0];//起始节点
+			int v = time[1];//目标节点
+			int w = time[2];//权重
+			int tmp = add(d[u] + w);
+			if (d[v] > tmp)
+				d[v] = tmp;
+		}
+	}
+	int maxv = 0;
+	for (int i = 1; i <= N; ++i) {
+		maxv = max(maxv, d[i]);
+	}
+	return maxv == INT_MAX ? -1 : maxv;
+}
+	void main()
+	{
+		vector<vector<int>> times = { {2,1,1},{2,3,1},{3,4,1} };
+		cout << networkDelayTime(times,4,2) << endl;
+	}
+
+//
+//void main()
+//{
+//	string s("12345");
+//	cout << s.substr(1, 4) << endl;
+//	cout << 3% 3 << endl;
+//}
 
 
 /*
