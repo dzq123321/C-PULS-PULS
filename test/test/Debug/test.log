@@ -1,2 +1,6 @@
 ﻿  test1.cpp
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp(23): warning C4018: “<”: 有符号/无符号不匹配
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp(31): warning C4018: “<”: 有符号/无符号不匹配
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp(39): warning C4018: “<”: 有符号/无符号不匹配
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp(41): warning C4018: “<”: 有符号/无符号不匹配
   test.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\test\Debug\test.exe

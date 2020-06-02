@@ -14,42 +14,91 @@
 #include<set>
 using namespace std;
 
-int add(int x, int y)
-{
-	if (x == INT_MAX)
-		return y;
-	else if (y == INT_MAX)
-		return x;
-	return x + y;
-}
-int networkDelayTime(vector<vector<int>>& times, int N, int K) {
-	//创建一个distance数组，存放起始节点到其他节点的最大路径，初始化为INT_MAX
-	int INT_MAXV = INT_MAX;
-	vector<int> d(N + 1, INT_MAX);//节点是(1->N)
-	d[K] = 0;//起始节点到自身为0
-	//进行N-1论松弛，因为任意两点间的最短路径最多包含N-1条边,使d[i]为起始节点到i节点的最短距离
-	for (int i = 1; i < N; i++) {
-		for (vector<int> time : times) {
-			int u = time[0];//起始节点
-			int v = time[1];//目标节点
-			int w = time[2];//权重
-			int tmp = add(d[u] + w);
-			if (d[v] > tmp)
-				d[v] = tmp;
+	//dp[i][j],当text1[i]==text2[j]  dp[i][j]=dp[i-1][j-1]+1,  当text1[i]!=text2[j]  dp[i][j]=dp[i-1][j-1]  
+	int longestCommonSubsequence(string text1, string text2) {
+		if (text1.size() == 0 || text2.size() == 0)
+			return 0;
+		vector<vector<int>> dp(text1.size(), vector<int>(text2.size(), 0));
+		int ret = INT_MIN;
+		for (int j = 0; j < text2.size(); j++)
+		{
+			if (text1[0] == text2[j])
+			{
+				dp[0][j] = 1;
+				ret = 1;
+			}
 		}
-	}
-	int maxv = 0;
-	for (int i = 1; i <= N; ++i) {
-		maxv = max(maxv, d[i]);
-	}
-	return maxv == INT_MAX ? -1 : maxv;
-}
-	void main()
-	{
-		vector<vector<int>> times = { {2,1,1},{2,3,1},{3,4,1} };
-		cout << networkDelayTime(times,4,2) << endl;
+		for (int i = 0; i < text1.size(); i++)
+		{
+			if (text2[0] == text1[i])
+			{
+				dp[i][0] = 1;
+				ret = 1;
+			}
+		}
+		for (int i = 1; i < text1.size(); i++)
+		{
+			for (int j = 1; j < text2.size(); j++)
+			{
+				if (text1[i] == text2[j])
+					dp[i][j] = dp[i - 1][j - 1] + 1;
+				else
+					dp[i][j] = max(max (dp[i][j],dp[i - 1][j]), dp[i][j - 1]);
+				ret = max(ret, dp[i][j]);
+			}
+		}
+		return dp[text1.size() - 1][text2.size() - 1];
 	}
 
+void main()
+{
+	char* s1 = "abcde";
+	char* s2 ="ace";
+	cout << longestCommonSubsequence(s1, s2) << endl;
+}
+
+
+
+
+
+
+
+//int add(int x, int y)
+//{
+//	if (x == INT_MAX)
+//		return y;
+//	else if (y == INT_MAX)
+//		return x;
+//	return x + y;
+//}
+//int networkDelayTime(vector<vector<int>>& times, int N, int K) {
+//	//创建一个distance数组，存放起始节点到其他节点的最大路径，初始化为INT_MAX
+//	int INT_MAXV = INT_MAX;
+//	vector<int> d(N + 1, INT_MAX);//节点是(1->N)
+//	d[K] = 0;//起始节点到自身为0
+//	//进行N-1论松弛，因为任意两点间的最短路径最多包含N-1条边,使d[i]为起始节点到i节点的最短距离
+//	for (int i = 1; i < N; i++) {
+//		for (vector<int> time : times) {
+//			int u = time[0];//起始节点
+//			int v = time[1];//目标节点
+//			int w = time[2];//权重
+//			int tmp = add(d[u] + w);
+//			if (d[v] > tmp)
+//				d[v] = tmp;
+//		}
+//	}
+//	int maxv = 0;
+//	for (int i = 1; i <= N; ++i) {
+//		maxv = max(maxv, d[i]);
+//	}
+//	return maxv == INT_MAX ? -1 : maxv;
+//}
+//	void main()
+//	{
+//		vector<vector<int>> times = { {2,1,1},{2,3,1},{3,4,1} };
+//		cout << networkDelayTime(times,4,2) << endl;
+//	}
+//
 //
 //void main()
 //{
