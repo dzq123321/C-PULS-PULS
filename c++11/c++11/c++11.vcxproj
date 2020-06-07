@@ -121,9 +121,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="shared_ptr.cpp" />
     <ClCompile Include="右值引用.cpp" />
     <ClCompile Include="异常.cpp" />
     <ClCompile Include="智能指针.cpp" />
+    <ClCompile Include="线程.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

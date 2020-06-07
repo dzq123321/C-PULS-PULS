@@ -24,5 +24,11 @@
     <ClCompile Include="智能指针.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="shared_ptr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="线程.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
