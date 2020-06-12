@@ -1,25 +1,41 @@
-#if 0
+#if 1
 #include<iostream>
 #include<string>
 #include<vector>
 #include<bitset>
 using namespace std;
-
-
-template<typename T>
-struct comp
-{
-	bool operator()(T in1, T in2) const
-	{
-		return (in1 > in2);
-	}
-};
 void main()
 {
-	comp<int> m_comp_objext;
-	cout << m_comp_objext(6, 3) << endl;     //使用对象调用
-	cout << comp<int>()(1, 2) << endl;       //使用仿函数实现
+	bitset<10> bt(100);//设置10个比特位，来表示100
+	cout << bt << endl;   //输出  0001100100
+	bt.flip();   //取反
+	cout << bt << endl;   //1110011011
+	bt.set(2);  //将第2个比特位置为1
+	cout << bt << endl;   //1110011111
+	bt.set(3, 0);   //将第3个比特位置为0
+	cout << bt << endl;   //1110010111
+	//统计bt中1的个数
+	cout << bt.count() << endl; // 7
+	//判断bt中是否有1存在，存在返回1
+	cout << bt.any() << endl;   // 1
+	bt.reset();       //0000000000
+	cout<<bt.any()<<endl;   // 1
 }
+
+//template<typename T>
+//struct comp
+//{
+//	bool operator()(T in1, T in2) const
+//	{
+//		return (in1 > in2);
+//	}
+//};
+//void main()
+//{
+//	comp<int> m_comp_objext;
+//	cout << m_comp_objext(6, 3) << endl;     //使用对象调用
+//	cout << comp<int>()(1, 2) << endl;       //使用仿函数实现
+//}
 #if 0
 struct StrToInt1
 {
@@ -138,15 +154,15 @@ class Bitset
 public:
 	Bitset() :m_bit((_N - 1) / 32 + 1), m_size(_N)
 	{}
-	void set(size_t pos)
+	void set(size_t pos)  //pos位 置为1 
 	{
 		if (pos >= m_size)
 			return;
 		size_t index = pos / 32;
 		size_t offset = pos % 32;
-		m_bit[index] |= (1 << offset);
+		m_bit[index] |= (1 << offset);//所以
 	}
-	bool test(size_t pos)
+	bool test(size_t pos)  //检测pos位是否为1
 	{
 		if (pos >= m_size)
 			return false;
@@ -180,7 +196,7 @@ public:
 			//int有32个比特位，我们每次右移8位
 			int value = m_bit[i];
 			int j = 0;
-			while (j < sizeof(m_bit[0]))//循环4次sizeof(m_bit[0]=4
+			while (j < sizeof(m_bit[0]))//循环4次sizeof(m_bit[0]=4 ，将32个比特为强转换为循环四次的8个比特俄日的char，
 			{
 				unsigned char c = value;//将int强转为char类型，取低8位
 				count += bitCnttable[c];
