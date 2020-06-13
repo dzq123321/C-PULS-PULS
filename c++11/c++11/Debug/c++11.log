@@ -1,2 +1,4 @@
-﻿  lamda.cpp
-  c++11.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\c++11\Debug\c++11.exe
+﻿  c++类型转换.cpp
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\c++11\c++11\c++类型转换.cpp(151): error C2280: “Test &Test::operator =(const Test &)”: 尝试引用已删除的函数
+  e:\duzhiqiang\比特51c语言\github\c-puls-puls\c++11\c++11\c++类型转换.cpp(145): note: 编译器已在此处生成“Test::operator =”
+  e:\duzhiqiang\比特51c语言\github\c-puls-puls\c++11\c++11\c++类型转换.cpp(145): note: “Test &Test::operator =(const Test &)”: 因为 基类 调用已删除或不可访问的函数“const noncopyable &noncopyable::operator =(const noncopyable &)”，所以已隐式删除函数

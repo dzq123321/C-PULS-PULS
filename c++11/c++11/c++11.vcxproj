@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="c++类型转换.cpp" />
     <ClCompile Include="lamda.cpp" />
     <ClCompile Include="shared_ptr.cpp" />
     <ClCompile Include="右值引用.cpp" />

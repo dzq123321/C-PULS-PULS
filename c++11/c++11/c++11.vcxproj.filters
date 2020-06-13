@@ -33,5 +33,8 @@
     <ClCompile Include="lamda.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="c++类型转换.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
