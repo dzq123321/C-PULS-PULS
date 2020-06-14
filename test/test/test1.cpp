@@ -14,48 +14,211 @@
 #include<set>
 using namespace std;
 
-	//dp[i][j],当text1[i]==text2[j]  dp[i][j]=dp[i-1][j-1]+1,  当text1[i]!=text2[j]  dp[i][j]=dp[i-1][j-1]  
-	int longestCommonSubsequence(string text1, string text2) {
-		if (text1.size() == 0 || text2.size() == 0)
-			return 0;
-		vector<vector<int>> dp(text1.size(), vector<int>(text2.size(), 0));
-		int ret = INT_MIN;
-		for (int j = 0; j < text2.size(); j++)
-		{
-			if (text1[0] == text2[j])
-			{
-				dp[0][j] = 1;
-				ret = 1;
-			}
-		}
-		for (int i = 0; i < text1.size(); i++)
-		{
-			if (text2[0] == text1[i])
-			{
-				dp[i][0] = 1;
-				ret = 1;
-			}
-		}
-		for (int i = 1; i < text1.size(); i++)
-		{
-			for (int j = 1; j < text2.size(); j++)
-			{
-				if (text1[i] == text2[j])
-					dp[i][j] = dp[i - 1][j - 1] + 1;
-				else
-					dp[i][j] = max(max (dp[i][j],dp[i - 1][j]), dp[i][j - 1]);
-				ret = max(ret, dp[i][j]);
-			}
-		}
-		return dp[text1.size() - 1][text2.size() - 1];
-	}
 
-void main()
+
+//
+//void main()
+//{
+//	int a = 5;
+//	int c;
+//	c = ~a + 1;
+//	cout << c << endl;
+//}
+
+
+//a-b=a+(-b)
+/*
+int subtraction1(int a, int b)
 {
-	char* s1 = "abcde";
-	char* s2 ="ace";
-	cout << longestCommonSubsequence(s1, s2) << endl;
+	if (a == 0)
+		return ~b + 1;
+	if (b == 0)
+		return a;
+	b= ~b + 1;
+	int carry = 0,  tmp=0;
+	while (b)
+	{
+	    tmp = a ^ b;//无进位相加
+		carry = (a & b) << 1;//求出进位  tmp+carry
+		a = tmp;
+		b = carry;
+	}
+	return tmp;
+}*/
+/*
+int subtraction2(int a, int b)
+{
+	if (a == 0)
+		return ~b + 1;
+	if (b == 0)
+		return a;
+	while (b)
+	{
+		//第一步，去掉 a,b同为1的比特位  （不借位相减）
+		int c = a & b;
+		a = a ^ c;
+		b = b ^ c;
+		//第二步，如果b==0,说明b没有借位，可以直接返回。
+		//而如果b!=0,则需要继续计算 a|b-b<<1
+		a = a | b;
+		b = b << 1;
+	}
+	return a;
 }
+int main()
+{
+	int a =32;
+	int b = 15;
+	cout << subtraction2(a, b) << endl;
+}*/
+
+
+/*
+int Add(int a, int b)
+{
+	if (a == 0 || b == 0)
+		return a | b;
+	int carry = 0, tmp = 0;
+	while (b)
+	{
+		tmp = a ^ b;//无进位相加
+		carry = (a & b) << 1;//求出进位  tmp+carry
+		a = tmp;
+		b = carry;
+	}
+	return tmp;
+}
+int negative(int c)
+{
+	return Add(~c, 1);
+}
+int mult(int a, int b)
+{
+	//先将负数转换为正数
+	int x = a < 0 ? negative(a) : a;
+	int y = b < 0 ? negative(b) : b;
+	int res = 0;
+	while (y)
+	{
+		if (y & 1 == 1)
+			res = Add(res, x);
+		x = (x << 1);
+		y = (y >> 1);
+	}
+	return (a^b >= 0) ? res : negative(res);
+}
+int main()
+{
+	int a = 12;
+	int b = 2;
+	cout << mult(a, b) << endl;
+}*/
+//int Add(int a, int b)
+//{
+//	if (a == 0 || b == 0)
+//		return a | b;
+//	int carry = 0, tmp = 0;
+//	while (b)
+//	{
+//		tmp = a ^ b;//无进位相加
+//		carry = (a & b) << 1;//求出进位  tmp+carry
+//		a = tmp;
+//		b = carry;
+//	}
+//	return tmp;
+//}
+//int negative(int c)
+//{
+//	return Add(~c, 1);
+//}
+//int subtraction2(int a, int b)
+//{
+//	if (a == 0)
+//		return ~b + 1;
+//	if (b == 0)
+//		return a;
+//	while (b)
+//	{
+//		//第一步，去掉 a,b同为1的比特位  （不借位相减）
+//		int c = a & b;
+//		a = a ^ c;
+//		b = b ^ c;
+//		//第二步，如果b==0,说明b没有借位，可以直接返回。
+//		//而如果b!=0,则需要继续计算 a|b-b<<1
+//		a = a | b;
+//		b = b << 1;
+//	}
+//	return a;
+//}
+//
+////思路：用a不断减去b，看最后能减几次
+//int Div(int a, int b)//只记录商的值，余数会被舍去
+//{
+//	//先将负数转换为正数
+//	int x = a < 0 ? negative(a) : a;
+//	int y = b < 0 ? negative(b) : b;
+//	int res = 0;
+//	int count = 0;
+//	while (x>=y)
+//	{
+//		x=subtraction2(x, y);
+//		count++;
+//	}
+//	return (a^b >= 0) ? count : negative(res);
+//}
+//int main()
+//{
+//	int a = 12;
+//	int b = 2;
+//	cout << Div(a, b) << endl;
+//}
+
+
+
+
+
+	//dp[i][j],当text1[i]==text2[j]  dp[i][j]=dp[i-1][j-1]+1,  当text1[i]!=text2[j]  dp[i][j]=dp[i-1][j-1]  
+//	int longestCommonSubsequence(string text1, string text2) {
+//		if (text1.size() == 0 || text2.size() == 0)
+//			return 0;
+//		vector<vector<int>> dp(text1.size(), vector<int>(text2.size(), 0));
+//		int ret = INT_MIN;
+//		for (int j = 0; j < text2.size(); j++)
+//		{
+//			if (text1[0] == text2[j])
+//			{
+//				dp[0][j] = 1;
+//				ret = 1;
+//			}
+//		}
+//		for (int i = 0; i < text1.size(); i++)
+//		{
+//			if (text2[0] == text1[i])
+//			{
+//				dp[i][0] = 1;
+//				ret = 1;
+//			}
+//		}
+//		for (int i = 1; i < text1.size(); i++)
+//		{
+//			for (int j = 1; j < text2.size(); j++)
+//			{
+//				if (text1[i] == text2[j])
+//					dp[i][j] = dp[i - 1][j - 1] + 1;
+//				else
+//					dp[i][j] = max(max (dp[i][j],dp[i - 1][j]), dp[i][j - 1]);
+//				ret = max(ret, dp[i][j]);
+//			}
+//		}
+//		return dp[text1.size() - 1][text2.size() - 1];
+//	}
+//
+//void main()
+//{
+//	char* s1 = "abcde";
+//	char* s2 ="ace";
+//	cout << longestCommonSubsequence(s1, s2) << endl;
+//}
 
 
 

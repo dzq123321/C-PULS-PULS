@@ -1,6 +1,4 @@
 ﻿  test1.cpp
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp(23): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp(31): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp(39): warning C4018: “<”: 有符号/无符号不匹配
-e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp(41): warning C4018: “<”: 有符号/无符号不匹配
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp(173): warning C4554: “^”: 检查运算符优先级是否存在的可能的错误；使用括号阐明优先级
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test1.cpp(175): warning C4715: “Div”: 不是所有的控件路径都返回值
   test.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\test\Debug\test.exe
