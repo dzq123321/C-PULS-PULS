@@ -691,6 +691,46 @@ public:
 	}
 };
 ```
+# 45 [面试题07. 重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
+
+难度中等111收藏分享切换为英文关注反馈
+
+输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+ typedef vector<int>::iterator type;//区间是前闭后开的
+  TreeNode*  _reConstructBinaryTree(type prebegin,type preend,type vinbegin,type vinend)
+    {
+        if(vinbegin==vinend)
+            return NULL;
+        TreeNode* root=new TreeNode(*prebegin);
+        auto pos=std::find(vinbegin,vinend,*prebegin);
+        int leftlen=pos-vinbegin;   //
+        root->left=_reConstructBinaryTree(prebegin+1,prebegin+1+leftlen,vinbegin,pos);
+        root->right=_reConstructBinaryTree(prebegin+1+leftlen,preend,pos+1,vinend);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+         if(preorder.empty())
+            return NULL;
+        return _reConstructBinaryTree(preorder.begin(),preorder.end(),inorder.begin(),inorder.end());
+    }
+};
+```
+
+
+
 # 16 平衡二叉树 
 
 输入一棵二叉树，判断该二叉树是否是平衡二叉树。

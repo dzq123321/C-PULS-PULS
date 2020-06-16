@@ -1,4 +1,6 @@
-//917. 仅仅反转字母  https://leetcode-cn.com/problems/reverse-only-letters/submissions/
+917. #### 仅仅反转字母  https://leetcode-cn.com/problems/reverse-only-letters/submissions/
+
+```
 class Solution {
 public:
  string reverseOnlyLetters(string S) {
@@ -63,9 +65,11 @@ public:
     }
     */
 };
+```
 
+#### //387. 字符串中的第一个唯一字符 https://leetcode-cn.com/problems/first-unique-character-in-a-string/submissions/
 
-//387. 字符串中的第一个唯一字符 https://leetcode-cn.com/problems/first-unique-character-in-a-string/submissions/
+```
 class Solution {
 public:
     int firstUniqChar(string s) {
@@ -78,6 +82,9 @@ public:
             return left;
         }
         return -1;
+```
+
+
 
         /*
         //桶排的思想
@@ -94,9 +101,13 @@ public:
     }
 };
 
-//字符串最后一个单词的长度  https://www.nowcoder.com/practice/8c949ea5f36f422594b306a2300315da
-#include<iostream>     //注意牛客和力扣两个平台的区别
-#include<string>
+#### //字符串最后一个单词的长度  https://www.nowcoder.com/practice/8c949ea5f36f422594b306a2300315da
+
+```
+# include<iostream>     //注意牛客和力扣两个平台的区别
+
+# include<string>
+
 using namespace std;
 int main()
 {
@@ -109,9 +120,11 @@ int main()
         printf("%d",str.size()-pos-1);
     return 0;
 }
+```
 
+#### //215. 数组中的第K个最大元素https://leetcode-cn.com/problems/kth-largest-element-in-an-array/submissions/
 
-//215. 数组中的第K个最大元素https://leetcode-cn.com/problems/kth-largest-element-in-an-array/submissions/
+```
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
@@ -148,6 +161,9 @@ public:
     }
 
 };
+```
+
+
 3 https://www.nowcoder.com/practice/7a0da8fc483247ff8800059e12d7caf1?tpId=13&tqId=11200&tPage=3&rp=3&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking
 求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C。
 class Solution {
@@ -255,7 +271,7 @@ public:
 					return -res;
 				}
 				return res;
-    }
+	}
 };
 https://leetcode-cn.com/problems/add-strings/submissions/
 415. 字符串相加 难度
@@ -641,7 +657,7 @@ if(nums.size()==0||nums.size()==1)   //自己想的两次遍历，找到相同�
 					break;
 			}
 			return pos1+1;
-    }
+	}
 };
 
 137. 只出现一次的数字 II
@@ -653,13 +669,13 @@ public:
     int singleNumber(vector<int>& nums) {
         
     for (int i = 0; i < nums.size(); i++)
-	{
-		auto first = find(nums.begin(), nums.end(), nums[i]);
-		auto second = find(first + 1, nums.end(), nums[i]);
-		if (second == nums.end())
-			return *first;
-	}
-	return nums[nums.size() - 1];
+    {
+    	auto first = find(nums.begin(), nums.end(), nums[i]);
+    	auto second = find(first + 1, nums.end(), nums[i]);
+    	if (second == nums.end())
+    		return *first;
+    }
+    return nums[nums.size() - 1];
     }
 };
 
@@ -921,147 +937,158 @@ public:
     }
 };
 150. 逆波兰表达式求值
-根据逆波兰表示法，求表达式的值。
-有效的运算符包括 + , -, *, / 。每个运算对象可以是整数，也可以是另一个逆波兰表达式。
-说明：
-整数除法只保留整数部分。
-给定逆波兰表达式总是有效的。换句话说，表达式总会得出有效数值且不存在除数为 0 的情况。
-//其实是一个树结构，正常的等式时中序遍历，而逆波兰式式是后序遍历，利用一个栈来完成
-//碰到数字入栈，碰到运算符将栈顶的两个元素进行计算（栈顶向下的第一个元素 operator 栈顶元素）
-//直到结束，返回栈顶元素就是计算结果
-int evalRPN(vector<string>& tokens) {
-	stack<int> s;
-	for (int i = 0; i < tokens.size(); i++) { 
-		while (!(tokens[i]=="+"|| tokens[i] == "-" || tokens[i] == "*" || tokens[i] == "/")) {
-			s.push(atoi(tokens[i].c_str()));
-			i++;
-		}
-		int tmp1 = s.top();
-		s.pop();
-		int tmp2 = s.top();
-		s.pop();
-		int tmp3;
-		if (tokens[i][0] == '+')
-		{
-			tmp3 = tmp2 + tmp1;
-			s.push(tmp3);
-		}
-		if (tokens[i][0] == '-')
-		{
-			tmp3 = tmp2 - tmp1;
-			s.push(tmp3);
-		}
-		if (tokens[i][0] == '*')
-		{
-			tmp3 = tmp2 * tmp1;
-			s.push(tmp3);
-		}
-		if (tokens[i][0] == '/')
-		{
-			tmp3 = tmp2 / tmp1;
-			s.push(tmp3);
-		}
-	}
-	return s.top();
-}
-void main()
-{
-	vector<string> v = { "10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+" };
-	cout << evalRPN(v) << endl;
-}
-https://leetcode-cn.com/problems/implement-stack-using-queues/submissions/
-225. 用队列实现栈
-使用队列实现栈的下列操作：
-push(x) -- 元素 x 入栈
-pop() -- 移除栈顶元素
-top() -- 获取栈顶元素
-empty() -- 返回栈是否为空
-class MyStack {
-public:
-    /** Initialize your data structure here. */
-    MyStack() {
-        
+    根据逆波兰表示法，求表达式的值。
+    有效的运算符包括 + , -, *, / 。每个运算对象可以是整数，也可以是另一个逆波兰表达式。
+    说明：
+    整数除法只保留整数部分。
+    给定逆波兰表达式总是有效的。换句话说，表达式总会得出有效数值且不存在除数为 0 的情况。
+    //其实是一个树结构，正常的等式时中序遍历，而逆波兰式式是后序遍历，利用一个栈来完成
+    //碰到数字入栈，碰到运算符将栈顶的两个元素进行计算（栈顶向下的第一个元素 operator 栈顶元素）
+    //直到结束，返回栈顶元素就是计算结果
+    int evalRPN(vector<string>& tokens) {
+    stack<int> s;
+    for (int i = 0; i < tokens.size(); i++) { 
+    	while (!(tokens[i]=="+"|| tokens[i] == "-" || tokens[i] == "*" || tokens[i] == "/")) {
+    		s.push(atoi(tokens[i].c_str()));
+    		i++;
+    	}
+    	int tmp1 = s.top();
+    	s.pop();
+    	int tmp2 = s.top();
+    	s.pop();
+    	int tmp3;
+    	if (tokens[i][0] == '+')
+    	{
+    		tmp3 = tmp2 + tmp1;
+    		s.push(tmp3);
+    	}
+    	if (tokens[i][0] == '-')
+    	{
+    		tmp3 = tmp2 - tmp1;
+    		s.push(tmp3);
+    	}
+    	if (tokens[i][0] == '*')
+    	{
+    		tmp3 = tmp2 * tmp1;
+    		s.push(tmp3);
+    	}
+    	if (tokens[i][0] == '/')
+    	{
+    		tmp3 = tmp2 / tmp1;
+    		s.push(tmp3);
+    	}
     }
-    
-    /** Push element x onto stack. */
-    void push(int x) {
-        q.push(x);
+    return s.top();
     }
-    
-    /** Removes the element on top of the stack and returns that element. */
-    int pop() {
-        if(q.empty())
-        return -1;
-        int tmp=q.back();
-        while(q.front()!=tmp)
-        {
-           int tmp2=q.front();
-           q.pop();
-           q.push(tmp2);
-        }
-        tmp=q.front();
-        q.pop();
-        return tmp;
+    void main()
+    {
+    vector<string> v = { "10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+" };
+    cout << evalRPN(v) << endl;
     }
-    
-    /** Get the top element. */
-    int top() {
-        return q.back();
-    }
-    
-    /** Returns whether the stack is empty. */
-    bool empty() {
-        return q.empty();
-    }
-    private:
-    queue<int> q;
-};
+    https://leetcode-cn.com/problems/implement-stack-using-queues/submissions/
 
-606. 根据二叉树创建字符串 你需要采用前序遍历的方式，将一个二叉树转换成一个由括号和整数组成的字符串。
-空节点则用一对空括号 "()" 表示。而且你需要省略所有不影响字符串与原始二叉树之间的一对一映射关系的空括号对。
-https://leetcode-cn.com/problems/construct-string-from-binary-tree/
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
-public:
-void preOrder(TreeNode* t, string& s)
-{
-    if(t){
-        s+= to_string(t->val);
-        if(t->left==NULL &&t->right==NULL)
-        return;
-        s+='(';
-        preOrder(t->left,s);
-        s+=')';
-        if(t->right){
-            s+='(';
-            preOrder(t->right,s);
-            s+=')';
-        }
-    }
-}
-    string tree2str(TreeNode* t) {
-          string s="";
-          if(t==NULL)
-          return s;
-          preOrder(t,s);
-          return s;
-    }
-};
-元素查找  https://www.nowcoder.com/practice/72ff6503455c4a008675e79247ef2a3a
-题目描述
-有一个排过序的数组，包含n个整数，但是这个数组向左进行了一定长度的移位，例如，原数组为[1,2,3,4,5,6]，向左移位5个位置即变成了[6,1,2,3,4,5],现在对于移位后的数组，需要查找某个元素的位置。请设计一个复杂度为log级别的算法完成这个任务。
-给定一个int数组A，为移位后的数组，同时给定数组大小n和需要查找的元素的值x，请返回x的位置(位置从零开始)。保证数组中元素互异。
-测试样例：
-class Finder {
-public:
+151. 用队列实现栈
+    使用队列实现栈的下列操作：
+    push(x) -- 元素 x 入栈
+    pop() -- 移除栈顶元素
+    top() -- 获取栈顶元素
+    empty() -- 返回栈是否为空
+    class MyStack {
+    public:
+      /** Initialize your data structure here. */
+      MyStack() {
+          
+      }
+
+      /** Push element x onto stack. */
+      void push(int x) {
+          q.push(x);
+      }
+
+      /** Removes the element on top of the stack and returns that element. */
+      int pop() {
+          if(q.empty())
+          return -1;
+          int tmp=q.back();
+          while(q.front()!=tmp)
+          {
+             int tmp2=q.front();
+             q.pop();
+             q.push(tmp2);
+          }
+          tmp=q.front();
+          q.pop();
+          return tmp;
+      }
+
+      /** Get the top element. */
+      int top() {
+          return q.back();
+      }
+
+      /** Returns whether the stack is empty. */
+      bool empty() {
+          return q.empty();
+      }
+      private:
+      queue<int> q;
+    };
+
+152. 根据二叉树创建字符串 你需要采用前序遍历的方式，将一个二叉树转换成一个由括号和整数组成的字符串。
+
+    #### 空节点则用一对空括号 "()" 表示。而且你需要省略所有不影响字符串与原始二叉树之间的一对一映射关系的空括号对。
+
+    ```
+    1. https://leetcode-cn.com/problems/construct-string-from-binary-tree/
+       /**
+    
+    - Definition for a binary tree node.
+    - struct TreeNode {
+    - int val;
+    - TreeNode *left;
+    - TreeNode *right;
+    - TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+    - };
+      */
+      class Solution {
+      public:
+      void preOrder(TreeNode* t, string& s)
+      {
+      if(t){
+          s+= to_string(t->val);
+          if(t->left==NULL &&t->right==NULL)
+          return;
+          s+='(';
+          preOrder(t->left,s);
+          s+=')';
+          if(t->right){
+              s+='(';
+              preOrder(t->right,s);
+              s+=')';
+          }
+      }
+      }
+      string tree2str(TreeNode* t) {
+            string s="";
+            if(t==NULL)
+            return s;
+            preOrder(t,s);
+            return s;
+      }
+      
+    ```
+
+    };
+ * #### 元素查找  https://www.nowcoder.com/practice/72ff6503455c4a008675e79247ef2a3a
+
+    题目描述
+    有一个排过序的数组，包含n个整数，但是这个数组向左进行了一定长度的移位，例如，原数组为[1,2,3,4,5,6]，向左移位5个位置即变成了[6,1,2,3,4,5],现在对于移位后的数组，需要查找某个元素的位置。请设计一个复杂度为log级别的算法完成这个任务。
+    给定一个int数组A，为移位后的数组，同时给定数组大小n和需要查找的元素的值x，请返回x的位置(位置从零开始)。保证数组中元素互异。
+    测试样例：
+
+    ```
+    class Finder {
+    public:
     //二分查找加强版
     int findElement(vector<int> A, int n, int x) {
         // write code here
@@ -1088,7 +1115,10 @@ public:
         }
         return mid;
     }
-};
+    ```
+
+    
+    };
 
 
 
