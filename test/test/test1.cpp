@@ -1,4 +1,4 @@
-#if 1
+#if 0
 #include<iostream>
 #include<stdlib.h>
 #include<vector>
@@ -15,94 +15,92 @@
 using namespace std;
 
 
-
-int minDistance(string word1, string word2) {
-	int m = word1.size();
-	int n = word2.size();
-	if (n * m == 0) return n + m;
-	vector<vector<int>> dp(m + 1, vector<int>(n + 1, INT_MAX));
-	for (int i = 0; i <= m; i++)
-	{
-		dp[i][0] = i;
-	}
-	for (int i = 0; i <= n; i++)
-	{
-		dp[0][i] = i;
-	}
-	for (int i = 1; i <= m; i++)
-	{
-		for (int j = 0; j <= n; j++)
-		{
-			if (word1[i - 1] == word2[j - 1])
-				dp[i][j] = dp[i - 1][j - 1];
-			else
-			{
-				dp[i][j] = 1 + min(dp[i - 1][j - 1], min(dp[i - 1][j], dp[i][j - 1]));
-			}
-		}
-	}
-	return dp[m][n];
-}
-void main()
-{
-	string s1("horse");
-	string s2("ros");
-	cout << minDistance(s1, s2) << endl;
-}
-
-class Solution {
-public:
-	int numDistinct(string s, string t) {
-		//dp[i][j]表示当s的前i个元素和t的前j个元素时，t在s中出现的个数
-		/*
-		if(s[i-1]==t[j-1])  dp[i][j]=dp[i-1][j-1]+dp[i-1][j]
-		else   dp[i][j]=dp[i-1][j]
-		需要考虑空串的情况
-		若 s 是空串，t 不是空串，t 在 s中出现次数为 0，dp[0][j] = 0
-		若 t 是空串，t 在 s 中出现次数是 1（因为 s 可以是空串），就是把 s 中的字符都删掉dp[i][0] = 1
-		*/
-		int m = s.size();
-		int n = t.size();
-		vector<vector<long>>dp(m + 1, vector<long>(n + 1, 0));
-		for (int i = 0; i < m + 1; i++)
-		{
-			dp[i][0] = 1;
-		}
-		for (int i = 1; i <= m; i++)
-		{
-			for (int j = 1; j <= n; j++)
-			{
-				if (s[i - 1] == t[j - 1])  dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
-				else   dp[i][j] = dp[i - 1][j];
-
-			}
-		}
-		return dp[m][n];
-	}
-};
-
-
-class Solution {
-public:
-	int numDistinct(string s, string t) {
-		int m = s.size();
-		int n = t.size();
-		vector<long>dp(n + 1, 0);
-		dp[0] = 1;
-		for (int i = 1; i <= m; i++)
-		{
-			for (int j = n; j > 0; j--)
-			{
-				if (s[i - 1] == t[j - 1])  dp[j] += dp[j - 1];
-				else   dp[j] = dp[j];
-
-			}
-		}
-		return dp[n];
-	}
-};
-
-
+//
+//int minDistance(string word1, string word2) {
+//	int m = word1.size();
+//	int n = word2.size();
+//	if (n * m == 0) return n + m;
+//	vector<vector<int>> dp(m + 1, vector<int>(n + 1, INT_MAX));
+//	for (int i = 0; i <= m; i++)
+//	{
+//		dp[i][0] = i;
+//	}
+//	for (int i = 0; i <= n; i++)
+//	{
+//		dp[0][i] = i;
+//	}
+//	for (int i = 1; i <= m; i++)
+//	{
+//		for (int j = 0; j <= n; j++)
+//		{
+//			if (word1[i - 1] == word2[j - 1])
+//				dp[i][j] = dp[i - 1][j - 1];
+//			else
+//			{
+//				dp[i][j] = 1 + min(dp[i - 1][j - 1], min(dp[i - 1][j], dp[i][j - 1]));
+//			}
+//		}
+//	}
+//	return dp[m][n];
+//}
+//void main()
+//{
+//	string s1("horse");
+//	string s2("ros");
+//	cout << minDistance(s1, s2) << endl;
+//}
+//
+//class Solution {
+//public:
+//	int numDistinct(string s, string t) {
+//		//dp[i][j]表示当s的前i个元素和t的前j个元素时，t在s中出现的个数
+//		/*
+//		if(s[i-1]==t[j-1])  dp[i][j]=dp[i-1][j-1]+dp[i-1][j]
+//		else   dp[i][j]=dp[i-1][j]
+//		需要考虑空串的情况
+//		若 s 是空串，t 不是空串，t 在 s中出现次数为 0，dp[0][j] = 0
+//		若 t 是空串，t 在 s 中出现次数是 1（因为 s 可以是空串），就是把 s 中的字符都删掉dp[i][0] = 1
+//		*/
+//		int m = s.size();
+//		int n = t.size();
+//		vector<vector<long>>dp(m + 1, vector<long>(n + 1, 0));
+//		for (int i = 0; i < m + 1; i++)
+//		{
+//			dp[i][0] = 1;
+//		}
+//		for (int i = 1; i <= m; i++)
+//		{
+//			for (int j = 1; j <= n; j++)
+//			{
+//				if (s[i - 1] == t[j - 1])  dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+//				else   dp[i][j] = dp[i - 1][j];
+//
+//			}
+//		}
+//		return dp[m][n];
+//	}
+//};
+//
+//
+//class Solution {
+//public:
+//	int numDistinct(string s, string t) {
+//		int m = s.size();
+//		int n = t.size();
+//		vector<long>dp(n + 1, 0);
+//		dp[0] = 1;
+//		for (int i = 1; i <= m; i++)
+//		{
+//			for (int j = n; j > 0; j--)
+//			{
+//				if (s[i - 1] == t[j - 1])  dp[j] += dp[j - 1];
+//				else   dp[j] = dp[j];
+//
+//			}
+//		}
+//		return dp[n];
+//	}
+//};
 
 
 
@@ -111,71 +109,73 @@ public:
 
 
 
-class Solution {
-public:
-	int numDistinct(string s, string t) {
-		//dp[i][j]表示当t的前i个元素和s的前j个元素时，t在s中出现的个数
-		/*
-		if(s[i-1]==t[j-1])  dp[i][j]=dp[i-1][j-1]+dp[i][j-1]
-		else   dp[i][j]=dp[i][j-1]
-		需要考虑空串的情况
-		若 s 是空串，t 不是空串，t 在 s中出现次数为 0，dp[0][j] = 0
-		若 t 是空串，t 在 s 中出现次数是 1（因为 s 可以是空串），就是把 s 中的字符都删掉dp[i][0] = 1
-		*/
-		int m = s.size();
-		int n = t.size();
-		vector<vector<long>>dp(n + 1, vector<long>(m + 1, 0));
-		for (int i = 0; i < m + 1; i++)
-		{
-			dp[0][i] = 1;
-		}
-		for (int i = 1; i <= n; i++)
-		{
-			for (int j = 1; j <= m; j++)
-			{
-				if (t[i - 1] == s[j - 1])  dp[i][j] = dp[i - 1][j - 1] + dp[i][j - 1];
-				else   dp[i][j] = dp[i][j - 1];
 
-			}
-		}
-		return dp[n][m];
-	}
-};
-class Solution {
-public:
-	int numDistinct(string s, string t) {
-		//dp[i][j]表示当t的前i个元素和s的前j个元素时，t在s中出现的个数
-		/*
-		if(s[i-1]==t[j-1])  dp[i][j]=dp[i-1][j-1]+dp[i][j-1]
-		else   dp[i][j]=dp[i][j-1]
-		需要考虑空串的情况
-		若 s 是空串，t 不是空串，t 在 s中出现次数为 0，dp[0][j] = 0
-		若 t 是空串，t 在 s 中出现次数是 1（因为 s 可以是空串），就是把 s 中的字符都删掉dp[i][0] = 1
-		*/
-		int m = s.size();
-		int n = t.size();
-		vector<long>dp(m + 1, 1);
-		dp[0] = 1;
-		int pre = 1;
-		for (int i = 1; i <= n; i++)
-		{
-			for (int j = 0; j < m + 1; ++j)
-			{ 
-				int tem = dp[j];
-				if (j == 0) dp[j] = 0;
-				else {
-					// 是否相等都要加上前面的值
-					dp[j] = dp[j - 1];
-					// 相等时加上，上一个字符匹配得出的结果
-					if (s[j - 1] == t[i - 1]) dp[j] += pre;
-				}
-				pre = tem;
 
-			}
-		}
-		return dp[m];
-	}
-};
+//class Solution {
+//public:
+//	int numDistinct(string s, string t) {
+//		//dp[i][j]表示当t的前i个元素和s的前j个元素时，t在s中出现的个数
+//		/*
+//		if(s[i-1]==t[j-1])  dp[i][j]=dp[i-1][j-1]+dp[i][j-1]
+//		else   dp[i][j]=dp[i][j-1]
+//		需要考虑空串的情况
+//		若 s 是空串，t 不是空串，t 在 s中出现次数为 0，dp[0][j] = 0
+//		若 t 是空串，t 在 s 中出现次数是 1（因为 s 可以是空串），就是把 s 中的字符都删掉dp[i][0] = 1
+//		*/
+//		int m = s.size();
+//		int n = t.size();
+//		vector<vector<long>>dp(n + 1, vector<long>(m + 1, 0));
+//		for (int i = 0; i < m + 1; i++)
+//		{
+//			dp[0][i] = 1;
+//		}
+//		for (int i = 1; i <= n; i++)
+//		{
+//			for (int j = 1; j <= m; j++)
+//			{
+//				if (t[i - 1] == s[j - 1])  dp[i][j] = dp[i - 1][j - 1] + dp[i][j - 1];
+//				else   dp[i][j] = dp[i][j - 1];
+//
+//			}
+//		}
+//		return dp[n][m];
+//	}
+//};
+//class Solution {
+//public:
+//	int numDistinct(string s, string t) {
+//		//dp[i][j]表示当t的前i个元素和s的前j个元素时，t在s中出现的个数
+//		/*
+//		if(s[i-1]==t[j-1])  dp[i][j]=dp[i-1][j-1]+dp[i][j-1]
+//		else   dp[i][j]=dp[i][j-1]
+//		需要考虑空串的情况
+//		若 s 是空串，t 不是空串，t 在 s中出现次数为 0，dp[0][j] = 0
+//		若 t 是空串，t 在 s 中出现次数是 1（因为 s 可以是空串），就是把 s 中的字符都删掉dp[i][0] = 1
+//		*/
+//		int m = s.size();
+//		int n = t.size();
+//		vector<long>dp(m + 1, 1);
+//		dp[0] = 1;
+//		int pre = 1;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			for (int j = 0; j < m + 1; ++j)
+//			{ 
+//				int tem = dp[j];
+//				if (j == 0) dp[j] = 0;
+//				else {
+//					// 是否相等都要加上前面的值
+//					dp[j] = dp[j - 1];
+//					// 相等时加上，上一个字符匹配得出的结果
+//					if (s[j - 1] == t[i - 1]) dp[j] += pre;
+//				}
+//				pre = tem;
+//
+//			}
+//		}
+//		return dp[m];
+//	}
+//};
 
 //
 //void main()
@@ -1143,5 +1143,17 @@ struct TreeNode {
 //{
 //	printf("%d\n", sizeof(union Un2));//联合体的大小为最大成员的字节对齐数
 //}
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif
