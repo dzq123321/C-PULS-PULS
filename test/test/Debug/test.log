@@ -1,2 +1,6 @@
-﻿  test2.cpp
+﻿  newcolder test.cpp
+  test1.cpp
+  test2.cpp
+e:\duzhiqiang\比特51c语言\github\c-puls-puls\test\test\test2.cpp(38): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 2 拥有了类型“VFPTR”
+  正在生成代码...
   test.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\test\Debug\test.exe
