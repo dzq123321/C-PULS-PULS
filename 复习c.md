@@ -93,3 +93,12 @@ gbd  调试器      （使用方法： 先gcc test.c -o  mytest.c  -g     在gdb
 2、gcc中用_attribute_关键字修饰的constructor/destructor._attribute_是修改属性的，constructor属性设置函数在所有函数之前执行，destructor设置函数在所有函数退出后执行。
 ```
 
+#### 8、HTTPS为什么安全? 
+
+```
+（总体来说，是因为HTTPS对HTTP报文的数据进行了加密）我们知道HTTP是一种明文协议，客户或服务器发送的数据基本上实在网络上裸奔。可以想到对数据进行加密，这时我们引入HTTPS,他是在应用层和传输层之间的一种协议，主要用于对数据加密，有SSL和TLS,现在主要使用TLS协议，是要经过四次握手的协议，HTTPS是要经历两次加密，一次是非对称加密对数据加密，这时客户端要把非对称加密的报文发送到服务器段，又要使用非对称加密计算对对称加密的密钥进行加密。所以服务器端要向客户端发送非对称加密的公钥。
+```
+
+![https](E:\duzhiqiang\比特51c语言\github\picture\https.png)
+
+s
