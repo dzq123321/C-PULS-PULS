@@ -27,5 +27,16 @@
     <ClCompile Include="t3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="t5.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="t6.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="t5.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

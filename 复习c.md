@@ -101,4 +101,96 @@ gbd  调试器      （使用方法： 先gcc test.c -o  mytest.c  -g     在gdb
 
 ![https](E:\duzhiqiang\比特51c语言\github\picture\https.png)
 
-s
+#### 9、.c与.cpp如何混合编程, 为什么需要extern “C”? 
+
+```c++
+我们都知道，在函数编译的时候系统会在底层从新为函数命名，而在c文件和cpp文件中文件的命名规则是不一样的，这是因为cpp文件存在函数重载的情况。
+ 一：//C++引用C函数的例子(C++调用C，extern "C" 的作用是：让C++连接器找调用函数的符号时采用C的方式 如)
+//test.c
+#include<stdio.h>
+void mytest()
+{
+   printf("mytest in .c file ok\n");
+}
+//main.cpp
+#include<iostream>
+extern "C"
+{
+   void mytest();
+}
+int main()
+{
+      mytest();
+      return 0;
+}
+二：//在C中引用C++函数(C调用C++，使用extern "C"则是告诉编译器把cpp文件中extern "C"定义的函数依照C的方式来编译封装接口，当然接口函数里面的C++语法还是按C++方式编译)
+    //test.cpp
+#include<iostream>
+extern "C"
+{
+  void mytest()
+  {
+    printf("mytest in .cpp file ok\n");
+  }
+}
+//main.c
+#include<stdio.h>
+void mytest();
+int main()
+{
+   mytest();
+   return 0;
+}
+但我们一般都是将函数定义在头文件，而无论是c或cPP实现，都要被c或CPP调用，所以在定义函数时，需要加入宏
+分为两种情况，
+1、在cpp中调用c的函数
+#include<iostream>
+#ifdef _CPPPLUSPLUS
+extern "c" {
+#endif // _CPPPLUSPLUS
+#include"t5.h"
+#include"t5.c"
+	int add(int a, int b);
+#ifdef _CPPPLUSPLUS
+}
+#endif // _CPPPLUSPLUS
+
+#include<stdlib.h>
+using namespace std;
+int main()
+{	
+	cout << add(3, 4) << endl;
+}
+
+2、在c中调用cpp的函数
+//t5.h
+#ifdef __cplusplus
+#include<stdio.h>
+extern "C"
+{
+#endif
+	void mytest();
+#ifdef __cplusplus
+}
+#endif
+//t6.cpp
+#include"t5.h"
+#include<iostream>
+using namespace std;
+	void mytest()
+	{
+		cout << "mytest in .cpp file ok\n" << endl;
+	}
+
+//t5.c
+#include<stdio.h>
+#include"t5.h"
+void mytest();
+int main()
+{
+	mytest();
+	return 0;
+}
+
+```
+

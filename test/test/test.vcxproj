@@ -123,8 +123,13 @@
   <ItemGroup>
     <ClCompile Include="newcolder test.cpp" />
     <ClCompile Include="t3.cpp" />
+    <ClCompile Include="t5.c" />
+    <ClCompile Include="t6.cpp" />
     <ClCompile Include="test1.cpp" />
     <ClCompile Include="test2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="t5.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
