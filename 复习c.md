@@ -264,3 +264,348 @@ GET历史参数保留在浏览器历史中。POST参数不会保存在浏览器�
 post 用于传输文件实体，虽然get也可以传输，但不常用
 ```
 
+#### 19、深浅拷贝的两种写法
+
+```
+https://blog.csdn.net/W_J_F_/article/details/82717894
+```
+
+
+
+#### 项目：
+
+```c++
+1、项目介绍：
+2、项目思路：
+（1）本地搜索，封装成sql语句，只需sql语句
+（2）监控，监控本地目录是否发生变化，若发生变化，则调整数据库的内容	
+3、公共模块 ： Common.h
+系统工具模块 ： Sysutil.h Sysutil.cpp
+数据管理模块 ： DataManager.h DataManager.cpp
+扫描管理模块 ： ScanManager.h ScanManager.cpp
+系统驱动模块 ： DocFastSearchTool.cpp
+4、everything在实现这个模块时，使用了扫描+监控的实现方式，这两种方式是一种互补的方式。
+1. 文件系统监控是利用系统文件系统的接口可以监控某个目录下的文档变化，有点是效率高实
+时性强，缺点是监控是实时的，如果在监控程序没有启动期间的，文档的变化无法获取。
+2. 文件系统扫描是通过系统接口，遍历获取目录下的所有文档跟数据库中的文档进行对比，获
+取文档变化，优点是监控程序启动前，变化的文档也能对比出来，缺点是性能低实时性不
+强。
+我们这里呢，为了简单一点，我们使用了简单粗暴的扫描。如有需要大家可以下去扩展实现可以
+加上监控。
+5、数据持久化我们使用了轻量级的一个数据库sqlite管理，使用sqlite需要去下载sqlite的源码或者源
+码。
+create table if not exists tb_doc (id INTEGER PRIMARY KEY autoincrement,
+doc_path text, doc_name text, doc_name_pinyin text, doc_name_initials
+text）；
+6、中间逻辑层
+everything没有实现拼音相关的搜索功能，实际中很多应用软件的搜索部分都实现了这个功能，
+这里我们类比我们常用的软件qq实现了拼音全拼和拼音首字母并且高亮的功能。
+7、拼音全拼搜索
+存储时将文件名转换成一个拼音全拼存在数据库表的doc_name_pinyin字段中，搜索时也将关键
+字转换成拼音，然后使用数据库的模糊匹配搜索
+8、拼音首字母搜索
+存储时将文件名转换成一个拼音首字母存在数据库表的doc_name_initials字段中，搜索时也将关
+键字转换成拼音首字母，然后使用数据库的模糊匹配搜索
+```
+
+#### 实现
+
+```
+三、项目实现
+1.系统工具模块实现
+1.1 目录扫描
+long _findfirst( char *filespec, struct _finddata_t *fileinfo );
+int _findnext( long handle, struct _finddata_t *fileinfo );
+int _findclose( long handle );
+
+void DirectionList(const string &path, vector<string> &subdir, vector<string> &subfile)
+{
+	string _path = path;
+	_path += "\\*.*";    //必须是_path,表示当前目录下的所有文件
+	_finddata_t file;
+	//_findfirst,搜索path路径下的第一个参数
+	long handle = _findfirst(_path.c_str(), &file);
+	if (handle == -1)
+	{
+		perror("_findfirst");
+		return;
+	}
+	do
+	{    //跳过隐藏文件
+		if (strcmp(file.name, ".") == 0 || strcmp(file.name, "..") == 0)
+			continue;
+		//递归打印目录
+		if (file.attrib&_A_SUBDIR)
+		{
+			//cout << "dir: "<<file.name << endl;
+			//string tmp_path = path;
+			//tmp_path += "\\";
+			//tmp_path += file.name;
+			//DirectionList(tmp_path);
+			subdir.push_back(file.name);
+		}
+		else
+			//cout << file.name << endl;
+			subfile.push_back(file.name);
+	} while (_findnext(handle, &file) == 0);
+	_findclose(handle);
+}
+void main()
+{
+	const string &path = "E:\\duzhiqiang\\背包\\pack-master";
+	vector<string> subdir;
+	vector<string> subfile;
+	DirectionList(path, subdir, subfile);
+}
+```
+
+#### 汉字转拼音全拼/转首字母
+
+```
+网上搜索都有
+static std::string ChineseConvertPinYinAllSpell(const std::string&
+dest_chinese)
+static std::string ChineseConvertPinYinInitials(const std::string&
+name)
+static void ColourPrintf(const char* str)
+```
+
+#### 数据库模块
+
+```
+#include "DataManager.h"
+#include "sys.h"
+
+
+SqliteManager::SqliteManager() :m_db(nullptr)
+{}
+SqliteManager::~SqliteManager()
+{
+	Close();
+}
+void SqliteManager::Open(const string &path)
+{
+	char *zErrMsg = 0;
+	int rc = sqlite3_open(path.c_str(), &m_db);
+	if (rc)
+	{
+		//fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(m_db));
+		ERROR_LOG("Can't open database: %s", sqlite3_errmsg(m_db));
+		exit(1);
+	}
+	else
+	{
+		//fprintf(stderr, "Open database successfully: \n");
+		TRACE_LOG("Open database successfully")
+	}
+}
+void SqliteManager::Close()
+{
+	if (m_db)
+	{
+		int rc = sqlite3_close(m_db);
+		if (rc != SQLITE_OK)
+		{
+			//fprintf(stderr,"Close database failed: %s\n", sqlite3_errmsg(m_db));
+			ERROR_LOG("Close database failed: %s", sqlite3_errmsg(m_db));
+		}
+		else
+			//fprintf(stdout, "Close database successfully\n");
+			TRACE_LOG("Close database successfully");
+	}
+}
+void SqliteManager::ExecutedSql(const string &sql)
+{
+	char *zErrMsg = 0;
+	int rc = sqlite3_exec(m_db, sql.c_str(), 0, 0, &zErrMsg);
+	if (rc != SQLITE_OK)
+	{
+		//fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		ERROR_LOG("SQL error: %s", zErrMsg);
+		sqlite3_free(zErrMsg);
+	}
+	else
+	{
+		//fprintf(stdout, "Table created successfully\n");
+		TRACE_LOG("SQL executed successfully");
+	}
+}
+void SqliteManager::GetResultTable(const string &sql, int &row, int &col, char **&ppRet)
+{
+	//char **result;
+	//int row;
+	//int col;
+	char *zErrMsg = 0;
+	int rc = sqlite3_get_table(m_db, sql.c_str(), &ppRet, &row, &col, &zErrMsg);//sqlite3_free_table
+	if (rc != SQLITE_OK)
+	{
+		//fprintf(stderr, "Table created error: %s", zErrMsg);
+		ERROR_LOG("Table created error: %s", zErrMsg)
+			sqlite3_free(zErrMsg);
+	}
+	else
+	{
+		//fprintf(stdout, "Table created successfully\n");
+		TRACE_LOG("Table created successfully");
+	}
+}
+
+
+
+DataManager& DataManager::GetInstance()
+{
+	static DataManager inst;
+	return inst;
+}
+DataManager::DataManager()
+{
+	m_dbmgr.Open(DOC_DB);//创建数据库
+	InitSqlite();//创建表
+}
+DataManager::~DataManager()
+{}
+void DataManager::InitSqlite()
+{
+	//string sql=" create table if not exists DOC_TABLE(id integer primary key autoincrement, doc_name text, doc_path text)"
+	//这样也行，但是就不能动态的改变我们想创建表的名字，可以通过sprintf
+	char sql[SQL_BUFFER_SIZE] = { 0 };
+	sprintf(sql, "create table if not exists %s(id integer primary key autoincrement, doc_name text, doc_path text)", DOC_TABLE);
+	//sprintf 将sql之后的字符串自规定的格式打印到sql中
+	m_dbmgr.ExecutedSql(sql);
+}
+void DataManager::InsertDoc(const string &path, const string &doc)
+{
+	char sql[SQL_BUFFER_SIZE] = { 0 };
+	sprintf(sql, "insert into %s values (null,'%s','%s')", DOC_TABLE,doc.c_str(),path.c_str());
+	//sprintf 将sql之后的字符串自规定的格式打印到sql中
+	m_dbmgr.ExecutedSql(sql);
+}
+void DataManager::GetDocs(const string &path, multiset<string> &docs)
+{
+	char sql[SQL_BUFFER_SIZE] = { 0 };
+	sprintf(sql, "select doc_name from %s where doc_path='%s'", DOC_TABLE,path.c_str());
+	//sprintf 将sql之后的字符串自规定的格式打印到sql中
+	int row = 0, col = 0;
+	char **ppRet = 0;
+	m_dbmgr.GetResultTable(sql,row,col,ppRet);
+	for (int i = 1; i <= row; ++i)
+		docs.insert(ppRet[i]);
+	//释放结果表
+	sqlite3_free_table(ppRet);
+}
+void DataManager::DeleteDoc(const string &path, const string &doc)
+{
+	char sql[SQL_BUFFER_SIZE] = { 0 };
+	sprintf(sql, "delete from %s where doc_name='%s' and doc_path='%s'", DOC_TABLE, doc.c_str(), path.c_str());
+	m_dbmgr.ExecutedSql(sql);
+	//////////////////删除目录下的文件
+	string doc_path = path;
+	doc_path += "\\";
+	doc_path += doc;
+	memset(sql, 0, SQL_BUFFER_SIZE);
+	sprintf(sql, "delete from %s where doc_path like '%s%%'", DOC_TABLE, doc_path.c_str());
+	m_dbmgr.ExecutedSql(sql);
+}
+void  DataManager::Search(const string &key, vector<pair<string, string>> &doc_path)
+{
+	char sql[SQL_BUFFER_SIZE] = { 0 };
+	sprintf(sql, "select doc_name,doc_path from %s where doc_name like '%%%s%%'", DOC_TABLE, key.c_str());
+	int row = 0, col = 0;
+	char **ppRet = nullptr;
+	m_dbmgr.GetResultTable(sql, row, col, ppRet);
+	doc_path.clear();
+	for (int i = 1; i <= row; ++i)
+		doc_path.push_back(make_pair(ppRet[i*col], ppRet[i*col + 1]));
+}
+```
+
+#### 扫描模块
+
+```
+#include "ScanManager.h"
+#include "sys.h"
+
+ScanManager::ScanManager()
+{}
+void ScanManager::StartScan(const string& path)
+{
+	while (1)
+	{
+		this_thread::sleep_for(chrono::seconds(3));
+		ScanDirectory(path);
+	}
+}
+
+ScanManager& ScanManager::CreateInstance(const string &path)
+{
+	static ScanManager inst;
+	thread scan_thread(&StartScan, &inst, path);
+	scan_thread.detach();
+	return inst;
+}
+
+void ScanManager::ScanDirectory(const string &path)
+{
+		//扫描本地文件
+	vector<string> local_files;  //本地文件
+	vector<string> local_dirs; //本地目录
+	DirectionList(path,  local_dirs, local_files);
+	set<string> local_set;
+	local_set.insert(local_files.begin(), local_files.end());
+	local_set.insert(local_dirs.begin(), local_dirs.end());
+	//扫描数据库文件系统
+	multiset<string> db_set;
+	DataManager &m_db = DataManager::GetInstance();
+	m_db.GetDocs(path, db_set);
+	//对比本地文件和数据库文件
+	auto local_it = local_set.begin();
+	auto db_it = db_set.begin();
+	while (local_it != local_set.end() && db_it != db_set.end())
+	{
+		if (*local_it < *db_it)
+		{
+			//本地文件存在，数据库文件不存在，则数据库插入文件
+			m_db.InsertDoc(path, *local_it);
+			local_it++;
+		}
+		else if (*local_it > *db_it)
+		{
+			//本地文件不存在，数据库文件存在，则数据库删除文件
+			m_db.DeleteDoc(path, *db_it);
+			db_it++;
+		}
+		else
+		{
+			//本地文件存在，数据库文件存在，
+			local_it++;
+			db_it++;
+		}
+	}
+	while (local_it != local_set.end())
+	{
+		// 本地文件存在，数据库文件不存在，则数据库插入文件
+		m_db.InsertDoc(path, *local_it);
+		local_it++;
+	}
+	while (db_it != db_set.end())
+	{
+		//本地文件不存在，数据库文件存在，则数据库删除文件
+		m_db.DeleteDoc(path, *db_it);
+		db_it++;
+	}
+	//递归遍历子目录
+	//
+	for (const auto &dir : local_dirs)
+	{
+		string dir_path = path;
+		dir_path += "\\";
+		dir_path += dir;
+		ScanDirectory(dir_path);
+	}
+
+}
+
+
+```
+
+#### 多线程
