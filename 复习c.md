@@ -277,7 +277,7 @@ https://blog.csdn.net/W_J_F_/article/details/82717894
 ```c++
 1、项目介绍：
 2、项目思路：
-（1）本地搜索，封装成sql语句，只需sql语句
+（1）本地搜索，封装成sql语句，执行sql语句
 （2）监控，监控本地目录是否发生变化，若发生变化，则调整数据库的内容	
 3、公共模块 ： Common.h
 系统工具模块 ： Sysutil.h Sysutil.cpp
