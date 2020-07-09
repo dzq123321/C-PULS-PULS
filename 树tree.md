@@ -369,3 +369,195 @@ void RotateLR(AVLNode<Type> *&ptr)
 	}
 ```
 
+#### 判断树是否为二叉排序树
+
+```
+int pre=INT_MIN;
+bool flag=true;
+bool Isbst(Treenode* root)
+{
+    if(root!=NULL){
+      Isbst(root->left);
+      if(pre>root->val) flag= false;
+       pre=root->val;
+      Isbst(root->right);  
+    }
+     return flag; 
+}
+```
+
+#### [297. 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
+
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+string serialize(TreeNode* root) {
+        string res;
+        dfs_s(root, res);
+        return res;
+    }
+
+    // 前序遍历序列转化为字符串
+    void dfs_s(TreeNode* root, string& res) {
+        if (!root) {
+            res += "null ";
+            return;
+        }
+        res += to_string(root->val) + ' ';
+        dfs_s(root->left, res);
+        dfs_s(root->right, res);
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        // 开始遍历索引
+        int u = 0;
+        return dfs_d(data, u);
+    }
+
+    TreeNode* dfs_d(string& data, int& u) {
+        if (u >= data.size()) return NULL;
+        if (data[u] == 'n') {
+            u = u + 5;
+            return NULL;
+        }
+        int val = 0, sign = 1;
+        if (data[u] == '-') sign = -1, u ++ ;
+        while(data[u] != ' '){val = val * 10 + data[u] - '0'; u++;}
+        val *= sign;
+        u = u + 1 ;
+
+        auto root = new TreeNode(val);
+        root->left = dfs_d(data, u);
+        root->right = dfs_d(data, u);
+
+        return root;
+    }
+};
+
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
+```
+
+#### [112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
+
+```
+给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
+说明: 叶子节点是指没有子节点的节点。
+示例: 
+给定如下二叉树，以及目标和 sum = 22，
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+ bool hasPathSum(TreeNode* root, int sum) {
+        return DFS(root, sum);
+    }
+    bool DFS(TreeNode* root, int sum) {
+        if(root==NULL)
+        return false;
+        if(root->val==sum&&root->left==NULL&&root->right==NULL)
+        return true;
+        sum-=root->val;
+        return  DFS(root->left,sum)||DFS(root->right,sum);
+    }
+};
+```
+
+#### [113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
+
+```
+给定一个二叉树和一个目标和，找到所有从根节点到叶子节点路径总和等于给定目标和的路径。
+说明: 叶子节点是指没有子节点的节点。
+示例:
+给定如下二叉树，以及目标和 sum = 22，
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+//回溯
+vector<vector<int>>  ans;
+ vector<int> t;
+void dfs(TreeNode* root, int sum)
+{
+    if(root==NULL) return ;
+    t.push_back(root->val);
+    if(root->val==sum&&root->left==NULL&&root->right==NULL)
+    {
+        ans.push_back(t);
+    }
+    dfs(root->left,sum-root->val);
+    dfs(root->right,sum-root->val);
+    t.pop_back();
+}
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        if(root==NULL) return{};
+        dfs(root,sum);
+        return ans;
+    }
+};
+```
+
+
+
+#### [437. 路径总和 III](https://leetcode-cn.com/problems/path-sum-iii/)
+
+```
+给定一个二叉树，它的每个结点都存放着一个整数值。
+找出路径和等于给定数值的路径总数。
+路径不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。
+二叉树不超过1000个节点，且节点数值范围是 [-1000000,1000000] 的整数。
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+int res=0;
+void dfs(TreeNode* root, int sum) {
+    if(root==NULL) return ;
+    sum=sum-root->val;
+    if(sum==0) res++;
+    dfs(root->left,sum);
+     dfs(root->right,sum);
+}
+    int pathSum(TreeNode* root, int sum) {
+        if(root==NULL) return 0;
+         dfs(root,sum);
+          pathSum(root->left,sum);
+           pathSum(root->right,sum);
+           return res;
+    }
+};
+```
+
