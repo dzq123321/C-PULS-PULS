@@ -122,6 +122,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="newcolder test.cpp" />
+    <ClCompile Include="observer.cpp" />
     <ClCompile Include="t3.cpp" />
     <ClCompile Include="test1.cpp" />
     <ClCompile Include="test2.cpp" />

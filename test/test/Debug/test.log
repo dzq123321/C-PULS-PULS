@@ -1,2 +1,5 @@
-﻿  t3.cpp
-  test.vcxproj -> E:\duzhiqiang\比特51c语言\github\C-PULS-PULS\test\Debug\test.exe
+﻿  observer.cpp
+e:\duzhiqiang\我的编程资料和代码\github\c-puls-puls\test\test\observer.cpp(67): error C2259: “HeroA”: 不能实例化抽象类
+  e:\duzhiqiang\我的编程资料和代码\github\c-puls-puls\test\test\observer.cpp(67): note: 由于下列成员:
+  e:\duzhiqiang\我的编程资料和代码\github\c-puls-puls\test\test\observer.cpp(67): note: “void AbstractHero::Update(void)”: 是抽象的
+  e:\duzhiqiang\我的编程资料和代码\github\c-puls-puls\test\test\observer.cpp(7): note: 参见“AbstractHero::Update”的声明
