@@ -125,6 +125,7 @@
     <ClCompile Include="newcolder test.cpp" />
     <ClCompile Include="observer.cpp" />
     <ClCompile Include="t3.cpp" />
+    <ClCompile Include="t5.cpp" />
     <ClCompile Include="test1.cpp" />
     <ClCompile Include="test2.cpp" />
     <ClCompile Include="代理模式proxy.cpp" />

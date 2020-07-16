@@ -45,5 +45,8 @@
     <ClCompile Include="命令模式.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="t5.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
