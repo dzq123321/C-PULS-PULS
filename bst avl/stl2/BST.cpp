@@ -1,4 +1,4 @@
-#if 0
+#if 1
 
 #include <iostream>
 #include<string>
@@ -26,9 +26,12 @@ private:
 	BSTNode<Type> *rightchild;
 };
 
+
+
 template<class Type>
 class BSTtree
 {
+	typedef BSTNode<Type>* bstTree;
 public:
 	BSTtree():root(nullptr)
 	{}
@@ -59,7 +62,7 @@ public:
 		return Search(root, key);
 	}
 public:
-	BSTNode<Type> *Search(BSTNode<Type> *&t, const Type &key)
+	BSTNode<Type> *Search(bstTree&t, const Type &key)
 	{
 		if (t == nullptr)
 			return nullptr;
@@ -70,7 +73,7 @@ public:
 		else
 			return t;
 	}
-	bool Remove(BSTNode<Type> *&t, const Type &key)
+	bool Remove(bstTree&t, const Type &key)
 	{
 		if (t == nullptr)
 			return false;
