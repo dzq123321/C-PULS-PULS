@@ -235,7 +235,10 @@ public:
         while(exponent)
         {
             if(exponent%2==1)//如果是奇数的话直接乘
+            {
                 ret*=base;
+                exponent--;//exponent--,变为偶数
+            }
             exponent/=2;
             base*=base;
         }
@@ -259,9 +262,9 @@ public:
        //冒泡的思想
         for(int i=0;i<array.size();i++)
         {
-            for(int j=0; j<array.size();j++)
+            for(int j=0;j<array.size()-1-i;j++)
             {
-                if((array[j]%2==0)&&(array[j+1]%2==1))
+                if(array[j]%2==0&&array[j+1]%2==1)
                     std::swap(array[j],array[j+1]);
             }
         }
@@ -324,49 +327,28 @@ public:
 输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
 
 ```c++
-/*
-struct TreeNode {
-	int val;
-	struct TreeNode *left;
-	struct TreeNode *right;
-	TreeNode(int x) :
-			val(x), left(NULL), right(NULL) {
-	}
-};*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
 class Solution {
 public:
-    bool helper (TreeNode* A, TreeNode* B)
-    {
-         //如果TreeB已经遍历完了都能对应的上，返回true
-        if(B==NULL)
-            return true;
-        //如果TreeB还没有遍历完，TreeA却遍历完了。返回false
-        if(A==NULL)
-            return false;
-        //如果其中有一个点没有对应上，返回false
-        if(A->val!=B->val)
-            return false;
-        //如果根节点对应的上，那么就分别去子节点里面匹配
-        return helper(A->left,B->left)&& helper(A->right,B->right);
+    bool isSubStructure(TreeNode* A, TreeNode* B) {
+        if(A==NULL||B==NULL) return false;
+        return help(A,B)||isSubStructure(A->left,B)||isSubStructure(A->right,B);
     }
-    bool HasSubtree(TreeNode* pRoot1, TreeNode* pRoot2)
-    {
-        if(pRoot1==NULL || pRoot2==NULL)
-            return false;
-        bool res=false;
-            //如果找到了对应TreeB的根节点的点
-        if(pRoot1->val==pRoot2->val)
-            //以这个根节点为为起点判断是否包含TreeB
-             res=helper(pRoot1,pRoot2);
-            //如果找不到，那么就再去TreeA的左子树当作起点，去判断是否包含TreeB
-         if (!res)
-                res = HasSubtree(pRoot1->left, pRoot2);
-            //如果还找不到，那么就再去TreeA的右子树当作起点，去判断是否包含TreeB
-          if (!res)
-                res = HasSubtree(pRoot1->right, pRoot2);
-        // 返回结果
-        return res;
+    bool help(TreeNode* A, TreeNode* B) {
+         if(B==NULL) return true;
+        if(A==NULL) return false;
+        if(A->val!=B->val) return false;
+        return help(A->left,B->left)&&help(A->right,B->right);
     }
+  
 };
 ```
 
@@ -428,7 +410,7 @@ public:
 
 自定义方向    right-》down->left=>up
 
-```
+```c++
 class Solution {
 public:
     vector<int> printMatrix(vector<vector<int> > matrix) {
@@ -566,29 +548,23 @@ public:
     然后再从这个位置k到根之前的节点，理论上都是根的右孩子，要大于根，一旦发现小于，return false
     最后递归判断就好了
     */
-    vector<int> seq;
-    bool VerifySquenceOfBST(vector<int> sequence) {
-        if(sequence.empty())
-            return false;
-        seq=sequence;
-        return dfs(0,seq.size()-1);
+    class Solution {
+public:
+    bool verifyPostorder(vector<int>& postorder) {
+        if(postorder.size()<=1) return true;
+       return  dfs(postorder,0,postorder.size()-1);
     }
-    bool dfs(int l, int r)
-    {
-        if(l>=r)
-            return true;
-        int k=l;
-        //找到左右孩子分界点k
-        while(k<r&&seq[k]<seq[r])
-                k++;
-        //右孩子的值应都大于根的值
-        for(int i=k; i<r; i++)
-        {
-            if(seq[i]<seq[r])
-                return false;
-        }
-        return dfs(l,k-1)&&dfs(k,r-1);
-    }
+     bool dfs(vector<int>& postorder,int left,int right)
+     {
+         if(left>=right) return true;
+        int p=left;
+        while(postorder[p]<postorder[right])
+        p++;
+        int m=p-1;
+         while(postorder[p]>postorder[right])
+         p++;
+         return (p==right)&&dfs(postorder,left,m)&&dfs(postorder,m+1,right-1);
+     }
 };
 ```
 
@@ -681,9 +657,9 @@ public:
 		if (cur == NULL)
 			return;
 		inOrder(cur->left);
-		if (pre == NULL)
+		if (pre == NULL)//pre用于记录双向链表中位于cur左侧的节点，即上一次迭代中的cur,当pre==null时，cur左侧没有节点,即此时cur为双向链表中的头节点
 			head = cur;
-		else
+		else //反之，pre!=null时，cur左侧存在节点pre，需要进行pre.right=cur的操作。
 			pre->right = cur;
 		cur->left = pre;
 		pre = cur;
@@ -1096,7 +1072,7 @@ public:
 };
 ```
 
-# 24 [数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
+# 24 [数组中的逆序对](e)
 
 在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。
 
@@ -1246,7 +1222,6 @@ int merge(vector<int> &num, int left, int mid, int right) {
 		num[i+left] = tmp[i];
     return ans;
 }
-
 }; 
 ```
 
@@ -1357,13 +1332,11 @@ public:
       {
           sum=sum^e;
       }
-      //找出这两个只出现一次的数字比特位第几位是不同的，即sum从右向左的第一个比特位为0的位置
-      int k=1;//从右朝左开始
-      while((sum&k)==0)
-          k=k<<1;
+      //取出sum中左边是1的数的大小
+        sum= sum & (~sum + 1);
       for(auto e:data)
       {
-         if(e&k)
+         if(e&sum)
              *num1^=e;
          else
            *num2^=e;
@@ -1504,28 +1477,30 @@ public:
 牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
 
 ```
+/////
 class Solution {
 public:
-    string ReverseSentence(string str) {
-        if(str=="")
-          return "";
-        string ret;
-        int j=0;
-        for(int i=0;i<str.size();i++)
-        {
-            if(str[i]==' ')
-            {
-                ret.insert(ret.begin(),str.begin()+j,str.begin()+i);
-                ret.insert(ret.begin(),' ');
-                j=i+1;
-            }
-            if(str[i+1]=='\0')
-            {
-                ret.insert(ret.begin(),str.begin()+j,str.begin()+i+1);
-            }
-        }
-        return ret;
+    string reverseWords(string s) {
+        stack<string> stk;
+        string res,str;
+        istringstream ss(s);
+        while (ss >> str) stk.push(str), stk.push(" ");
+        if (!stk.empty()) stk.pop();
+        while (!stk.empty()) res += stk.top(), stk.pop();
+        return res;
     }
+};
+
+//////////
+class Solution {
+public:
+    string reverseWords(string s) {
+	string str,ret;
+	stringstream ss(s);
+	while (ss >> str)
+		ret = (str + " " + ret);
+	return  ret.substr(0, ret.size() - 1);
+}
 };
 ```
 
@@ -1570,7 +1545,7 @@ public:
 
 # 34 约瑟夫问题
 
-#### [面试题62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
+#### [面试题62. 圆圈中最后剩下的数字](	https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
 
 难度简单139收藏分享切换为英文关注反馈
 
@@ -1778,7 +1753,7 @@ public:
 
 给定一个数组A[0,1,...,n-1],请构建一个数组B[0,1,...,n-1],其中B中的元素B[i]=A[0]*A[1]*...*A[i-1]*A[i+1]*...*A[n-1]。不能使用除法。（注意：规定B[0] = A[1] * A[2] * ... * A[n-1]，B[n-1] = A[0] * A[1] * ... * A[n-2];）
 
-![对称](E:\duzhiqiang\比特51c语言\github\picture\对称.jpg)
+![对称](E:\duzhiqiang\我的编程资料和代码\github\picture\对称.jpg)
 
 ```c++
 	class Solution {
@@ -2220,7 +2195,7 @@ public:
 
 单调队列优化	
 
-```
+```c++
 class MonotonicQueue 
 {
 public:

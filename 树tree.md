@@ -1,6 +1,6 @@
 #### 树
 
-![P00430-145031(1)](E:\duzhiqiang\比特51c语言\github\picture\P00430-145031(1).jpg)
+![P00430-145031(1)](E:\duzhiqiang\我的编程资料和代码\github\picture\P00430-145031(1).jpg)
 
 ```c++
 typedef struct node {
@@ -276,7 +276,7 @@ if (st.empty())
 
 左单旋
 
-![左单旋转](E:\duzhiqiang\比特51c语言\github\picture\左单旋转.jpg)
+![左单旋转](E:\duzhiqiang\我的编程资料和代码\github\picture\左单旋转.jpg)
 
 ```c++
 void RotateL(AVLNode<Type> *&ptr)
@@ -291,7 +291,7 @@ void RotateL(AVLNode<Type> *&ptr)
 
 右单旋
 
-![右单旋转](E:\duzhiqiang\比特51c语言\github\picture\右单旋转.jpg)
+![右单旋转](E:\duzhiqiang\我的编程资料和代码\github\picture\右单旋转.jpg)
 
 ```c++
 void RotateR(AVLNode<Type> *&ptr)
@@ -306,7 +306,7 @@ void RotateR(AVLNode<Type> *&ptr)
 
 双旋转
 
-![P00509-141443(1)](E:\duzhiqiang\比特51c语言\github\picture\P00509-141443(1).jpg)
+![P00509-141443(1)](E:\duzhiqiang\我的编程资料和代码\github\picture\P00509-141443(1).jpg)
 
 ```c++
 void RotateLR(AVLNode<Type> *&ptr)
