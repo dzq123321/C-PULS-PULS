@@ -314,6 +314,170 @@ posix消息队列限制 限定消息队列中的最大消息数和每个消息�
 
 ```
 
+#### 24 sql语句执行很慢的原因
+
+```
+1、大多数情况下很正常，偶尔很慢，则有如下原因
+(1)、数据库在刷新脏页，例如 redo log 写满了需要同步到磁盘。
+(2)、执行的时候，遇到锁，如表锁、行锁。
+2、这条 SQL 语句一直执行的很慢，则有如下原因。
+(1)、没有用上索引：例如该字段没有索引；由于对字段进行运算、函数操作导致无法用索引。	
+(2)、数据库选错了索引。
+```
+
+#### 25 mysql 事务 mysql锁机制
+
+```mysql
+create table testkey (
+    -> id int primary key,
+    -> a char(1));
+alter table user9 add index(name); --加普通索引
+insert into testkey (id ,a) values
+    -> (1,a),(2,b),(3,c),(4,d),(5,a),(6,a),(7,c); 
+ 开启事务 begin;commit;
+ 设置事务隔离级别  set session transaction isolation level read uncommitted;（repeatabale read）
+ 脏读
+ 不可重复读  是1事务修改数据，2事务读数据前后两次不一样
+  幻读  是1事务插入删除数据 2事务两次查询不一样  （mysql可重复读有可能发生幻读现象，但innodb不会，加了间隙锁）
+select @@tx_isolation;
+////////////// read committed  下加锁/////////////////////////
+MVCC实现：readview（针对select(不加锁)）和锁实现(update)
+每行还存放的隐藏列  rowid transaction_id(版本号)  roll_point（回滚指针）在undo_log日志中，有一个版本链，根据readview进行查找对应的版本,每次select会更新readview
+读锁：（S锁）
+select ... lock in shared mode 
+(加读锁）允许其他事务获取读锁，但不能获取写锁)
+写锁（X锁） 排他锁  delete insert update
+select...for update
+innodB下的读已提交如果锁的是不是索引列的行，其他行不会上锁
+          可重复读如果锁的是不是索引列的行，其他行也会上锁，防止幻读现象       
+mysiam
+select 读锁
+update insert delete 写锁
+
+mysiam
+///////表锁
+lock tables t1 read;（读锁共享）
+lock tables t1 write;（读写锁不能共存）
+unlock tables; --解锁
+innodb（使用行锁必须是索引查询）
+索引查询加锁是行锁
+非索引查询加锁是行锁，但实际上加的是表锁
+悲观锁和乐观锁（概念性的锁）
+悲观锁：假设事务会出错，提前加锁。行锁，表锁
+乐观锁:出现问题再加锁（一般是加一个版本标识）没有加锁解锁开销，效率高
+update user set name='123' where id =1 and version=1; 
+意向锁：防止死锁
+行锁粒度下，容易死锁。
+已经存在了一个意向读锁，意向读锁开始匹配，
+兼容规则：
+兼容：加读锁。不产生死锁
+不兼容：加读锁。产生死锁
+///////////////////////////////////
+MyIsam 支持全文索引，不支持事务和外键，B+树，只有表锁
+innodb 不支持全文索引，支持事务，主要是面向在线事务处理方面的应用，特点是行锁设计，支持外键。innodb采用聚集索引的方式。当没有主键索引，唯一索引时会根据每行的一个隐藏列中的row_id，创建主索引 （有主索引和辅助索引之分）
+memory
+将数据放在内存中，如果数据库重启或者宕机，表数据会丢失。适合存储一些临时表，默认的是哈希索引，不是B+树索引。varchar()默认时按照char()存储的，浪费内存。不支持text和blob类型。如果数据中有text和blob类型，数据库会把这些数字转换到磁盘上。
+/////
+Archive
+只支持insert和select操作，使用压缩算法将数据进行压缩，一般适合数据量大，查询少。存放日志数据
+```
+
+![1598598327671](E:\duzhiqiang\我的编程资料和代码\github\picture\存储引擎.png)
+
+```
+innodb  主索引（存储索引和对应行的数据）和辅助索引（存贮主索引的索引值）
+MyIsAM  主索引（存储索引和对应行的地址，适合索引值不重复）和辅助索引（存存储索引和对应行的地址，适合索引值重复）
+#2、索引的优化
+那些应该建立索引：
+1、查询多 2、主键外键 3、用于连接两个表的字段 4、经常需要排序的字段
+5、经常需要查询的
+那些不应该建立索引：
+1、查询少 2、数值少 3、大文本字段  4、修改密集型
+索引的注意事项：
+短索引   使用where语句在有索引不要在使用order by
+#3、组合索引(最左匹配原则)
+```
+
+ACID
+
+```
+原子性和持久性是靠日志系统实现
+redo log重做日志  ：记录事务将要执行的每个操作
+执行事物的时候，先写日志=》在刷新到磁盘
+undo log未作日志  ： 保存事务执行过程的每个状态点
+一致性和隔离性：是靠锁机制和mvcc实现的
+innodb 支持事务 每一天sql就是一个事务
+myisam  不支持事务，构建伪事务
+```
+
+```
+
+```
+
+触发器
+
+```
+事件发生，触发器触发，去执行另外一系列操作。
+比如：统计一张表的个数
+insert 到来，变量+1
+delete -1
+----
+create trigger tri_name
+tri_time（before/after）
+tri_event (insert,delete update)
+on tablename
+for each row 
+tri_stmt;--时机
+==============================
+insert 到来，之后变量+1 
+设置
+create trigger tri_1
+after 
+insert 
+on test
+for each row
+begin
+   set @count=@count+1;//；数据库的结束符，begin和end无法分离
+   insert;
+   delete;
+end
+
+所以无法直接处理
+所以从新设置结束符号
+delimiter $$ 结束符变为$$
+delimiter ; 结束符修改回；
+set @count=0;设置变量名
+
+1、一张表，同类型的触发器最多存在一个
+类型：tri_time+tri_event  6个
+2、哪些事件可以触发触发器
+insert  (load 大批量插入,replace(是等价于delete+insert/insert))
+delete  delete
+update update
+
+```
+
+存储函数（存储函数） 一系列特定的流程，写成存储过程
+
+```
+create proceduce pro_name(arg_list)
+begin
+  pro_stmt;
+ end
+ 
+ arg_list:参数列表  
+ 参数属性（in out inout） 参数名称 参数类型
+ create proceduce pro_1(IN tmp int)
+begin
+ select tmp;
+ tmp=100;
+  select tmp;
+ end
+ 也需要修改结束符
+ 
+ 使用 call调用 call pro_1(@tmp)
+```
+
 
 
 #### 项目：
