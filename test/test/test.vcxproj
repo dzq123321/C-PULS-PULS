@@ -18,6 +18,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="test.cpp" />
+    <ClCompile Include="testleetcode.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{E26264EA-9FC1-408D-8FA1-9A98F2A2C972}</ProjectGuid>
@@ -120,19 +124,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="factory.cpp" />
-    <ClCompile Include="newcolder test.cpp" />
-    <ClCompile Include="observer.cpp" />
-    <ClCompile Include="t3.cpp" />
-    <ClCompile Include="t5.cpp" />
-    <ClCompile Include="test1.cpp" />
-    <ClCompile Include="test2.cpp" />
-    <ClCompile Include="代理模式proxy.cpp" />
-    <ClCompile Include="命令模式.cpp" />
-    <ClCompile Include="装饰模式.cpp" />
-    <ClCompile Include="适配器模式.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

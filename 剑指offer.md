@@ -1098,6 +1098,59 @@ public:
 
  归并排序，在归并的时候进行查找，分为两部分数组，只要插入后面那部分的数组数组，说明该元素都大于前面那部分数组的所以元素，则这一阶段的逆序对为前面数组的大小 mid-i+1
 
+```
+/*
+1 3 5 2 4 8分为两部分
+1 3 5  和 2 4 8，进行归并 i是前面的指针，j是后面的指针
+1 2 ...
+当插入后面的元素2时，此时i=1 ,则mid-i+1这部分的即3 5和2就构成了逆序对w
+*/
+
+class Solution {
+public:
+  int reversePairs(vector<int>& nums) {
+	if (nums.size() < 2) return 0;
+	return merge_sort(nums, 0, nums.size()-1);
+}
+int merge_sort(vector<int>& v, int left, int right)
+{
+	if (left >= right) return 0;
+	int mid = (left + right) / 2;
+	int x1 = merge_sort(v, left, mid);
+	int x2 = merge_sort(v, mid + 1, right);
+	if (v[mid + 1] > v[mid]) return x1 + x2;
+	int x3 = merge(v, left, mid, right);
+	return x1 + x2 + x3;
+}
+int merge(vector<int>& v, int left, int mid, int right)
+{
+	if (left >= right) return 0;
+	vector<int> tmp;
+	int i = left, j = mid + 1;
+	int ans = 0;
+	while (i <= mid && j <= right)
+	{
+		if (v[i] <= v[j])
+			tmp.push_back(v[i++]);
+		else
+		{
+			tmp.push_back(v[j++]);
+			ans += (mid- i + 1);
+		}
+	}
+	while (i <= mid) tmp.push_back(v[i++]);
+	while (j <= right) tmp.push_back(v[j++]);
+	for (int i = 0; i < tmp.size(); i++)
+	{
+		v[i + left] = tmp[i];
+	}
+	return ans;
+}
+};
+```
+
+
+
 # 25 [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
 ​	在未排序的数组中找到第 **k** 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。 
@@ -2239,5 +2292,106 @@ public:
     }
 
 };
+```
+
+# 47 [剑指 Offer 47. 礼物的最大价值](https://leetcode-cn.com/problems/li-wu-de-zui-da-jie-zhi-lcof/)
+
+![1598754948058](E:\duzhiqiang\我的编程资料和代码\github\picture\47.png)
+
+```
+//动态规划(我真的太菜了，难受)
+//dp[i][j]=max(dp[i-1][j],dp[i][j-1])+grid[i][j]
+class Solution {
+public:
+    int maxValue(vector<vector<int>>& grid) {
+        //dp[i][j]=max(dp[i-1][j],dp[i][j-1])+grid[i][j]
+        int m=grid.size();
+        int n=grid[0].size();
+        if(m==0||n==0) return 0;
+        vector<vector<int>> dp(m,vector<int>(n,0));
+        dp[0][0]=grid[0][0];
+        for(int i=1;i<m;i++)
+        dp[i][0]=dp[i-1][0]+grid[i][0];
+        for(int i=1;i<n;i++)
+        dp[0][i]=dp[0][i-1]+grid[0][i];
+        for(int i=1;i<m;i++)
+        {
+            for(int j=1;j<n;j++)
+            {
+                dp[i][j]=max(dp[i-1][j],dp[i][j-1])+grid[i][j];
+            }
+        }
+        return dp[m-1][n-1];
+    }
+};
+//也可以dfs求出所有的解，找出最大的，这里只给出所有的解的dfs
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<string>
+using namespace std;
+
+vector<vector<int>> nans;
+vector<int> tmp;
+int n;
+vector<int>dx = { 0,1 };
+vector<int>dy = { 1,0 };
+vector<vector<int>> vis;
+void dfs(vector<vector<int>>&v, int i, int j)
+{
+
+	if (i == n - 1 && j == n - 1)
+	{
+		int t = 0;
+		for (auto e : tmp)
+		{
+			t += e;
+		}
+		t = t + v[0][0] + v[n - 1][n - 1];
+		nans.push_back(tmp);
+		return;
+	}
+
+	for (int d = 0; d < 2; d++)
+	{
+		int ii = i + dx[d];
+		int jj = j + dy[d];
+		if (ii >= v.size() || jj >= v.size() || vis[ii][jj] == 1) continue;
+		vis[ii][jj] = 1;
+		tmp.push_back(v[ii][jj]);
+		dfs(v, ii, jj);
+		tmp.pop_back();
+		vis[ii][jj] = 0;
+	}
+}
+/*
+{2,3,1}
+ {1,5,1}
+ {4,2,1}
+*/
+int main()
+{
+	vector<vector<int>> v = {
+		{2,3,1}, {1,5,1},{4,2,1}
+	};
+	n = v.size();
+	vis.assign(n, vector<int>(n, 0));
+	vis[0][0] = 1;
+	tmp.push_back(v[0][0]);
+	dfs(v, 0, 0);
+	int res = 0;
+	/*for (int i = 0; i < n; i++)
+	{
+		res = max(res, ans[i]);
+	}*/
+	//cout << res << endl;
+	for (auto e : nans)
+	{
+		for (auto ele : e)
+			cout << ele << " ";
+		cout << endl;
+	}
+	
+}
 ```
 
